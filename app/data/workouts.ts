@@ -105,6 +105,7 @@ const week1: Week = {
           load: "Matched DBs",
           notes:
             "Hinge at hips, keep slight knee bend. Feel stretch in hamstrings, not lower back.",
+          gif: "/exercises/db-rdl.gif",
         },
         {
           id: "2c",
@@ -114,6 +115,7 @@ const week1: Week = {
           load: "Kettlebell",
           notes:
             "Hinge style - drive with hips, not arms. This is your hip power generator.",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "2d",
@@ -203,6 +205,7 @@ const week1: Week = {
           sets: "",
           reps: "12",
           load: "Kettlebell",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "5c",
@@ -210,6 +213,7 @@ const week1: Week = {
           sets: "",
           reps: "8 total",
           load: "1 DB",
+          gif: "/exercises/reverse-lunge.gif",
         },
         {
           id: "5d",
@@ -217,7 +221,7 @@ const week1: Week = {
           sets: "",
           reps: "10",
           load: "Matched DBs",
-          gif: "/exercises/single-arm-row.gif",
+          gif: "/exercises/bent-over-row.gif",
         },
         {
           id: "5e",
@@ -321,6 +325,7 @@ const week2: Week = {
           reps: "8",
           load: "Matched DBs",
           notes: "Added set. Keep the stretch-tension in hamstrings.",
+          gif: "/exercises/db-rdl.gif",
         },
         {
           id: "9c",
@@ -329,6 +334,7 @@ const week2: Week = {
           reps: "15",
           load: "Kettlebell",
           notes: "5 sets now. Short rest between sets (60 sec max).",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "9d",
@@ -414,6 +420,7 @@ const week2: Week = {
           reps: "15",
           load: "Kettlebell",
           notes: "Bumped from 12 reps",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "12c",
@@ -422,6 +429,7 @@ const week2: Week = {
           reps: "10 total",
           load: "1 DB",
           notes: "Bumped from 8 reps",
+          gif: "/exercises/reverse-lunge.gif",
         },
         {
           id: "12d",
@@ -430,7 +438,7 @@ const week2: Week = {
           reps: "12",
           load: "Matched DBs",
           notes: "Bumped from 10 reps",
-          gif: "/exercises/single-arm-row.gif",
+          gif: "/exercises/bent-over-row.gif",
         },
         {
           id: "12e",
@@ -537,6 +545,7 @@ const week3: Week = {
           tempo: "4 sec down",
           load: "Matched DBs",
           notes: "Slow eccentric. Deep hamstring stretch.",
+          gif: "/exercises/db-rdl.gif",
         },
         {
           id: "16c",
@@ -546,6 +555,7 @@ const week3: Week = {
           load: "Kettlebell",
           notes:
             "Every Minute On the Minute. 10 swings, rest remainder of minute. Repeat for 10 minutes.",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "16d",
@@ -631,6 +641,7 @@ const week3: Week = {
           sets: "",
           reps: "15",
           load: "Kettlebell",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "19c",
@@ -638,6 +649,7 @@ const week3: Week = {
           sets: "",
           reps: "10 total",
           load: "1 DB",
+          gif: "/exercises/reverse-lunge.gif",
         },
         {
           id: "19d",
@@ -645,7 +657,7 @@ const week3: Week = {
           sets: "",
           reps: "12",
           load: "Matched DBs",
-          gif: "/exercises/single-arm-row.gif",
+          gif: "/exercises/bent-over-row.gif",
         },
         {
           id: "19e",
@@ -750,6 +762,7 @@ const week4: Week = {
           reps: "6",
           load: "Matched DBs",
           notes: "Reduced volume. Maintain quality.",
+          gif: "/exercises/db-rdl.gif",
         },
         {
           id: "23c",
@@ -758,6 +771,7 @@ const week4: Week = {
           reps: "10 every minute",
           load: "Kettlebell",
           notes: "Extended to 15 minutes. This is your peak conditioning test.",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "23d",
@@ -843,6 +857,7 @@ const week4: Week = {
           sets: "",
           reps: "15",
           load: "Kettlebell",
+          gif: "/exercises/kbs.gif",
         },
         {
           id: "26c",
@@ -857,7 +872,7 @@ const week4: Week = {
           sets: "",
           reps: "10",
           load: "Matched DBs",
-          gif: "/exercises/single-arm-row.gif",
+          gif: "/exercises/bent-over-row.gif",
         },
         {
           id: "26e",

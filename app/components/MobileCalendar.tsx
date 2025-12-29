@@ -7,7 +7,8 @@ import { useProgress } from "../context/ProgressContext";
 import Header from "./Header";
 
 export default function MobileCalendar() {
-  const { isDayComplete, getTotalProgress } = useProgress();
+  const { isDayComplete, getTotalProgress, resetProgress, progress } =
+    useProgress();
   const [selectedDay, setSelectedDay] = useState(1);
   const [equipmentExpanded, setEquipmentExpanded] = useState(false);
   const totalProgress = getTotalProgress();
@@ -112,6 +113,18 @@ export default function MobileCalendar() {
             </div>
           </div>
         </div>
+
+        {/* Reset Button */}
+        {progress.completedDays.length > 0 && (
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={resetProgress}
+              className="text-text-muted hover:text-red-400 text-xs transition-colors"
+            >
+              Reset Progress
+            </button>
+          </div>
+        )}
 
         {/* Calendar Grid */}
         <div className="grid grid-cols-7 gap-2 mb-4">

@@ -60,12 +60,23 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   const toggleDayComplete = useCallback((dayId: number) => {
     setProgress((prev) => {
       const isComplete = prev.completedDays.includes(dayId);
-      return {
-        ...prev,
-        completedDays: isComplete
-          ? prev.completedDays.filter((id) => id !== dayId)
-          : [...prev.completedDays, dayId],
-      };
+      if (isComplete) {
+        // If unchecking, just remove this day
+        return {
+          ...prev,
+          completedDays: prev.completedDays.filter((id) => id !== dayId),
+        };
+      } else {
+        // If checking, also mark all previous days as complete (they were skipped/missed)
+        const allDaysToMark = new Set(prev.completedDays);
+        for (let i = 1; i <= dayId; i++) {
+          allDaysToMark.add(i);
+        }
+        return {
+          ...prev,
+          completedDays: Array.from(allDaysToMark),
+        };
+      }
     });
   }, []);
 
@@ -81,7 +92,13 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   }, [progress.completedDays]);
 
   const resetProgress = useCallback(() => {
-    setProgress({ completedDays: [] });
+    if (
+      window.confirm(
+        "Are you sure you want to reset all progress? This cannot be undone."
+      )
+    ) {
+      setProgress({ completedDays: [] });
+    }
   }, []);
 
   return (
