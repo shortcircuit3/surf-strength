@@ -1,26 +1,289 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Ocean-inspired dark palette */
+  --bg-primary: #0a0f14;
+  --bg-secondary: #111820;
+  --bg-card: #161f2a;
+  --bg-card-hover: #1c2735;
+  --bg-card-active: #1a3a4a;
+  
+  /* Accent colors - sunset/surf vibes */
+  --accent-primary: #f0a830;
+  --accent-secondary: #e8913a;
+  --accent-glow: rgba(240, 168, 48, 0.15);
+  
+  /* Ocean tones */
+  --ocean-light: #3a8fb7;
+  --ocean-mid: #2a6f8f;
+  --ocean-dark: #1a4f67;
+  
+  /* Text */
+  --text-primary: #f0f4f8;
+  --text-secondary: #8fa3b8;
+  --text-muted: #5a7089;
+  
+  /* Status */
+  --success: #4ade80;
+  --success-glow: rgba(74, 222, 128, 0.2);
+  
+  /* Borders */
+  --border-color: #2a3545;
+  --border-highlight: #3a4555;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-bg-card-active: var(--bg-card-active);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-glow: var(--accent-glow);
+  --color-ocean-light: var(--ocean-light);
+  --color-ocean-mid: var(--ocean-mid);
+  --color-ocean-dark: var(--ocean-dark);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-success: var(--success);
+  --color-success-glow: var(--success-glow);
+  --color-border: var(--border-color);
+  --color-border-highlight: var(--border-highlight);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
 }
+
+/* Animated gradient background */
+.bg-gradient-animated {
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(42, 111, 143, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(240, 168, 48, 0.08) 0%, transparent 50%),
+    var(--bg-primary);
+}
+
+/* Card styles */
+.workout-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.workout-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-highlight);
+  transform: translateY(-2px);
+}
+
+.workout-card.active {
+  background: var(--bg-card-active);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.workout-card.completed {
+  border-color: var(--success);
+  box-shadow: 0 0 20px var(--success-glow);
+}
+
+/* Day badge */
+.day-badge {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.day-badge.active {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* Week header */
+.week-badge {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: var(--bg-primary);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Exercise card */
+.exercise-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.exercise-card:hover {
+  border-color: var(--border-highlight);
+}
+
+.exercise-card.completed {
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(74, 222, 128, 0.05) 100%);
+  border-color: var(--success);
+}
+
+/* Stats pill */
+.stat-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
+
+.stat-label {
+  color: var(--accent-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Complete button */
+.btn-complete {
+  background: linear-gradient(135deg, var(--ocean-mid) 0%, var(--ocean-dark) 100%);
+  border: 1px solid var(--ocean-light);
+  color: var(--text-primary);
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-complete:hover {
+  background: linear-gradient(135deg, var(--ocean-light) 0%, var(--ocean-mid) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(58, 143, 183, 0.3);
+}
+
+.btn-complete.completed {
+  background: linear-gradient(135deg, var(--success) 0%, #22c55e 100%);
+  border-color: var(--success);
+}
+
+/* Checkbox */
+.exercise-checkbox {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--border-highlight);
+  border-radius: 8px;
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.exercise-checkbox:hover {
+  border-color: var(--ocean-light);
+  background: var(--bg-card-hover);
+}
+
+.exercise-checkbox.checked {
+  background: linear-gradient(135deg, var(--success) 0%, #22c55e 100%);
+  border-color: var(--success);
+}
+
+/* Progress bar */
+.progress-bar {
+  background: var(--bg-secondary);
+  border-radius: 100px;
+  overflow: hidden;
+  height: 8px;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--ocean-light) 0%, var(--accent-primary) 100%);
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rest day styling */
+.rest-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+  border: 1px dashed var(--border-highlight);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-highlight);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ocean-mid);
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 40px var(--accent-glow);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Stagger animations */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }

@@ -1,65 +1,143 @@
-import Image from "next/image";
+"use client";
+
+import Header from "./components/Header";
+import WeekCard from "./components/WeekCard";
+import MobileCalendar from "./components/MobileCalendar";
+import { workoutPlan } from "./data/workouts";
+import { useProgress } from "./context/ProgressContext";
 
 export default function Home() {
+  const { getTotalProgress, progress, resetProgress } = useProgress();
+  const totalProgress = getTotalProgress();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      {/* Mobile View */}
+      <div className="md:hidden">
+        <MobileCalendar />
+      </div>
+
+      {/* Desktop View */}
+      <div className="hidden md:block min-h-screen bg-gradient-animated">
+        <Header />
+
+        <main className="max-w-7xl mx-auto px-6 py-8">
+          {/* Hero Section */}
+          <div
+            className="mb-12 opacity-0 animate-fade-in"
+            style={{ animationFillMode: "forwards" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <h2
+              className="text-4xl md:text-5xl font-bold text-text-primary mb-3"
+              style={{ fontFamily: "var(--font-bebas)" }}
+            >
+              SURF-SPECIFIC STRENGTH
+            </h2>
+            <p className="text-text-secondary text-lg max-w-2xl">
+              4 weeks of functional training designed to improve your paddling
+              power, pop-up speed, and rotational strength. No bulk, just
+              performance.
+            </p>
+
+            {/* Key Rules */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              {[
+                "No sets to failure",
+                "Always 2 RIR",
+                "Explosive intent",
+                "Feel better than you started",
+              ].map((rule, i) => (
+                <span
+                  key={rule}
+                  className="stat-pill text-sm opacity-0 animate-fade-in"
+                  style={{
+                    animationDelay: `${0.3 + i * 0.05}s`,
+                    animationFillMode: "forwards",
+                  }}
+                >
+                  <span className="text-accent-primary mr-2">✓</span>
+                  {rule}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Overall Progress */}
+          {progress.completedDays.length > 0 && (
+            <div
+              className="mb-8 p-6 rounded-2xl bg-bg-secondary border border-border opacity-0 animate-fade-in"
+              style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-text-primary font-semibold mb-1">
+                    Overall Progress
+                  </h3>
+                  <p className="text-text-muted text-sm">
+                    {progress.completedDays.length} of 28 days completed
+                  </p>
+                </div>
+                <button
+                  onClick={resetProgress}
+                  className="text-text-muted hover:text-red-400 text-sm transition-colors"
+                >
+                  Reset Progress
+                </button>
+              </div>
+              <div className="progress-bar h-3">
+                <div
+                  className="progress-fill"
+                  style={{ width: `${totalProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Calendar Grid */}
+          <div className="space-y-2">
+            {workoutPlan.map((week, index) => (
+              <WeekCard key={week.id} week={week} weekIndex={index} />
+            ))}
+          </div>
+
+          {/* Footer Info */}
+          <div
+            className="mt-12 p-6 rounded-2xl bg-bg-secondary border border-border opacity-0 animate-fade-in"
+            style={{ animationDelay: "0.5s", animationFillMode: "forwards" }}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <h3 className="text-lg font-semibold text-text-primary mb-4">
+              Equipment Guide
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6 text-sm">
+              <div>
+                <h4 className="text-accent-primary font-medium mb-2">
+                  Use Two Dumbbells For:
+                </h4>
+                <ul className="space-y-1 text-text-secondary">
+                  <li>• Romanian Deadlifts</li>
+                  <li>• Rows</li>
+                  <li>• Carries</li>
+                  <li>• Floor Press</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-accent-primary font-medium mb-2">
+                  Use One Dumbbell For:
+                </h4>
+                <ul className="space-y-1 text-text-secondary">
+                  <li>• Squats (Goblet)</li>
+                  <li>• Single-Arm Pressing</li>
+                  <li>• Windmills</li>
+                  <li>• Rotational Work</li>
+                </ul>
+              </div>
+            </div>
+            <p className="mt-4 text-text-muted text-sm italic">
+              Unilateral loading = balance + core = better surfing 🏄‍♂️
+            </p>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
