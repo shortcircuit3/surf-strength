@@ -8,6 +8,28 @@ export interface Exercise {
   load: string;
   notes?: string;
   gif?: string; // Path to exercise demonstration GIF
+  youtube?: string; // YouTube video URL for exercise demo
+}
+
+export interface MobilityExercise {
+  id: string;
+  name: string;
+  reps?: string;
+  time?: string;
+  notes?: string;
+  gif?: string;
+  youtube?: string; // YouTube video URL for exercise demo
+}
+
+export interface MobilityBlock {
+  title: string;
+  duration: string;
+  exercises: MobilityExercise[];
+}
+
+export interface ShoulderFinisher {
+  name: string;
+  exercises: MobilityExercise[];
 }
 
 export interface WorkoutDay {
@@ -17,6 +39,7 @@ export interface WorkoutDay {
   subtitle: string;
   exercises: Exercise[];
   isRest?: boolean;
+  shoulderFinisher?: ShoulderFinisher;
 }
 
 export interface Week {
@@ -25,6 +48,104 @@ export interface Week {
   theme: string;
   days: WorkoutDay[];
 }
+
+// Standard Daily Mobility Warmup (5-8 min) - Same for every workout
+export const DAILY_MOBILITY: MobilityBlock[] = [
+  {
+    title: "T-Spine + Scap",
+    duration: "3-4 min",
+    exercises: [
+      {
+        id: "m1a",
+        name: "Quadruped T-Spine Rotation",
+        reps: "5/side",
+        notes: "Hand behind head, rotate through mid-back. Keep hips square.",
+        youtube: "https://www.youtube.com/shorts/IJhZNTsLf-A",
+      },
+      {
+        id: "m1b",
+        name: "Scapula Push-Ups",
+        reps: "8-10",
+        notes: "Push floor away at top, let shoulder blades pinch at bottom.",
+        youtube: "https://www.youtube.com/watch?v=NKekqeudgWs",
+      },
+      {
+        id: "m1c",
+        name: "Neck CARs",
+        reps: "2 circles each way",
+        notes: "Slow, controlled circles. Don't force range.",
+        youtube: "https://www.youtube.com/shorts/beLPmjhPcWw",
+      },
+    ],
+  },
+  {
+    title: "Shoulders",
+    duration: "2-3 min",
+    exercises: [
+      {
+        id: "m2a",
+        name: "Arm Circles (controlled)",
+        reps: "10 each direction",
+        notes: "Forward and backward. Smooth, not jerky.",
+      },
+      {
+        id: "m2b",
+        name: "Shoulder CARs",
+        reps: "3 slow reps/side",
+        notes: "Biggest circle possible without moving torso.",
+      },
+    ],
+  },
+  {
+    title: "Hips",
+    duration: "1-2 min",
+    exercises: [
+      {
+        id: "m3a",
+        name: "World's Greatest Stretch",
+        reps: "3/side",
+        notes: "Lunge, elbow to instep, rotate and reach to sky.",
+      },
+      {
+        id: "m3b",
+        name: "Hip Airplanes",
+        reps: "3/side",
+        notes: "Single leg, rotate torso open and closed. Control balance.",
+      },
+    ],
+  },
+];
+
+// Shoulder finisher options for upper body days
+const SHOULDER_FINISHER_A: ShoulderFinisher = {
+  name: "Long-Lever Hold",
+  exercises: [
+    {
+      id: "sf1",
+      name: "Bottom-Up DB Hold",
+      time: "20-30 sec/side × 2",
+      notes: "Light DB held bottom-up. Builds rotator cuff endurance.",
+    },
+  ],
+};
+
+const SHOULDER_FINISHER_B: ShoulderFinisher = {
+  name: "Scap Endurance",
+  exercises: [
+    {
+      id: "sf2a",
+      name: "Prone Y-Raise",
+      reps: "2×8 slow",
+      notes: "Light DBs or bodyweight. Squeeze shoulder blades, thumbs up.",
+    },
+    {
+      id: "sf2b",
+      name: "Dead Hang",
+      time: "30-45 sec",
+      notes: "Passive hang. Let shoulders decompress.",
+    },
+  ],
+};
 
 const week1: Week = {
   id: 1,
@@ -36,6 +157,7 @@ const week1: Week = {
       dayOfWeek: "Monday",
       title: "UPPER PULL",
       subtitle: "Paddling Engine",
+      shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
         {
           id: "1a",
@@ -142,6 +264,7 @@ const week1: Week = {
       dayOfWeek: "Thursday",
       title: "UPPER PUSH",
       subtitle: "Rotation Power",
+      shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
         {
           id: "4a",
@@ -262,6 +385,7 @@ const week2: Week = {
       dayOfWeek: "Monday",
       title: "UPPER PULL",
       subtitle: "Paddling Engine +",
+      shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
         {
           id: "8a",
@@ -361,6 +485,7 @@ const week2: Week = {
       dayOfWeek: "Thursday",
       title: "UPPER PUSH",
       subtitle: "Rotation Power +",
+      shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
         {
           id: "11a",
@@ -480,6 +605,7 @@ const week3: Week = {
       dayOfWeek: "Monday",
       title: "UPPER PULL",
       subtitle: "Slow & Strong",
+      shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
         {
           id: "15a",
@@ -581,6 +707,7 @@ const week3: Week = {
       dayOfWeek: "Thursday",
       title: "UPPER PUSH",
       subtitle: "Slow & Strong",
+      shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
         {
           id: "18a",
@@ -698,6 +825,7 @@ const week4: Week = {
       dayOfWeek: "Monday",
       title: "UPPER PULL",
       subtitle: "Peak Power",
+      shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
         {
           id: "22a",
@@ -797,6 +925,7 @@ const week4: Week = {
       dayOfWeek: "Thursday",
       title: "UPPER PUSH",
       subtitle: "Peak Power",
+      shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
         {
           id: "25a",

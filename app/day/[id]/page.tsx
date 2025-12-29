@@ -1,12 +1,17 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getWorkoutDay, getWeekForDay } from "../../data/workouts";
+import {
+  getWorkoutDay,
+  getWeekForDay,
+  DAILY_MOBILITY,
+} from "../../data/workouts";
 import { useProgress } from "../../context/ProgressContext";
 import Header from "../../components/Header";
+import YouTubeModal, { YouTubePreview } from "../../components/YouTubeModal";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -19,6 +24,7 @@ export default function WorkoutDayPage({ params }: PageProps) {
   const day = getWorkoutDay(dayId);
   const week = getWeekForDay(dayId);
   const { isDayComplete, toggleDayComplete } = useProgress();
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   if (!day || !week) {
     return (
@@ -239,10 +245,162 @@ export default function WorkoutDayPage({ params }: PageProps) {
           </p>
         </div>
 
+        {/* Mobility Warmup Section */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🔥</span>
+              <h2
+                className="text-xl font-bold text-text-primary"
+                style={{ fontFamily: "var(--font-bebas)" }}
+              >
+                MOBILITY WARMUP
+              </h2>
+            </div>
+            <span className="text-text-muted text-sm">5-8 min</span>
+          </div>
+
+          <div className="space-y-4">
+            {DAILY_MOBILITY.map((block, blockIndex) => (
+              <div key={block.title}>
+                {/* Block Header */}
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-accent-secondary font-semibold text-sm uppercase tracking-wide">
+                    {block.title}
+                  </span>
+                  <span className="text-text-muted text-xs">
+                    ({block.duration})
+                  </span>
+                </div>
+
+                {/* Block Exercises */}
+                <div className="space-y-3">
+                  {block.exercises.map((ex, exIndex) => {
+                    return (
+                      <div key={ex.id} className="exercise-card p-5">
+                        <div className="flex gap-4 md:gap-6">
+                          {/* Media - Left Side (Desktop) */}
+                          <div className="hidden md:block shrink-0">
+                            {ex.youtube ? (
+                              <YouTubePreview
+                                url={ex.youtube}
+                                alt={ex.name}
+                                onClick={() => setActiveVideo(ex.youtube!)}
+                                className="w-32 h-32 rounded-xl"
+                              />
+                            ) : ex.gif ? (
+                              <Image
+                                src={ex.gif}
+                                alt={ex.name}
+                                width={128}
+                                height={128}
+                                className="w-32 h-32 object-cover rounded-xl"
+                                unoptimized
+                              />
+                            ) : (
+                              <div className="w-32 h-32 rounded-xl bg-bg-card-hover border border-border flex items-center justify-center">
+                                <span className="text-3xl opacity-40">🧘</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Exercise Content */}
+                          <div className="flex-1">
+                            {/* Exercise Name */}
+                            <h3 className="text-lg font-semibold mb-3 text-text-primary">
+                              <span className="text-accent-secondary mr-2">
+                                {String.fromCharCode(65 + blockIndex)}
+                                {exIndex + 1}:
+                              </span>
+                              {ex.name}
+                            </h3>
+
+                            {/* Stats */}
+                            <div className="flex flex-wrap gap-3 mb-3">
+                              {ex.reps && (
+                                <div className="stat-pill">
+                                  <span className="stat-label">Reps</span>
+                                  <span className="stat-value ml-2">
+                                    {ex.reps}
+                                  </span>
+                                </div>
+                              )}
+                              {ex.time && (
+                                <div className="stat-pill">
+                                  <span className="stat-label">Time</span>
+                                  <span className="stat-value ml-2">
+                                    {ex.time}
+                                  </span>
+                                </div>
+                              )}
+                              <div className="stat-pill">
+                                <span className="stat-label">Load</span>
+                                <span className="stat-value ml-2">BW</span>
+                              </div>
+                            </div>
+
+                            {/* Notes */}
+                            {ex.notes && (
+                              <p className="text-text-muted text-sm leading-relaxed">
+                                {ex.notes}
+                              </p>
+                            )}
+
+                            {/* Mobile Media */}
+                            <div className="mt-4 md:hidden">
+                              {ex.youtube ? (
+                                <YouTubePreview
+                                  url={ex.youtube}
+                                  alt={ex.name}
+                                  onClick={() => setActiveVideo(ex.youtube!)}
+                                  className="w-32 h-32 rounded-xl"
+                                />
+                              ) : ex.gif ? (
+                                <Image
+                                  src={ex.gif}
+                                  alt={ex.name}
+                                  width={128}
+                                  height={128}
+                                  className="w-32 h-32 object-cover rounded-xl"
+                                  unoptimized
+                                />
+                              ) : (
+                                <div className="w-32 h-32 rounded-xl bg-bg-card-hover border border-border flex items-center justify-center">
+                                  <span className="text-3xl opacity-40">
+                                    🧘
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Workout Section */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-2xl">💪</span>
+            <h2
+              className="text-xl font-bold text-text-primary"
+              style={{ fontFamily: "var(--font-bebas)" }}
+            >
+              MAIN WORKOUT
+            </h2>
+          </div>
+        </div>
+
         {/* Exercises */}
         <div className="space-y-4 mb-8">
           {day.exercises.map((exercise) => {
             const isCircuitItem = exercise.name.startsWith("→");
+            const hasMedia = exercise.gif || exercise.youtube;
 
             return (
               <div
@@ -253,17 +411,26 @@ export default function WorkoutDayPage({ params }: PageProps) {
                 `}
               >
                 <div className="flex gap-4 md:gap-6">
-                  {/* GIF - Left Side (Desktop) */}
-                  {exercise.gif && (
+                  {/* Media - Left Side (Desktop) */}
+                  {hasMedia && (
                     <div className="hidden md:block shrink-0">
-                      <Image
-                        src={exercise.gif}
-                        alt={exercise.name}
-                        width={128}
-                        height={128}
-                        className="w-32 h-32 object-cover rounded-xl"
-                        unoptimized
-                      />
+                      {exercise.youtube ? (
+                        <YouTubePreview
+                          url={exercise.youtube}
+                          alt={exercise.name}
+                          onClick={() => setActiveVideo(exercise.youtube!)}
+                          className="w-32 h-32 rounded-xl"
+                        />
+                      ) : exercise.gif ? (
+                        <Image
+                          src={exercise.gif}
+                          alt={exercise.name}
+                          width={128}
+                          height={128}
+                          className="w-32 h-32 object-cover rounded-xl"
+                          unoptimized
+                        />
+                      ) : null}
                     </div>
                   )}
 
@@ -326,17 +493,26 @@ export default function WorkoutDayPage({ params }: PageProps) {
                       </p>
                     )}
 
-                    {/* Mobile GIF */}
-                    {exercise.gif && (
+                    {/* Mobile Media */}
+                    {hasMedia && (
                       <div className="mt-4 md:hidden">
-                        <Image
-                          src={exercise.gif}
-                          alt={exercise.name}
-                          width={128}
-                          height={128}
-                          className="w-32 h-32 object-cover rounded-xl"
-                          unoptimized
-                        />
+                        {exercise.youtube ? (
+                          <YouTubePreview
+                            url={exercise.youtube}
+                            alt={exercise.name}
+                            onClick={() => setActiveVideo(exercise.youtube!)}
+                            className="w-32 h-32 rounded-xl"
+                          />
+                        ) : exercise.gif ? (
+                          <Image
+                            src={exercise.gif}
+                            alt={exercise.name}
+                            width={128}
+                            height={128}
+                            className="w-32 h-32 object-cover rounded-xl"
+                            unoptimized
+                          />
+                        ) : null}
                       </div>
                     )}
                   </div>
@@ -345,6 +521,124 @@ export default function WorkoutDayPage({ params }: PageProps) {
             );
           })}
         </div>
+
+        {/* Shoulder Finisher Section (Upper Body Days Only) */}
+        {day.shoulderFinisher && (
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🎯</span>
+                <h2
+                  className="text-xl font-bold text-text-primary"
+                  style={{ fontFamily: "var(--font-bebas)" }}
+                >
+                  SHOULDER FINISHER
+                </h2>
+              </div>
+              <span className="text-text-muted text-sm">
+                {day.shoulderFinisher.name} • 2-4 min
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {day.shoulderFinisher.exercises.map((ex, index) => {
+                return (
+                  <div key={ex.id} className="exercise-card p-5">
+                    <div className="flex gap-4 md:gap-6">
+                      {/* Media - Left Side (Desktop) */}
+                      <div className="hidden md:block shrink-0">
+                        {ex.youtube ? (
+                          <YouTubePreview
+                            url={ex.youtube}
+                            alt={ex.name}
+                            onClick={() => setActiveVideo(ex.youtube!)}
+                            className="w-32 h-32 rounded-xl"
+                          />
+                        ) : ex.gif ? (
+                          <Image
+                            src={ex.gif}
+                            alt={ex.name}
+                            width={128}
+                            height={128}
+                            className="w-32 h-32 object-cover rounded-xl"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="w-32 h-32 rounded-xl bg-bg-card-hover border border-border flex items-center justify-center">
+                            <span className="text-3xl opacity-40">💪</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Exercise Content */}
+                      <div className="flex-1">
+                        {/* Exercise Name */}
+                        <h3 className="text-lg font-semibold mb-3 text-text-primary">
+                          <span className="text-ocean-light mr-2">
+                            F{index + 1}:
+                          </span>
+                          {ex.name}
+                        </h3>
+
+                        {/* Stats */}
+                        <div className="flex flex-wrap gap-3 mb-3">
+                          {ex.reps && (
+                            <div className="stat-pill">
+                              <span className="stat-label">Reps</span>
+                              <span className="stat-value ml-2">{ex.reps}</span>
+                            </div>
+                          )}
+                          {ex.time && (
+                            <div className="stat-pill">
+                              <span className="stat-label">Time</span>
+                              <span className="stat-value ml-2">{ex.time}</span>
+                            </div>
+                          )}
+                          <div className="stat-pill">
+                            <span className="stat-label">Load</span>
+                            <span className="stat-value ml-2">Light</span>
+                          </div>
+                        </div>
+
+                        {/* Notes */}
+                        {ex.notes && (
+                          <p className="text-text-muted text-sm leading-relaxed">
+                            {ex.notes}
+                          </p>
+                        )}
+
+                        {/* Mobile Media */}
+                        <div className="mt-4 md:hidden">
+                          {ex.youtube ? (
+                            <YouTubePreview
+                              url={ex.youtube}
+                              alt={ex.name}
+                              onClick={() => setActiveVideo(ex.youtube!)}
+                              className="w-32 h-32 rounded-xl"
+                            />
+                          ) : ex.gif ? (
+                            <Image
+                              src={ex.gif}
+                              alt={ex.name}
+                              width={128}
+                              height={128}
+                              className="w-32 h-32 object-cover rounded-xl"
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="w-32 h-32 rounded-xl bg-bg-card-hover border border-border flex items-center justify-center">
+                              <span className="text-3xl opacity-40">💪</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Complete Day Button */}
         <div className="text-center py-6">
@@ -365,6 +659,12 @@ export default function WorkoutDayPage({ params }: PageProps) {
           )}
         </div>
       </main>
+
+      {/* YouTube Video Modal */}
+      <YouTubeModal
+        videoUrl={activeVideo}
+        onClose={() => setActiveVideo(null)}
+      />
     </div>
   );
 }
