@@ -1,6 +1,7 @@
 "use client";
 
 import { use } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getWorkoutDay, getWeekForDay } from "../../data/workouts";
@@ -122,10 +123,7 @@ export default function WorkoutDayPage({ params }: PageProps) {
           </div>
 
           {/* Rest Day Content */}
-          <div
-            className="text-center py-20 opacity-0 animate-fade-in"
-            style={{ animationFillMode: "forwards" }}
-          >
+          <div className="text-center py-20">
             <div className="text-8xl mb-6">🌊</div>
             <h1
               className="text-4xl font-bold text-text-primary mb-2"
@@ -222,10 +220,7 @@ export default function WorkoutDayPage({ params }: PageProps) {
         </div>
 
         {/* Day Header */}
-        <div
-          className="mb-8 opacity-0 animate-fade-in"
-          style={{ animationFillMode: "forwards" }}
-        >
+        <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <span className="week-badge px-3 py-1 rounded text-xs">
               {week.name}
@@ -246,7 +241,7 @@ export default function WorkoutDayPage({ params }: PageProps) {
 
         {/* Exercises */}
         <div className="space-y-4 mb-8">
-          {day.exercises.map((exercise, index) => {
+          {day.exercises.map((exercise) => {
             const isCircuitItem = exercise.name.startsWith("→");
 
             return (
@@ -255,21 +250,19 @@ export default function WorkoutDayPage({ params }: PageProps) {
                 className={`
                   exercise-card p-5 
                   ${isCircuitItem ? "ml-6 border-l-4 border-l-ocean-mid" : ""}
-                  opacity-0 animate-fade-in
                 `}
-                style={{
-                  animationDelay: `${0.1 + index * 0.05}s`,
-                  animationFillMode: "forwards",
-                }}
               >
                 <div className="flex gap-4 md:gap-6">
                   {/* GIF - Left Side (Desktop) */}
                   {exercise.gif && (
-                    <div className="hidden md:block flex-shrink-0">
-                      <img
+                    <div className="hidden md:block shrink-0">
+                      <Image
                         src={exercise.gif}
                         alt={exercise.name}
+                        width={128}
+                        height={128}
                         className="w-32 h-32 object-cover rounded-xl"
+                        unoptimized
                       />
                     </div>
                   )}
@@ -336,10 +329,13 @@ export default function WorkoutDayPage({ params }: PageProps) {
                     {/* Mobile GIF */}
                     {exercise.gif && (
                       <div className="mt-4 md:hidden">
-                        <img
+                        <Image
                           src={exercise.gif}
                           alt={exercise.name}
+                          width={128}
+                          height={128}
                           className="w-32 h-32 object-cover rounded-xl"
+                          unoptimized
                         />
                       </div>
                     )}
@@ -351,10 +347,7 @@ export default function WorkoutDayPage({ params }: PageProps) {
         </div>
 
         {/* Complete Day Button */}
-        <div
-          className="text-center py-6 opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
-        >
+        <div className="text-center py-6">
           <button
             onClick={handleCompleteDay}
             className={`btn-complete ${isComplete ? "completed" : ""}`}

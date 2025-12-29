@@ -103,7 +103,6 @@ export default function MobileCalendar() {
                 fill="none"
                 strokeLinecap="round"
                 strokeDasharray={`${totalProgress * 2.64} 264`}
-                className="transition-all duration-500"
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -119,7 +118,7 @@ export default function MobileCalendar() {
           <div className="flex justify-center mb-4">
             <button
               onClick={resetProgress}
-              className="text-text-muted hover:text-red-400 text-xs transition-colors"
+              className="text-text-muted text-xs active:text-red-400"
             >
               Reset Progress
             </button>
@@ -138,13 +137,12 @@ export default function MobileCalendar() {
                 onClick={() => setSelectedDay(day.id)}
                 className={`
                   aspect-square rounded-lg flex items-center justify-center text-lg font-semibold
-                  transition-all duration-200
                   ${
                     isSelected
                       ? "bg-ocean-light text-bg-primary shadow-lg"
                       : isComplete
                       ? "bg-success/20 text-success border border-success/30"
-                      : "bg-bg-card text-text-primary hover:bg-bg-card-hover border border-border"
+                      : "bg-bg-card text-text-primary border border-border"
                   }
                 `}
               >
@@ -171,7 +169,7 @@ export default function MobileCalendar() {
         </button>
 
         {equipmentExpanded && (
-          <div className="pb-4 text-sm text-text-secondary space-y-2 animate-fade-in">
+          <div className="pb-4 text-sm text-text-secondary space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-ocean-light">•</span>
               <span>Dumbbells (pair + single)</span>
@@ -212,11 +210,10 @@ export default function MobileCalendar() {
                 href={`/day/${day.id}`}
                 className={`
                   flex items-center px-4 py-3 border-b border-border last:border-b-0
-                  transition-all duration-200
                   ${
                     isSelected
                       ? "border-l-4 border-l-ocean-light bg-bg-card-active"
-                      : "border-l-4 border-l-transparent hover:bg-bg-card"
+                      : "border-l-4 border-l-transparent"
                   }
                   ${isComplete && !isSelected ? "bg-success/5" : ""}
                 `}
