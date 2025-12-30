@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { ProgressProvider } from "./context/ProgressContext";
+import { SettingsProvider } from "./context/SettingsContext";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -17,7 +18,8 @@ const bebasNeue = Bebas_Neue({
 
 export const metadata: Metadata = {
   title: "Surf Strength | 4-Week Training Program",
-  description: "Functional strength training designed for surfers. Build paddle power, pop-up explosiveness, and rotational strength.",
+  description:
+    "Functional strength training designed for surfers. Build paddle power, pop-up explosiveness, and rotational strength.",
 };
 
 export default function RootLayout({
@@ -28,9 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${bebasNeue.variable} antialiased`}>
-        <ProgressProvider>
-          {children}
-        </ProgressProvider>
+        <SettingsProvider>
+          <ProgressProvider>{children}</ProgressProvider>
+        </SettingsProvider>
       </body>
     </html>
   );

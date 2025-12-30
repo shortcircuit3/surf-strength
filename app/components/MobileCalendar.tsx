@@ -4,11 +4,21 @@ import { useState } from "react";
 import Link from "next/link";
 import { workoutPlan, Week } from "../data/workouts";
 import { useProgress } from "../context/ProgressContext";
+import { useSettings, EquipmentType } from "../context/SettingsContext";
 import Header from "./Header";
+
+const EQUIPMENT_LABELS: Record<EquipmentType, string> = {
+  bodyweight: "Bodyweight exercises",
+  bands: "Resistance bands",
+  dumbbells: "Dumbbells",
+  kettlebell: "Kettlebell",
+  pullupbar: "Pull-up bar",
+};
 
 export default function MobileCalendar() {
   const { isDayComplete, getTotalProgress, resetProgress, progress } =
     useProgress();
+  const { settings } = useSettings();
   const [selectedDay, setSelectedDay] = useState(1);
   const [equipmentExpanded, setEquipmentExpanded] = useState(false);
   const totalProgress = getTotalProgress();
@@ -155,13 +165,13 @@ export default function MobileCalendar() {
         {/* Ocean Accent Bar */}
         <div className="h-1 bg-linear-to-r from-ocean-light via-ocean-mid to-transparent rounded mb-5" />
 
-        {/* Required Equipment Section */}
+        {/* Your Equipment Section */}
         <button
           onClick={() => setEquipmentExpanded(!equipmentExpanded)}
           className="w-full flex items-center justify-between py-2"
         >
           <span className="text-xs tracking-widest text-text-muted font-semibold">
-            REQUIRED EQUIPMENT
+            YOUR EQUIPMENT
           </span>
           <span className="text-text-muted text-sm">
             [{equipmentExpanded ? "−" : "+"}]
@@ -170,18 +180,37 @@ export default function MobileCalendar() {
 
         {equipmentExpanded && (
           <div className="pb-4 text-sm text-text-secondary space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-ocean-light">•</span>
-              <span>Dumbbells (pair + single)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-ocean-light">•</span>
-              <span>Bench or elevated surface</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-ocean-light">•</span>
-              <span>Open floor space</span>
-            </div>
+            {settings.equipment.map((eq) => (
+              <div key={eq} className="flex items-center gap-2">
+                <span className="text-ocean-light">•</span>
+                <span>{EQUIPMENT_LABELS[eq]}</span>
+              </div>
+            ))}
+            <Link
+              href="/settings"
+              className="mt-3 inline-flex items-center gap-1 text-ocean-light text-xs"
+            >
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              Change equipment
+            </Link>
           </div>
         )}
       </div>

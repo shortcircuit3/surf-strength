@@ -1,3 +1,10 @@
+export type EquipmentType =
+  | "bodyweight"
+  | "bands"
+  | "dumbbells"
+  | "kettlebell"
+  | "pullupbar";
+
 export interface Exercise {
   id: string;
   name: string;
@@ -9,6 +16,7 @@ export interface Exercise {
   notes?: string;
   gif?: string;
   youtube?: string;
+  equipment?: EquipmentType;
 }
 
 export interface MobilityExercise {
@@ -19,6 +27,8 @@ export interface MobilityExercise {
   notes?: string;
   gif?: string;
   youtube?: string;
+  requiresEquipment?: EquipmentType;
+  alternative?: MobilityExercise; // Alternative when required equipment not available
 }
 
 export interface MobilityBlock {
@@ -50,19 +60,30 @@ export interface Week {
 }
 
 // =============================================================================
-// BASE EXERCISE DEFINITIONS - Define each exercise once
+// BASE EXERCISE DEFINITIONS - Define each exercise once with equipment variants
 // =============================================================================
 
-const BASE_EXERCISES = {
+interface BaseExercise {
+  name: string;
+  load: string;
+  equipment: EquipmentType;
+  gif?: string;
+  defaultNotes: string;
+}
+
+// Dumbbell exercises (default)
+const DUMBBELL_EXERCISES: Record<string, BaseExercise> = {
   chestSupportedRow: {
     name: "Chest-Supported DB Row",
     load: "Matched DBs",
+    equipment: "dumbbells",
     gif: "/exercises/chest-supported-row.gif",
     defaultNotes: "Focus on squeezing shoulder blades together at the top.",
   },
   singleArmRow: {
     name: "1-Arm DB Row (split stance)",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/single-arm-row.gif",
     defaultNotes:
       "Stagger your stance for stability. Keep hips square to the ground.",
@@ -70,6 +91,7 @@ const BASE_EXERCISES = {
   suitcaseCarry: {
     name: "DB Suitcase Carry",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/suitcase-carry.gif",
     defaultNotes:
       "Walk tall, don't lean. Builds anti-lateral flexion strength crucial for balance on the board.",
@@ -77,6 +99,7 @@ const BASE_EXERCISES = {
   deadBug: {
     name: "Dead Bug (DBs held straight up)",
     load: "Matched DBs",
+    equipment: "dumbbells",
     gif: "/exercises/dead-bug.gif",
     defaultNotes:
       "Press DBs toward ceiling throughout. Only lower opposite arm/leg as far as you can maintain flat back.",
@@ -84,6 +107,7 @@ const BASE_EXERCISES = {
   gobletSquat: {
     name: "Goblet Squat",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/goblet-squat.gif",
     defaultNotes:
       "Explode up from the bottom. This builds the power for quick pop-ups.",
@@ -91,27 +115,15 @@ const BASE_EXERCISES = {
   romanianDeadlift: {
     name: "DB Romanian Deadlift",
     load: "Matched DBs",
+    equipment: "dumbbells",
     gif: "/exercises/db-rdl.gif",
     defaultNotes:
       "Hinge at hips, keep slight knee bend. Feel stretch in hamstrings, not lower back.",
   },
-  kettlebellSwing: {
-    name: "Kettlebell Swing",
-    load: "Kettlebell",
-    gif: "/exercises/kbs.gif",
-    defaultNotes:
-      "Hinge style - drive with hips, not arms. This is your hip power generator.",
-  },
-  popUpSprawl: {
-    name: "Pop-Up Sprawl → Stand",
-    load: "BW",
-    gif: "/exercises/pop-up-sprawl.gif",
-    defaultNotes:
-      "Smooth and controlled. Start prone, sprawl to pop-up position, stand.",
-  },
   halfKneelingPress: {
     name: "Half-Kneeling DB Press",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/half-kneeling-press.gif",
     defaultNotes:
       "Squeeze glute on kneeling side. Press straight up, no lean. Builds rotational stability.",
@@ -119,6 +131,7 @@ const BASE_EXERCISES = {
   floorPress: {
     name: "DB Floor Press",
     load: "Matched DBs",
+    equipment: "dumbbells",
     gif: "/exercises/floor-press.gif",
     defaultNotes:
       "Elbows at 45 degrees. Control the descent until triceps touch floor.",
@@ -126,6 +139,7 @@ const BASE_EXERCISES = {
   windmill: {
     name: "DB Windmill",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/windmill.gif",
     defaultNotes:
       "Light weight, focus on hip hinge and thoracic rotation. Keep eyes on the DB overhead.",
@@ -133,6 +147,7 @@ const BASE_EXERCISES = {
   halo: {
     name: "Tall-Kneeling DB Halo",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/halo.gif",
     defaultNotes:
       "Circle the DB around your head slowly. Engages shoulders and core for paddling stability.",
@@ -140,30 +155,402 @@ const BASE_EXERCISES = {
   reverseLunge: {
     name: "Reverse Lunges (goblet hold)",
     load: "1 DB",
+    equipment: "dumbbells",
     gif: "/exercises/reverse-lunge.gif",
     defaultNotes: "",
   },
   bentOverRow: {
     name: "Bent-Over DB Rows",
     load: "Matched DBs",
+    equipment: "dumbbells",
     gif: "/exercises/bent-over-row.gif",
     defaultNotes: "",
   },
   farmerCarry: {
     name: "Farmer Carry",
     load: "Matched DBs",
+    equipment: "dumbbells",
     gif: "/exercises/farmer-carry.gif",
     defaultNotes: "",
+  },
+};
+
+// Kettlebell exercises
+const KETTLEBELL_EXERCISES: Record<string, BaseExercise> = {
+  kettlebellSwing: {
+    name: "Kettlebell Swing",
+    load: "Kettlebell",
+    equipment: "kettlebell",
+    gif: "/exercises/kbs.gif",
+    defaultNotes:
+      "Hinge style - drive with hips, not arms. This is your hip power generator.",
+  },
+};
+
+// Band exercises (alternatives)
+const BAND_EXERCISES: Record<string, BaseExercise> = {
+  bandRow: {
+    name: "Band Bent-Over Row",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Step on band, hinge forward. Pull to hips, squeeze shoulder blades.",
+  },
+  bandSingleArmRow: {
+    name: "Band Single-Arm Row",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes: "Anchor band low, pull to hip. Focus on lat engagement.",
+  },
+  bandPullApart: {
+    name: "Band Pull-Apart",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Arms straight, pull band apart to chest level. Great for shoulder health.",
+  },
+  bandSquat: {
+    name: "Band Squat",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes: "Stand on band, hold at shoulders. Explode up for power.",
+  },
+  bandRdl: {
+    name: "Band Romanian Deadlift",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Step on band, hinge at hips. Feel the tension in hamstrings.",
+  },
+  bandPullThrough: {
+    name: "Band Pull-Through",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Anchor band low behind you. Hinge and drive hips forward explosively.",
+  },
+  bandPress: {
+    name: "Band Overhead Press",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes: "Step on band, press overhead. Control the descent.",
+  },
+  bandChestPress: {
+    name: "Band Chest Press",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Anchor band behind you at chest height. Press forward with control.",
+  },
+  bandHalo: {
+    name: "Band Halo",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Hold band taut, circle around head. Engages shoulders and core.",
+  },
+  bandReverseLunge: {
+    name: "Band Reverse Lunges",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes: "Stand on band, hold at shoulders. Step back with control.",
+  },
+  bandCarry: {
+    name: "Band Pallof Walk",
+    load: "Band",
+    equipment: "bands",
+    defaultNotes:
+      "Anchor band at side, hold at chest. Walk sideways resisting rotation.",
+  },
+};
+
+// Pull-up bar exercises
+const PULLUPBAR_EXERCISES: Record<string, BaseExercise> = {
+  invertedRow: {
+    name: "Inverted Row",
+    load: "BW",
+    equipment: "pullupbar",
+    defaultNotes:
+      "Use a low bar or rings. Pull chest to bar, squeeze shoulder blades.",
+  },
+  singleArmInvertedRow: {
+    name: "Archer Inverted Row",
+    load: "BW",
+    equipment: "pullupbar",
+    defaultNotes:
+      "One arm pulls while other assists. Great for building single-arm strength.",
+  },
+  deadHang: {
+    name: "Dead Hang",
+    load: "BW",
+    equipment: "pullupbar",
+    defaultNotes:
+      "Passive hang from bar. Let shoulders decompress. Great for shoulder health.",
+  },
+};
+
+// Bodyweight exercises (alternatives)
+const BODYWEIGHT_EXERCISES: Record<string, BaseExercise> = {
+  proneRow: {
+    name: "Prone Y-T-W Raises",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Lie face down, raise arms in Y, T, and W positions. Squeeze shoulder blades throughout.",
+  },
+  doorFrameRow: {
+    name: "Door Frame Row",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Hold door frame, lean back, pull chest to hands. Keep body straight like a plank.",
+  },
+  shoulderStretch: {
+    name: "Shoulder Stretch (floor)",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Lie on back, arms overhead on floor. Let gravity stretch shoulders. Hold and breathe.",
+  },
+  deadBugBw: {
+    name: "Dead Bug",
+    load: "BW",
+    equipment: "bodyweight",
+    gif: "/exercises/dead-bug.gif",
+    defaultNotes:
+      "Arms reaching to ceiling. Lower opposite arm/leg maintaining flat back.",
+  },
+  airSquat: {
+    name: "Jump Squat",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Explosive jump from squat position. Land soft, immediately descend.",
+  },
+  singleLegRdl: {
+    name: "Single-Leg Romanian Deadlift",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Balance on one leg, hinge forward. Builds stability and hamstring strength.",
+  },
+  hipThrust: {
+    name: "Hip Thrust / Glute Bridge",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Drive through heels, squeeze glutes at top. Explosive hip extension for pop-ups.",
+  },
+  popUpSprawl: {
+    name: "Pop-Up Sprawl → Stand",
+    load: "BW",
+    equipment: "bodyweight",
+    gif: "/exercises/pop-up-sprawl.gif",
+    defaultNotes:
+      "Smooth and controlled. Start prone, sprawl to pop-up position, stand.",
   },
   pushUps: {
     name: "Push-Ups",
     load: "BW",
-    gif: undefined,
-    defaultNotes: "",
+    equipment: "bodyweight",
+    defaultNotes: "Full range of motion. Elbows at 45 degrees.",
   },
+  pikePushUp: {
+    name: "Pike Push-Up",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Hips high, head toward ground. Builds overhead pressing strength.",
+  },
+  windmillBw: {
+    name: "Bodyweight Windmill",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes: "Arm overhead, hinge and rotate. Focus on thoracic mobility.",
+  },
+  haloBw: {
+    name: "Arm Circles",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes: "Large controlled circles. Warms up and mobilizes shoulders.",
+  },
+  walkingLunge: {
+    name: "Walking Lunges",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes: "Long steps, upright torso. Drive through front heel.",
+  },
+  overheadCarry: {
+    name: "Overhead Carry",
+    load: "Heavy Object",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Use a backpack, water jug, or any heavy object. Arms locked overhead, walk tall. Builds shoulder stability and core.",
+  },
+  suitcaseCarryBw: {
+    name: "Suitcase Carry",
+    load: "Heavy Object",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Use a backpack, water jug, or any heavy object in one hand. Walk tall, don't lean. Builds anti-lateral flexion strength.",
+  },
+  bearCrawl: {
+    name: "Bear Crawl",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Opposite hand/foot move together. Great for coordination and core.",
+  },
+};
+
+// Combine all exercises for BASE_EXERCISES reference
+const BASE_EXERCISES = {
+  ...DUMBBELL_EXERCISES,
+  ...KETTLEBELL_EXERCISES,
+  ...PULLUPBAR_EXERCISES,
+  ...BAND_EXERCISES,
+  ...BODYWEIGHT_EXERCISES,
 } as const;
 
 type BaseExerciseKey = keyof typeof BASE_EXERCISES;
+
+// =============================================================================
+// EXERCISE ALTERNATIVES - Maps equipment exercises to alternatives
+// =============================================================================
+
+// Maps exercises to their alternatives by equipment type
+const EXERCISE_ALTERNATIVES: Record<
+  string,
+  { bands?: string; pullupbar?: string; bodyweight: string }
+> = {
+  // Pull exercises (DB -> pullupbar/bands -> bodyweight)
+  chestSupportedRow: {
+    bands: "bandRow",
+    pullupbar: "invertedRow",
+    bodyweight: "proneRow",
+  },
+  singleArmRow: {
+    bands: "bandSingleArmRow",
+    pullupbar: "singleArmInvertedRow",
+    bodyweight: "doorFrameRow",
+  },
+  bentOverRow: {
+    bands: "bandRow",
+    pullupbar: "invertedRow",
+    bodyweight: "proneRow",
+  },
+
+  // Pull-up bar exercises -> bodyweight alternatives
+  invertedRow: { bands: "bandRow", bodyweight: "proneRow" },
+  singleArmInvertedRow: {
+    bands: "bandSingleArmRow",
+    bodyweight: "doorFrameRow",
+  },
+  deadHang: { bodyweight: "shoulderStretch" },
+
+  // Carry exercises
+  suitcaseCarry: { bands: "bandCarry", bodyweight: "suitcaseCarryBw" },
+  farmerCarry: { bands: "bandCarry", bodyweight: "overheadCarry" },
+
+  // Core
+  deadBug: { bodyweight: "deadBugBw" },
+
+  // Lower body
+  gobletSquat: { bands: "bandSquat", bodyweight: "airSquat" },
+  romanianDeadlift: { bands: "bandRdl", bodyweight: "singleLegRdl" },
+  reverseLunge: { bands: "bandReverseLunge", bodyweight: "walkingLunge" },
+
+  // Kettlebell alternatives
+  kettlebellSwing: { bands: "bandPullThrough", bodyweight: "hipThrust" },
+
+  // Push exercises
+  halfKneelingPress: { bands: "bandPress", bodyweight: "pikePushUp" },
+  floorPress: { bands: "bandChestPress", bodyweight: "pushUps" },
+
+  // Mobility/rotation
+  windmill: { bodyweight: "windmillBw" },
+  halo: { bands: "bandHalo", bodyweight: "haloBw" },
+};
+
+/**
+ * Get the appropriate exercise key based on available equipment
+ * Priority: original equipment -> pullupbar -> bands -> bodyweight
+ */
+export function getExerciseKeyForEquipment(
+  baseKey: string,
+  availableEquipment: EquipmentType[]
+): string {
+  const hasDumbbells = availableEquipment.includes("dumbbells");
+  const hasKettlebell = availableEquipment.includes("kettlebell");
+  const hasBands = availableEquipment.includes("bands");
+  const hasPullupBar = availableEquipment.includes("pullupbar");
+
+  // Helper to find best alternative
+  const findAlternative = (key: string): string => {
+    const alternatives = EXERCISE_ALTERNATIVES[key];
+    if (!alternatives) return key;
+
+    // Try pullupbar first, then bands, then bodyweight
+    if (hasPullupBar && alternatives.pullupbar) {
+      return alternatives.pullupbar;
+    }
+    if (hasBands && alternatives.bands) {
+      return alternatives.bands;
+    }
+    return alternatives.bodyweight;
+  };
+
+  // If the base exercise is a kettlebell exercise
+  if (baseKey in KETTLEBELL_EXERCISES) {
+    if (hasKettlebell) return baseKey;
+    return findAlternative(baseKey);
+  }
+
+  // If the base exercise is a dumbbell exercise
+  if (baseKey in DUMBBELL_EXERCISES) {
+    if (hasDumbbells) return baseKey;
+    return findAlternative(baseKey);
+  }
+
+  // If the base exercise is a pullupbar exercise
+  if (baseKey in PULLUPBAR_EXERCISES) {
+    if (hasPullupBar) return baseKey;
+    // Check for alternatives since user doesn't have pullup bar
+    const alternatives = EXERCISE_ALTERNATIVES[baseKey];
+    if (alternatives) {
+      if (hasBands && alternatives.bands) return alternatives.bands;
+      return alternatives.bodyweight;
+    }
+  }
+
+  // Check if it's already a bodyweight or band exercise
+  if (baseKey in BODYWEIGHT_EXERCISES) return baseKey;
+  if (baseKey in BAND_EXERCISES) {
+    if (hasBands) return baseKey;
+    // Find the bodyweight alternative
+    for (const alts of Object.values(EXERCISE_ALTERNATIVES)) {
+      if (alts.bands === baseKey) {
+        return alts.bodyweight;
+      }
+    }
+  }
+
+  return baseKey;
+}
+
+/**
+ * Get a base exercise with equipment substitution applied
+ */
+export function getBaseExerciseForEquipment(
+  baseKey: string,
+  availableEquipment: EquipmentType[]
+): BaseExercise {
+  const targetKey = getExerciseKeyForEquipment(baseKey, availableEquipment);
+  return (
+    BASE_EXERCISES[targetKey as BaseExerciseKey] ||
+    BASE_EXERCISES[baseKey as BaseExerciseKey]
+  );
+}
 
 // =============================================================================
 // HELPER FUNCTIONS
@@ -195,6 +582,60 @@ function ex(
     load: config.load ?? base.load,
     notes: config.notes ?? (base.defaultNotes || undefined),
     gif: base.gif,
+    equipment: base.equipment,
+  };
+}
+
+/**
+ * Create an exercise with equipment-aware substitution
+ */
+export function createExerciseForEquipment(
+  id: string,
+  baseKey: string,
+  config: {
+    sets: string;
+    reps?: string;
+    time?: string;
+    tempo?: string;
+    notes?: string;
+  },
+  availableEquipment: EquipmentType[]
+): Exercise {
+  const base = getBaseExerciseForEquipment(baseKey, availableEquipment);
+  return {
+    id,
+    name: base.name,
+    sets: config.sets,
+    reps: config.reps,
+    time: config.time,
+    tempo: config.tempo,
+    load: base.load,
+    notes: config.notes ?? (base.defaultNotes || undefined),
+    gif: base.gif,
+    equipment: base.equipment,
+  };
+}
+
+/**
+ * Create a circuit exercise with equipment-aware substitution
+ */
+export function createCircuitExerciseForEquipment(
+  id: string,
+  baseKey: string,
+  config: { reps?: string; time?: string; notes?: string },
+  availableEquipment: EquipmentType[]
+): Exercise {
+  const base = getBaseExerciseForEquipment(baseKey, availableEquipment);
+  return {
+    id,
+    name: `→ ${base.name}`,
+    sets: "",
+    reps: config.reps,
+    time: config.time,
+    load: base.load,
+    notes: config.notes,
+    gif: base.gif,
+    equipment: base.equipment,
   };
 }
 
@@ -216,6 +657,7 @@ function circuitEx(
     load: base.load,
     notes: config.notes,
     gif: base.gif,
+    equipment: base.equipment,
   };
 }
 
@@ -332,6 +774,7 @@ const SHOULDER_FINISHER_A: ShoulderFinisher = {
       name: "Bottom-Up DB Hold",
       time: "20-30 sec/side × 2",
       notes: "Light DB held bottom-up. Builds rotator cuff endurance.",
+      youtube: "https://www.youtube.com/shorts/KbhCBYFhNDw",
     },
   ],
 };
@@ -352,6 +795,14 @@ const SHOULDER_FINISHER_B: ShoulderFinisher = {
       time: "30-45 sec",
       notes: "Passive hang. Let shoulders decompress.",
       youtube: "https://www.youtube.com/shorts/9eY15prKcUY",
+      requiresEquipment: "pullupbar",
+      alternative: {
+        id: "sf2b-alt",
+        name: "Floor Shoulder Stretch",
+        time: "30-45 sec each position",
+        notes:
+          "Lie on back, arms overhead on floor. Let gravity stretch shoulders. Also try arms out to sides (T position).",
+      },
     },
   ],
 };
@@ -826,6 +1277,161 @@ const week4: Week = {
     restDay(28, "Sunday", "Surf or Recover"),
   ],
 };
+
+// =============================================================================
+// EQUIPMENT-BASED WORKOUT TRANSFORMATION
+// =============================================================================
+
+// Map exercise names to their base keys for reverse lookup
+const EXERCISE_NAME_TO_KEY: Record<string, string> = {
+  "Chest-Supported DB Row": "chestSupportedRow",
+  "1-Arm DB Row (split stance)": "singleArmRow",
+  "DB Suitcase Carry": "suitcaseCarry",
+  "Dead Bug (DBs held straight up)": "deadBug",
+  "Goblet Squat": "gobletSquat",
+  "DB Romanian Deadlift": "romanianDeadlift",
+  "Kettlebell Swing": "kettlebellSwing",
+  "Pop-Up Sprawl → Stand": "popUpSprawl",
+  "Half-Kneeling DB Press": "halfKneelingPress",
+  "DB Floor Press": "floorPress",
+  "DB Windmill": "windmill",
+  "Tall-Kneeling DB Halo": "halo",
+  "Reverse Lunges (goblet hold)": "reverseLunge",
+  "Bent-Over DB Rows": "bentOverRow",
+  "Farmer Carry": "farmerCarry",
+  "Push-Ups": "pushUps",
+};
+
+/**
+ * Find the base key for an exercise by name
+ */
+function findBaseKeyByName(name: string): string | null {
+  // Remove circuit prefix if present
+  const cleanName = name.replace(/^→\s*/, "");
+  return EXERCISE_NAME_TO_KEY[cleanName] || null;
+}
+
+/**
+ * Transform a single exercise based on available equipment
+ */
+export function transformExerciseForEquipment(
+  exercise: Exercise,
+  availableEquipment: EquipmentType[]
+): Exercise {
+  // Skip circuit headers
+  if (
+    exercise.name.startsWith("Circuit:") ||
+    exercise.name.startsWith("Benchmark")
+  ) {
+    return exercise;
+  }
+
+  const isCircuit = exercise.name.startsWith("→");
+  const cleanName = exercise.name.replace(/^→\s*/, "");
+  const baseKey = findBaseKeyByName(cleanName);
+
+  if (!baseKey) {
+    return exercise; // Unknown exercise, return as-is
+  }
+
+  const base = getBaseExerciseForEquipment(baseKey, availableEquipment);
+
+  return {
+    ...exercise,
+    name: isCircuit ? `→ ${base.name}` : base.name,
+    load: base.load,
+    gif: base.gif,
+    equipment: base.equipment,
+    // Keep the original notes if custom, otherwise use base notes
+    notes: exercise.notes || base.defaultNotes || undefined,
+  };
+}
+
+/**
+ * Transform mobility exercises based on available equipment
+ * Substitutes alternatives when required equipment is not available
+ */
+export function transformMobilityExercises(
+  exercises: MobilityExercise[],
+  availableEquipment: EquipmentType[]
+): MobilityExercise[] {
+  return exercises
+    .map((ex) => {
+      // If no equipment required or user has the equipment, return as-is
+      if (!ex.requiresEquipment) return ex;
+      if (availableEquipment.includes(ex.requiresEquipment)) return ex;
+
+      // Equipment not available - use alternative if provided
+      if (ex.alternative) {
+        return ex.alternative;
+      }
+
+      // No alternative, filter out (return null and filter later)
+      return null;
+    })
+    .filter((ex): ex is MobilityExercise => ex !== null);
+}
+
+/**
+ * Transform shoulder finisher based on available equipment
+ */
+export function transformShoulderFinisher(
+  finisher: ShoulderFinisher | undefined,
+  availableEquipment: EquipmentType[]
+): ShoulderFinisher | undefined {
+  if (!finisher) return undefined;
+
+  const transformedExercises = transformMobilityExercises(
+    finisher.exercises,
+    availableEquipment
+  );
+
+  // If all exercises were filtered out, don't include the finisher
+  if (transformedExercises.length === 0) return undefined;
+
+  return {
+    ...finisher,
+    exercises: transformedExercises,
+  };
+}
+
+/**
+ * Transform all exercises in a workout day based on available equipment
+ */
+export function transformWorkoutDayForEquipment(
+  day: WorkoutDay,
+  availableEquipment: EquipmentType[]
+): WorkoutDay {
+  if (day.isRest) {
+    return day;
+  }
+
+  return {
+    ...day,
+    exercises: day.exercises.map((ex) =>
+      transformExerciseForEquipment(ex, availableEquipment)
+    ),
+    shoulderFinisher: transformShoulderFinisher(
+      day.shoulderFinisher,
+      availableEquipment
+    ),
+  };
+}
+
+/**
+ * Transform entire workout plan based on available equipment
+ */
+export function transformWorkoutPlanForEquipment(
+  plan: Week[],
+  availableEquipment: EquipmentType[]
+): Week[] {
+  return plan.map((week) => ({
+    ...week,
+    days: week.days.map((day) =>
+      transformWorkoutDayForEquipment(day, availableEquipment)
+    ),
+  }));
+}
 
 // =============================================================================
 // EXPORTS

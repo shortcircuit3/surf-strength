@@ -1,13 +1,24 @@
 "use client";
 
+import Link from "next/link";
 import Header from "./components/Header";
 import WeekCard from "./components/WeekCard";
 import MobileCalendar from "./components/MobileCalendar";
 import { workoutPlan } from "./data/workouts";
 import { useProgress } from "./context/ProgressContext";
+import { useSettings, EquipmentType } from "./context/SettingsContext";
+
+const EQUIPMENT_LABELS: Record<EquipmentType, string> = {
+  bodyweight: "Bodyweight",
+  bands: "Resistance Bands",
+  dumbbells: "Dumbbells",
+  kettlebell: "Kettlebell",
+  pullupbar: "Pull-Up Bar",
+};
 
 export default function Home() {
   const { getTotalProgress, progress, resetProgress } = useProgress();
+  const { settings } = useSettings();
   const totalProgress = getTotalProgress();
 
   return (
@@ -105,35 +116,50 @@ export default function Home() {
             className="mt-12 p-6 rounded-2xl bg-bg-secondary border border-border opacity-0 animate-fade-in"
             style={{ animationDelay: "0.5s", animationFillMode: "forwards" }}
           >
-            <h3 className="text-lg font-semibold text-text-primary mb-4">
-              Equipment Guide
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6 text-sm">
-              <div>
-                <h4 className="text-accent-primary font-medium mb-2">
-                  Use Two Dumbbells For:
-                </h4>
-                <ul className="space-y-1 text-text-secondary">
-                  <li>• Romanian Deadlifts</li>
-                  <li>• Rows</li>
-                  <li>• Carries</li>
-                  <li>• Floor Press</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-accent-primary font-medium mb-2">
-                  Use One Dumbbell For:
-                </h4>
-                <ul className="space-y-1 text-text-secondary">
-                  <li>• Squats (Goblet)</li>
-                  <li>• Single-Arm Pressing</li>
-                  <li>• Windmills</li>
-                  <li>• Rotational Work</li>
-                </ul>
-              </div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-text-primary">
+                Your Equipment
+              </h3>
+              <Link
+                href="/settings"
+                className="text-ocean-light hover:text-accent-primary text-sm transition-colors flex items-center gap-1"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                Change
+              </Link>
             </div>
-            <p className="mt-4 text-text-muted text-sm italic">
-              Unilateral loading = balance + core = better surfing 🏄‍♂️
+            <div className="flex flex-wrap gap-2 mb-4">
+              {settings.equipment.map((eq) => (
+                <span
+                  key={eq}
+                  className="px-3 py-1.5 rounded-lg bg-bg-card border border-border text-sm text-text-secondary"
+                >
+                  {EQUIPMENT_LABELS[eq]}
+                </span>
+              ))}
+            </div>
+            <p className="text-text-muted text-sm">
+              Exercises are automatically adjusted based on your available
+              equipment. The workout intensity and surf-specific benefits remain
+              the same.
             </p>
           </div>
         </main>

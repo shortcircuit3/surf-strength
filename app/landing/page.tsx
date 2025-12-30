@@ -1,26 +1,6 @@
 import Link from "next/link";
 import Navigation from "@/app/components/Navigation";
 
-// Animated wave SVG component
-function WaveDecoration({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 1440 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      role="presentation"
-    >
-      <path
-        d="M0 60C240 120 480 0 720 60C960 120 1200 0 1440 60V120H0V60Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
 // Feature card component
 function FeatureCard({
   icon,
@@ -69,7 +49,7 @@ function FeatureCard({
 const trustBadges = [
   { icon: "🏄", text: "Surf-specific movements" },
   { icon: "🦴", text: "Shoulder-safe by design" },
-  { icon: "💪", text: "Dumbbells only" },
+  { icon: "🎛️", text: "Customize to your equipment" },
   { icon: "⏱", text: "40–50 min sessions" },
 ];
 
@@ -117,12 +97,12 @@ const features = [
     ],
   },
   {
-    icon: "🎒",
-    title: "Minimal Equipment",
+    icon: "🎛️",
+    title: "Adapts to Your Setup",
     items: [
-      "Dumbbells or kettlebells",
-      "No machines needed",
-      "Perfect for home or travel",
+      "Customize to your available gear",
+      "Works with dumbbells, kettlebells, bands, or bodyweight",
+      "Auto-substitutes exercises based on equipment",
     ],
   },
   {
@@ -136,11 +116,39 @@ const features = [
   },
 ];
 
+const equipmentOptions = [
+  {
+    icon: "🏋️",
+    name: "Dumbbells",
+    desc: "Classic strength work",
+  },
+  {
+    icon: "🔔",
+    name: "Kettlebell",
+    desc: "Explosive power moves",
+  },
+  {
+    icon: "🎯",
+    name: "Pull-up Bar",
+    desc: "Vertical pulling strength",
+  },
+  {
+    icon: "🪢",
+    name: "Bands",
+    desc: "Portable resistance",
+  },
+  {
+    icon: "🤸",
+    name: "Bodyweight",
+    desc: "Always available",
+  },
+];
+
 const yesReasons = [
   "Surf 2–6x per week",
   "Want to feel lighter and faster in the water",
   "Care about shoulder longevity",
-  "Train at home or while traveling",
+  "Train with whatever equipment you have",
 ];
 
 const noReasons = [
@@ -158,6 +166,7 @@ const results = [
 ];
 
 const appFeatures = [
+  "Customize workouts to your equipment",
   "Guided workouts with clear sets, reps, tempo",
   "Exercise visuals and demonstrations",
   "Mobility flows included",
@@ -174,6 +183,7 @@ const mockExercises = [
 
 const pricingIncludes = [
   "Full 4-week surf-strength program",
+  "Customize to any equipment setup",
   "Built-in mobility & shoulder health",
   "Progression guidance",
   "Exercise demonstrations",
@@ -181,6 +191,10 @@ const pricingIncludes = [
 ];
 
 const faqs = [
+  {
+    q: "What equipment do I need?",
+    a: "The program adapts to your available gear. You can train with just bodyweight, add resistance bands, dumbbells, kettlebells, or a pull-up bar. Tell the app what you have, and it automatically adjusts every exercise to match your setup.",
+  },
   {
     q: "Will this make me bulky?",
     a: "No. The program is specifically designed to improve strength without adding unnecessary mass. You'll get stronger and more functional, not bigger.",
@@ -195,7 +209,7 @@ const faqs = [
   },
   {
     q: "Do I need a gym?",
-    a: "No. Dumbbells or kettlebells are enough. Perfect for home workouts, garage gyms, or training while traveling.",
+    a: "No gym required. The program works with minimal equipment and adapts to what you have — perfect for home workouts, garage gyms, or training while traveling.",
   },
   {
     q: "How long are the workouts?",
@@ -354,7 +368,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <WaveDecoration className="absolute bottom-0 left-0 right-0 h-24 text-bg-secondary" />
       </header>
 
       <main id="main-content">
@@ -491,8 +504,7 @@ export default function LandingPage() {
           className="py-24 bg-bg-secondary relative"
           aria-labelledby="how-it-works-heading"
         >
-          <WaveDecoration className="absolute top-0 left-0 right-0 h-24 text-bg-primary rotate-180" />
-          <div className="max-w-6xl mx-auto px-6 pt-12">
+          <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
                 How It Works
@@ -582,10 +594,158 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Equipment Customization Section */}
+        <section
+          className="py-24 bg-bg-primary relative overflow-hidden"
+          aria-labelledby="equipment-heading"
+        >
+          <div className="absolute inset-0 opacity-10" aria-hidden="true">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `radial-gradient(circle at 70% 30%, var(--ocean-mid) 0%, transparent 50%),
+                                 radial-gradient(circle at 30% 70%, var(--accent-primary) 0%, transparent 40%)`,
+              }}
+            />
+          </div>
+          <div className="max-w-6xl mx-auto px-6 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
+                  Fully Customizable
+                </span>
+                <h2
+                  id="equipment-heading"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-6"
+                  style={{ fontFamily: "var(--font-bebas)" }}
+                >
+                  TRAIN WITH WHAT
+                  <br />
+                  <span className="text-gradient">YOU HAVE</span>
+                </h2>
+                <p className="text-text-secondary text-lg mb-6 leading-relaxed">
+                  Traveling? Limited equipment? No problem. Tell the app what
+                  gear you have access to, and it automatically adapts every
+                  workout with smart exercise substitutions.
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="w-6 h-6 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    >
+                      <span className="text-success text-sm">✓</span>
+                    </span>
+                    <span className="text-text-secondary">
+                      <span className="text-text-primary font-medium">
+                        Smart substitutions
+                      </span>{" "}
+                      — exercises swap automatically based on your equipment
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="w-6 h-6 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    >
+                      <span className="text-success text-sm">✓</span>
+                    </span>
+                    <span className="text-text-secondary">
+                      <span className="text-text-primary font-medium">
+                        Same results
+                      </span>{" "}
+                      — surf-specific benefits preserved regardless of setup
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="w-6 h-6 rounded-full bg-success/20 flex items-center justify-center shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    >
+                      <span className="text-success text-sm">✓</span>
+                    </span>
+                    <span className="text-text-secondary">
+                      <span className="text-text-primary font-medium">
+                        Change anytime
+                      </span>{" "}
+                      — update your gear as your setup evolves
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                {/* Equipment selector mockup */}
+                <div className="relative mx-auto max-w-md">
+                  <div
+                    className="absolute -inset-4 bg-linear-to-r from-ocean-light/20 to-accent-primary/20 rounded-3xl blur-xl"
+                    aria-hidden="true"
+                  />
+                  <div className="relative bg-bg-card rounded-3xl border border-border p-6 shadow-2xl">
+                    <div className="flex items-center justify-between mb-6">
+                      <h4
+                        className="text-xl font-bold text-text-primary"
+                        style={{ fontFamily: "var(--font-bebas)" }}
+                      >
+                        YOUR EQUIPMENT
+                      </h4>
+                      <span className="text-text-muted text-sm">Settings</span>
+                    </div>
+                    <div className="space-y-3">
+                      {equipmentOptions.map((eq, i) => (
+                        <div
+                          key={i}
+                          className={`flex items-center justify-between p-4 rounded-xl transition-all ${
+                            i < 3
+                              ? "bg-success/10 border border-success/30"
+                              : "bg-bg-primary/50 border border-border hover:border-border-highlight"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl" aria-hidden="true">
+                              {eq.icon}
+                            </span>
+                            <div>
+                              <span
+                                className={`font-medium ${
+                                  i < 3 ? "text-text-primary" : "text-text-secondary"
+                                }`}
+                              >
+                                {eq.name}
+                              </span>
+                              <p className="text-text-muted text-xs">{eq.desc}</p>
+                            </div>
+                          </div>
+                          <div
+                            className={`w-10 h-6 rounded-full relative transition-colors ${
+                              i < 3 ? "bg-success" : "bg-border"
+                            }`}
+                            aria-hidden="true"
+                          >
+                            <div
+                              className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+                                i < 3 ? "right-1" : "left-1"
+                              }`}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-border">
+                      <p className="text-text-muted text-sm text-center">
+                        Workouts adapt instantly to your selections
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Features Section */}
         <section
           id="features"
-          className="py-24 bg-bg-primary relative"
+          className="py-24 bg-bg-secondary relative"
           aria-labelledby="features-heading"
         >
           <div className="max-w-6xl mx-auto px-6">
@@ -754,8 +914,7 @@ export default function LandingPage() {
           className="py-24 bg-bg-secondary relative overflow-hidden"
           aria-labelledby="app-heading"
         >
-          <WaveDecoration className="absolute top-0 left-0 right-0 h-24 text-bg-primary rotate-180" />
-          <div className="max-w-6xl mx-auto px-6 pt-12">
+          <div className="max-w-6xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
                 <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">

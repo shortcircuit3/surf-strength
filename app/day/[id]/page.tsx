@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,8 +8,10 @@ import {
   getWorkoutDay,
   getWeekForDay,
   DAILY_MOBILITY,
+  transformWorkoutDayForEquipment,
 } from "../../data/workouts";
 import { useProgress } from "../../context/ProgressContext";
+import { useSettings } from "../../context/SettingsContext";
 import Header from "../../components/Header";
 import YouTubeModal, { YouTubePreview } from "../../components/YouTubeModal";
 
@@ -21,10 +23,17 @@ export default function WorkoutDayPage({ params }: PageProps) {
   const { id } = use(params);
   const dayId = parseInt(id, 10);
   const router = useRouter();
-  const day = getWorkoutDay(dayId);
+  const baseDay = getWorkoutDay(dayId);
   const week = getWeekForDay(dayId);
   const { isDayComplete, toggleDayComplete } = useProgress();
+  const { settings } = useSettings();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+  // Transform exercises based on available equipment
+  const day = useMemo(() => {
+    if (!baseDay) return null;
+    return transformWorkoutDayForEquipment(baseDay, settings.equipment);
+  }, [baseDay, settings.equipment]);
 
   if (!day || !week) {
     return (
