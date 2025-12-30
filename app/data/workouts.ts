@@ -7,8 +7,8 @@ export interface Exercise {
   tempo?: string;
   load: string;
   notes?: string;
-  gif?: string; // Path to exercise demonstration GIF
-  youtube?: string; // YouTube video URL for exercise demo
+  gif?: string;
+  youtube?: string;
 }
 
 export interface MobilityExercise {
@@ -18,7 +18,7 @@ export interface MobilityExercise {
   time?: string;
   notes?: string;
   gif?: string;
-  youtube?: string; // YouTube video URL for exercise demo
+  youtube?: string;
 }
 
 export interface MobilityBlock {
@@ -49,7 +49,211 @@ export interface Week {
   days: WorkoutDay[];
 }
 
-// Standard Daily Mobility Warmup (5-8 min) - Same for every workout
+// =============================================================================
+// BASE EXERCISE DEFINITIONS - Define each exercise once
+// =============================================================================
+
+const BASE_EXERCISES = {
+  chestSupportedRow: {
+    name: "Chest-Supported DB Row",
+    load: "Matched DBs",
+    gif: "/exercises/chest-supported-row.gif",
+    defaultNotes: "Focus on squeezing shoulder blades together at the top.",
+  },
+  singleArmRow: {
+    name: "1-Arm DB Row (split stance)",
+    load: "1 DB",
+    gif: "/exercises/single-arm-row.gif",
+    defaultNotes:
+      "Stagger your stance for stability. Keep hips square to the ground.",
+  },
+  suitcaseCarry: {
+    name: "DB Suitcase Carry",
+    load: "1 DB",
+    gif: "/exercises/suitcase-carry.gif",
+    defaultNotes:
+      "Walk tall, don't lean. Builds anti-lateral flexion strength crucial for balance on the board.",
+  },
+  deadBug: {
+    name: "Dead Bug (DBs held straight up)",
+    load: "Matched DBs",
+    gif: "/exercises/dead-bug.gif",
+    defaultNotes:
+      "Press DBs toward ceiling throughout. Only lower opposite arm/leg as far as you can maintain flat back.",
+  },
+  gobletSquat: {
+    name: "Goblet Squat",
+    load: "1 DB",
+    gif: "/exercises/goblet-squat.gif",
+    defaultNotes:
+      "Explode up from the bottom. This builds the power for quick pop-ups.",
+  },
+  romanianDeadlift: {
+    name: "DB Romanian Deadlift",
+    load: "Matched DBs",
+    gif: "/exercises/db-rdl.gif",
+    defaultNotes:
+      "Hinge at hips, keep slight knee bend. Feel stretch in hamstrings, not lower back.",
+  },
+  kettlebellSwing: {
+    name: "Kettlebell Swing",
+    load: "Kettlebell",
+    gif: "/exercises/kbs.gif",
+    defaultNotes:
+      "Hinge style - drive with hips, not arms. This is your hip power generator.",
+  },
+  popUpSprawl: {
+    name: "Pop-Up Sprawl → Stand",
+    load: "BW",
+    gif: "/exercises/pop-up-sprawl.gif",
+    defaultNotes:
+      "Smooth and controlled. Start prone, sprawl to pop-up position, stand.",
+  },
+  halfKneelingPress: {
+    name: "Half-Kneeling DB Press",
+    load: "1 DB",
+    gif: "/exercises/half-kneeling-press.gif",
+    defaultNotes:
+      "Squeeze glute on kneeling side. Press straight up, no lean. Builds rotational stability.",
+  },
+  floorPress: {
+    name: "DB Floor Press",
+    load: "Matched DBs",
+    gif: "/exercises/floor-press.gif",
+    defaultNotes:
+      "Elbows at 45 degrees. Control the descent until triceps touch floor.",
+  },
+  windmill: {
+    name: "DB Windmill",
+    load: "1 DB",
+    gif: "/exercises/windmill.gif",
+    defaultNotes:
+      "Light weight, focus on hip hinge and thoracic rotation. Keep eyes on the DB overhead.",
+  },
+  halo: {
+    name: "Tall-Kneeling DB Halo",
+    load: "1 DB",
+    gif: "/exercises/halo.gif",
+    defaultNotes:
+      "Circle the DB around your head slowly. Engages shoulders and core for paddling stability.",
+  },
+  reverseLunge: {
+    name: "Reverse Lunges (goblet hold)",
+    load: "1 DB",
+    gif: "/exercises/reverse-lunge.gif",
+    defaultNotes: "",
+  },
+  bentOverRow: {
+    name: "Bent-Over DB Rows",
+    load: "Matched DBs",
+    gif: "/exercises/bent-over-row.gif",
+    defaultNotes: "",
+  },
+  farmerCarry: {
+    name: "Farmer Carry",
+    load: "Matched DBs",
+    gif: "/exercises/farmer-carry.gif",
+    defaultNotes: "",
+  },
+  pushUps: {
+    name: "Push-Ups",
+    load: "BW",
+    gif: undefined,
+    defaultNotes: "",
+  },
+} as const;
+
+type BaseExerciseKey = keyof typeof BASE_EXERCISES;
+
+// =============================================================================
+// HELPER FUNCTIONS
+// =============================================================================
+
+/**
+ * Create an exercise from a base definition with specific config
+ */
+function ex(
+  id: string,
+  baseKey: BaseExerciseKey,
+  config: {
+    sets: string;
+    reps?: string;
+    time?: string;
+    tempo?: string;
+    notes?: string;
+    load?: string;
+  }
+): Exercise {
+  const base = BASE_EXERCISES[baseKey];
+  return {
+    id,
+    name: base.name,
+    sets: config.sets,
+    reps: config.reps,
+    time: config.time,
+    tempo: config.tempo,
+    load: config.load ?? base.load,
+    notes: config.notes ?? (base.defaultNotes || undefined),
+    gif: base.gif,
+  };
+}
+
+/**
+ * Create a circuit exercise (prefixed with →, no sets)
+ */
+function circuitEx(
+  id: string,
+  baseKey: BaseExerciseKey,
+  config: { reps?: string; time?: string; notes?: string }
+): Exercise {
+  const base = BASE_EXERCISES[baseKey];
+  return {
+    id,
+    name: `→ ${base.name}`,
+    sets: "",
+    reps: config.reps,
+    time: config.time,
+    load: base.load,
+    notes: config.notes,
+    gif: base.gif,
+  };
+}
+
+/**
+ * Create a circuit header
+ */
+function circuitHeader(id: string, rounds: number, notes: string): Exercise {
+  return {
+    id,
+    name: `Circuit: ${rounds} Rounds`,
+    sets: `${rounds} rounds`,
+    load: "Mixed",
+    notes,
+  };
+}
+
+/**
+ * Create a rest day
+ */
+function restDay(
+  id: number,
+  dayOfWeek: string,
+  subtitle = "Recovery Day"
+): WorkoutDay {
+  return {
+    id,
+    dayOfWeek,
+    title: "REST",
+    subtitle,
+    isRest: true,
+    exercises: [],
+  };
+}
+
+// =============================================================================
+// MOBILITY & SHOULDER FINISHERS
+// =============================================================================
+
 export const DAILY_MOBILITY: MobilityBlock[] = [
   {
     title: "T-Spine + Scap",
@@ -87,12 +291,14 @@ export const DAILY_MOBILITY: MobilityBlock[] = [
         name: "Arm Circles (controlled)",
         reps: "10 each direction",
         notes: "Forward and backward. Smooth, not jerky.",
+        youtube: "https://www.youtube.com/shorts/2sEZSRbOlVA",
       },
       {
         id: "m2b",
         name: "Shoulder CARs",
         reps: "3 slow reps/side",
         notes: "Biggest circle possible without moving torso.",
+        youtube: "https://www.youtube.com/watch?v=9FFiaMIkcNY",
       },
     ],
   },
@@ -105,18 +311,19 @@ export const DAILY_MOBILITY: MobilityBlock[] = [
         name: "World's Greatest Stretch",
         reps: "3/side",
         notes: "Lunge, elbow to instep, rotate and reach to sky.",
+        youtube: "https://www.youtube.com/watch?v=-CiWQ2IvY34",
       },
       {
         id: "m3b",
         name: "Hip Airplanes",
         reps: "3/side",
         notes: "Single leg, rotate torso open and closed. Control balance.",
+        youtube: "https://www.youtube.com/watch?v=4XCbYaQGF2o",
       },
     ],
   },
 ];
 
-// Shoulder finisher options for upper body days
 const SHOULDER_FINISHER_A: ShoulderFinisher = {
   name: "Long-Lever Hold",
   exercises: [
@@ -137,15 +344,21 @@ const SHOULDER_FINISHER_B: ShoulderFinisher = {
       name: "Prone Y-Raise",
       reps: "2×8 slow",
       notes: "Light DBs or bodyweight. Squeeze shoulder blades, thumbs up.",
+      youtube: "https://www.youtube.com/watch?v=w1AWGKubE5U",
     },
     {
       id: "sf2b",
       name: "Dead Hang",
       time: "30-45 sec",
       notes: "Passive hang. Let shoulders decompress.",
+      youtube: "https://www.youtube.com/shorts/9eY15prKcUY",
     },
   ],
 };
+
+// =============================================================================
+// WEEK 1 - BASELINE CONTROL
+// =============================================================================
 
 const week1: Week = {
   id: 1,
@@ -159,47 +372,16 @@ const week1: Week = {
       subtitle: "Paddling Engine",
       shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
-        {
-          id: "1a",
-          name: "Chest-Supported DB Row",
+        ex("1a", "chestSupportedRow", {
           sets: "3",
           reps: "8",
           tempo: "3 sec down",
-          load: "Matched DBs",
           notes:
             "Focus on squeezing shoulder blades together at the top. Control the descent for 3 full seconds.",
-          gif: "/exercises/chest-supported-row.gif",
-        },
-        {
-          id: "1b",
-          name: "1-Arm DB Row (split stance)",
-          sets: "2",
-          reps: "10/side",
-          load: "1 DB",
-          notes:
-            "Stagger your stance for stability. Keep hips square to the ground.",
-          gif: "/exercises/single-arm-row.gif",
-        },
-        {
-          id: "1c",
-          name: "DB Suitcase Carry",
-          sets: "4",
-          time: "30 sec/side",
-          load: "1 DB",
-          notes:
-            "Walk tall, don't lean. This builds the anti-lateral flexion strength crucial for balance on the board.",
-          gif: "/exercises/suitcase-carry.gif",
-        },
-        {
-          id: "1d",
-          name: "Dead Bug (DBs held straight up)",
-          sets: "3",
-          reps: "6/side",
-          load: "Matched DBs",
-          notes:
-            "Press DBs toward ceiling throughout. Only lower opposite arm/leg as far as you can maintain flat back.",
-          gif: "/exercises/dead-bug.gif",
-        },
+        }),
+        ex("1b", "singleArmRow", { sets: "2", reps: "10/side" }),
+        ex("1c", "suitcaseCarry", { sets: "4", time: "30 sec/side" }),
+        ex("1d", "deadBug", { sets: "3", reps: "6/side" }),
       ],
     },
     {
@@ -208,57 +390,17 @@ const week1: Week = {
       title: "LOWER BODY",
       subtitle: "Pop-Up Power",
       exercises: [
-        {
-          id: "2a",
-          name: "Goblet Squat",
-          sets: "3",
-          reps: "6",
-          tempo: "Fast up",
-          load: "1 DB",
-          notes:
-            "Explode up from the bottom. This builds the power for quick pop-ups.",
-          gif: "/exercises/goblet-squat.gif",
-        },
-        {
-          id: "2b",
-          name: "DB Romanian Deadlift",
-          sets: "3",
-          reps: "8",
-          load: "Matched DBs",
-          notes:
-            "Hinge at hips, keep slight knee bend. Feel stretch in hamstrings, not lower back.",
-          gif: "/exercises/db-rdl.gif",
-        },
-        {
-          id: "2c",
-          name: "Kettlebell Swing",
-          sets: "4",
-          reps: "15",
-          load: "Kettlebell",
-          notes:
-            "Hinge style - drive with hips, not arms. This is your hip power generator.",
-          gif: "/exercises/kbs.gif",
-        },
-        {
-          id: "2d",
-          name: "Pop-Up Sprawl → Stand",
+        ex("2a", "gobletSquat", { sets: "3", reps: "6", tempo: "Fast up" }),
+        ex("2b", "romanianDeadlift", { sets: "3", reps: "8" }),
+        ex("2c", "kettlebellSwing", { sets: "4", reps: "15" }),
+        ex("2d", "popUpSprawl", {
           sets: "3",
           reps: "5",
-          load: "BW",
-          notes:
-            "Smooth and controlled. Start prone, sprawl to pop-up position, stand. Quality over speed.",
-          gif: "/exercises/pop-up-sprawl.gif",
-        },
+          notes: "Quality over speed.",
+        }),
       ],
     },
-    {
-      id: 3,
-      dayOfWeek: "Wednesday",
-      title: "REST",
-      subtitle: "Recovery Day",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(3, "Wednesday"),
     {
       id: 4,
       dayOfWeek: "Thursday",
@@ -266,46 +408,10 @@ const week1: Week = {
       subtitle: "Rotation Power",
       shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
-        {
-          id: "4a",
-          name: "Half-Kneeling DB Press",
-          sets: "3",
-          reps: "6/side",
-          load: "1 DB",
-          notes:
-            "Squeeze glute on kneeling side. Press straight up, no lean. Builds rotational stability.",
-          gif: "/exercises/half-kneeling-press.gif",
-        },
-        {
-          id: "4b",
-          name: "DB Floor Press",
-          sets: "3",
-          reps: "8",
-          load: "Matched DBs",
-          notes:
-            "Elbows at 45 degrees. Control the descent until triceps touch floor.",
-          gif: "/exercises/floor-press.gif",
-        },
-        {
-          id: "4c",
-          name: "DB Windmill",
-          sets: "3",
-          reps: "5/side",
-          load: "1 DB",
-          notes:
-            "Light weight, focus on hip hinge and thoracic rotation. Keep eyes on the DB overhead.",
-          gif: "/exercises/windmill.gif",
-        },
-        {
-          id: "4d",
-          name: "Tall-Kneeling DB Halo",
-          sets: "3",
-          reps: "8 each direction",
-          load: "1 DB",
-          notes:
-            "Circle the DB around your head slowly. Engages shoulders and core for paddling stability.",
-          gif: "/exercises/halo.gif",
-        },
+        ex("4a", "halfKneelingPress", { sets: "3", reps: "6/side" }),
+        ex("4b", "floorPress", { sets: "3", reps: "8" }),
+        ex("4c", "windmill", { sets: "3", reps: "5/side" }),
+        ex("4d", "halo", { sets: "3", reps: "8 each direction" }),
       ],
     },
     {
@@ -314,66 +420,25 @@ const week1: Week = {
       title: "FLOW",
       subtitle: "Conditioning",
       exercises: [
-        {
-          id: "5a",
-          name: "Circuit: 4 Rounds",
-          sets: "4 rounds",
-          load: "Mixed",
-          notes:
-            "Rest 90 sec between rounds. Move with purpose but don't rush.",
-        },
-        {
-          id: "5b",
-          name: "→ Kettlebell Swings",
-          sets: "",
-          reps: "12",
-          load: "Kettlebell",
-          gif: "/exercises/kbs.gif",
-        },
-        {
-          id: "5c",
-          name: "→ Reverse Lunges (goblet hold)",
-          sets: "",
-          reps: "8 total",
-          load: "1 DB",
-          gif: "/exercises/reverse-lunge.gif",
-        },
-        {
-          id: "5d",
-          name: "→ Bent-Over DB Rows",
-          sets: "",
-          reps: "10",
-          load: "Matched DBs",
-          gif: "/exercises/bent-over-row.gif",
-        },
-        {
-          id: "5e",
-          name: "→ Farmer Carry",
-          sets: "",
-          time: "40 sec",
-          load: "Matched DBs",
-          gif: "/exercises/farmer-carry.gif",
-        },
+        circuitHeader(
+          "5a",
+          4,
+          "Rest 90 sec between rounds. Move with purpose but don't rush."
+        ),
+        circuitEx("5b", "kettlebellSwing", { reps: "12" }),
+        circuitEx("5c", "reverseLunge", { reps: "8 total" }),
+        circuitEx("5d", "bentOverRow", { reps: "10" }),
+        circuitEx("5e", "farmerCarry", { time: "40 sec" }),
       ],
     },
-    {
-      id: 6,
-      dayOfWeek: "Saturday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
-    {
-      id: 7,
-      dayOfWeek: "Sunday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(6, "Saturday", "Surf or Recover"),
+    restDay(7, "Sunday", "Surf or Recover"),
   ],
 };
+
+// =============================================================================
+// WEEK 2 - VOLUME PROGRESSION
+// =============================================================================
 
 const week2: Week = {
   id: 2,
@@ -387,43 +452,27 @@ const week2: Week = {
       subtitle: "Paddling Engine +",
       shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
-        {
-          id: "8a",
-          name: "Chest-Supported DB Row",
+        ex("8a", "chestSupportedRow", {
           sets: "4",
           reps: "8",
           tempo: "3 sec down",
-          load: "Matched DBs",
           notes: "Added set from Week 1. Same controlled tempo.",
-          gif: "/exercises/chest-supported-row.gif",
-        },
-        {
-          id: "8b",
-          name: "1-Arm DB Row (split stance)",
+        }),
+        ex("8b", "singleArmRow", {
           sets: "3",
           reps: "10/side",
-          load: "1 DB",
           notes: "One more set than Week 1. Maintain form quality.",
-          gif: "/exercises/single-arm-row.gif",
-        },
-        {
-          id: "8c",
-          name: "DB Suitcase Carry",
+        }),
+        ex("8c", "suitcaseCarry", {
           sets: "4",
           time: "40-45 sec/side",
-          load: "1 DB",
           notes: "Extended time under tension. Stay tall, breathe steadily.",
-          gif: "/exercises/suitcase-carry.gif",
-        },
-        {
-          id: "8d",
-          name: "Dead Bug (DBs held straight up)",
+        }),
+        ex("8d", "deadBug", {
           sets: "4",
           reps: "6/side",
-          load: "Matched DBs",
           notes: "Added set. Same quality focus - flat back throughout.",
-          gif: "/exercises/dead-bug.gif",
-        },
+        }),
       ],
     },
     {
@@ -432,54 +481,31 @@ const week2: Week = {
       title: "LOWER BODY",
       subtitle: "Pop-Up Power +",
       exercises: [
-        {
-          id: "9a",
-          name: "Goblet Squat",
+        ex("9a", "gobletSquat", {
           sets: "4",
           reps: "6",
           tempo: "Fast up",
-          load: "1 DB",
           notes: "Volume increase. Same explosive intent.",
-          gif: "/exercises/goblet-squat.gif",
-        },
-        {
-          id: "9b",
-          name: "DB Romanian Deadlift",
+        }),
+        ex("9b", "romanianDeadlift", {
           sets: "4",
           reps: "8",
-          load: "Matched DBs",
           notes: "Added set. Keep the stretch-tension in hamstrings.",
-          gif: "/exercises/db-rdl.gif",
-        },
-        {
-          id: "9c",
-          name: "Kettlebell Swing",
+        }),
+        ex("9c", "kettlebellSwing", {
           sets: "5",
           reps: "15",
-          load: "Kettlebell",
           notes: "5 sets now. Short rest between sets (60 sec max).",
-          gif: "/exercises/kbs.gif",
-        },
-        {
-          id: "9d",
-          name: "Pop-Up Sprawl → Stand",
+        }),
+        ex("9d", "popUpSprawl", {
           sets: "4",
           reps: "5",
-          load: "BW",
           notes:
             "Added set. Start adding a bit more speed while staying smooth.",
-          gif: "/exercises/pop-up-sprawl.gif",
-        },
+        }),
       ],
     },
-    {
-      id: 10,
-      dayOfWeek: "Wednesday",
-      title: "REST",
-      subtitle: "Recovery Day",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(10, "Wednesday"),
     {
       id: 11,
       dayOfWeek: "Thursday",
@@ -487,42 +513,26 @@ const week2: Week = {
       subtitle: "Rotation Power +",
       shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
-        {
-          id: "11a",
-          name: "Half-Kneeling DB Press",
+        ex("11a", "halfKneelingPress", {
           sets: "4",
           reps: "6/side",
-          load: "1 DB",
           notes: "Volume bump. Same technique focus.",
-          gif: "/exercises/half-kneeling-press.gif",
-        },
-        {
-          id: "11b",
-          name: "DB Floor Press",
+        }),
+        ex("11b", "floorPress", {
           sets: "4",
           reps: "8",
-          load: "Matched DBs",
           notes: "Added set. Maintain the 45-degree elbow angle.",
-          gif: "/exercises/floor-press.gif",
-        },
-        {
-          id: "11c",
-          name: "DB Windmill",
+        }),
+        ex("11c", "windmill", {
           sets: "4",
           reps: "5/side",
-          load: "1 DB",
           notes: "One more set. Feeling looser in the hips yet?",
-          gif: "/exercises/windmill.gif",
-        },
-        {
-          id: "11d",
-          name: "Tall-Kneeling DB Halo",
+        }),
+        ex("11d", "halo", {
           sets: "4",
           reps: "8 each direction",
-          load: "1 DB",
           notes: "Added set. Keep the circles smooth and controlled.",
-          gif: "/exercises/halo.gif",
-        },
+        }),
       ],
     },
     {
@@ -531,69 +541,37 @@ const week2: Week = {
       title: "FLOW",
       subtitle: "Conditioning +",
       exercises: [
-        {
-          id: "12a",
-          name: "Circuit: 4 Rounds",
-          sets: "4 rounds",
-          load: "Mixed",
-          notes: "Same structure, try to reduce rest to 75 sec between rounds.",
-        },
-        {
-          id: "12b",
-          name: "→ Kettlebell Swings",
-          sets: "",
+        circuitHeader(
+          "12a",
+          4,
+          "Same structure, try to reduce rest to 75 sec between rounds."
+        ),
+        circuitEx("12b", "kettlebellSwing", {
           reps: "15",
-          load: "Kettlebell",
           notes: "Bumped from 12 reps",
-          gif: "/exercises/kbs.gif",
-        },
-        {
-          id: "12c",
-          name: "→ Reverse Lunges (goblet hold)",
-          sets: "",
+        }),
+        circuitEx("12c", "reverseLunge", {
           reps: "10 total",
-          load: "1 DB",
           notes: "Bumped from 8 reps",
-          gif: "/exercises/reverse-lunge.gif",
-        },
-        {
-          id: "12d",
-          name: "→ Bent-Over DB Rows",
-          sets: "",
+        }),
+        circuitEx("12d", "bentOverRow", {
           reps: "12",
-          load: "Matched DBs",
           notes: "Bumped from 10 reps",
-          gif: "/exercises/bent-over-row.gif",
-        },
-        {
-          id: "12e",
-          name: "→ Farmer Carry",
-          sets: "",
+        }),
+        circuitEx("12e", "farmerCarry", {
           time: "45 sec",
-          load: "Matched DBs",
           notes: "Extended from 40 sec",
-          gif: "/exercises/farmer-carry.gif",
-        },
+        }),
       ],
     },
-    {
-      id: 13,
-      dayOfWeek: "Saturday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
-    {
-      id: 14,
-      dayOfWeek: "Sunday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(13, "Saturday", "Surf or Recover"),
+    restDay(14, "Sunday", "Surf or Recover"),
   ],
 };
+
+// =============================================================================
+// WEEK 3 - INTENSITY FOCUS
+// =============================================================================
 
 const week3: Week = {
   id: 3,
@@ -607,44 +585,28 @@ const week3: Week = {
       subtitle: "Slow & Strong",
       shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
-        {
-          id: "15a",
-          name: "Chest-Supported DB Row",
+        ex("15a", "chestSupportedRow", {
           sets: "4",
           reps: "5-6",
           tempo: "4 sec down",
-          load: "Matched DBs",
           notes: "Slower eccentric now. Fewer reps, more time under tension.",
-          gif: "/exercises/chest-supported-row.gif",
-        },
-        {
-          id: "15b",
-          name: "1-Arm DB Row (split stance)",
+        }),
+        ex("15b", "singleArmRow", {
           sets: "3",
           reps: "6/side",
           tempo: "4 sec down",
-          load: "1 DB",
           notes: "Same slow tempo. Feel every inch of the movement.",
-          gif: "/exercises/single-arm-row.gif",
-        },
-        {
-          id: "15c",
-          name: "DB Suitcase Carry",
+        }),
+        ex("15c", "suitcaseCarry", {
           sets: "4",
           time: "45 sec/side",
-          load: "1 DB",
           notes: "Maximum time. Stay perfectly vertical.",
-          gif: "/exercises/suitcase-carry.gif",
-        },
-        {
-          id: "15d",
-          name: "Dead Bug (DBs held straight up)",
+        }),
+        ex("15d", "deadBug", {
           sets: "4",
           reps: "8/side",
-          load: "Matched DBs",
           notes: "Added reps. Slower, more controlled extension.",
-          gif: "/exercises/dead-bug.gif",
-        },
+        }),
       ],
     },
     {
@@ -653,26 +615,18 @@ const week3: Week = {
       title: "LOWER BODY",
       subtitle: "Tension & Power",
       exercises: [
-        {
-          id: "16a",
-          name: "Goblet Squat",
+        ex("16a", "gobletSquat", {
           sets: "4",
           reps: "5",
           tempo: "1 sec pause at bottom",
-          load: "1 DB",
           notes: "Pause squat. Explode from the dead stop.",
-          gif: "/exercises/goblet-squat.gif",
-        },
-        {
-          id: "16b",
-          name: "DB Romanian Deadlift",
+        }),
+        ex("16b", "romanianDeadlift", {
           sets: "4",
           reps: "6",
           tempo: "4 sec down",
-          load: "Matched DBs",
           notes: "Slow eccentric. Deep hamstring stretch.",
-          gif: "/exercises/db-rdl.gif",
-        },
+        }),
         {
           id: "16c",
           name: "Kettlebell Swing EMOM",
@@ -683,25 +637,14 @@ const week3: Week = {
             "Every Minute On the Minute. 10 swings, rest remainder of minute. Repeat for 10 minutes.",
           gif: "/exercises/kbs.gif",
         },
-        {
-          id: "16d",
-          name: "Pop-Up Sprawl → Stand",
+        ex("16d", "popUpSprawl", {
           sets: "4",
           reps: "5",
-          load: "BW",
           notes: "Focus on speed now. Quick and snappy.",
-          gif: "/exercises/pop-up-sprawl.gif",
-        },
+        }),
       ],
     },
-    {
-      id: 17,
-      dayOfWeek: "Wednesday",
-      title: "REST",
-      subtitle: "Recovery Day",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(17, "Wednesday"),
     {
       id: 18,
       dayOfWeek: "Thursday",
@@ -709,44 +652,28 @@ const week3: Week = {
       subtitle: "Slow & Strong",
       shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
-        {
-          id: "18a",
-          name: "Half-Kneeling DB Press",
+        ex("18a", "halfKneelingPress", {
           sets: "4",
           reps: "5/side",
           tempo: "4 sec down",
-          load: "1 DB",
           notes: "Slow lowering phase. Control is power.",
-          gif: "/exercises/half-kneeling-press.gif",
-        },
-        {
-          id: "18b",
-          name: "DB Floor Press",
+        }),
+        ex("18b", "floorPress", {
           sets: "4",
           reps: "6",
           tempo: "4 sec down",
-          load: "Matched DBs",
           notes: "Slow eccentric until triceps touch floor.",
-          gif: "/exercises/floor-press.gif",
-        },
-        {
-          id: "18c",
-          name: "DB Windmill",
+        }),
+        ex("18c", "windmill", {
           sets: "4",
           reps: "5/side",
-          load: "1 DB",
           notes: "Same as Week 2. Maintain the quality.",
-          gif: "/exercises/windmill.gif",
-        },
-        {
-          id: "18d",
-          name: "Tall-Kneeling DB Halo",
+        }),
+        ex("18d", "halo", {
           sets: "4",
           reps: "10 each direction",
-          load: "1 DB",
           notes: "Added reps. Slow, deliberate circles.",
-          gif: "/exercises/halo.gif",
-        },
+        }),
       ],
     },
     {
@@ -755,65 +682,25 @@ const week3: Week = {
       title: "FLOW",
       subtitle: "Endurance Push",
       exercises: [
-        {
-          id: "19a",
-          name: "Circuit: 5 Rounds",
-          sets: "5 rounds",
-          load: "Mixed",
-          notes: "Added a round. Push through but don't sacrifice form.",
-        },
-        {
-          id: "19b",
-          name: "→ Kettlebell Swings",
-          sets: "",
-          reps: "15",
-          load: "Kettlebell",
-          gif: "/exercises/kbs.gif",
-        },
-        {
-          id: "19c",
-          name: "→ Reverse Lunges (goblet hold)",
-          sets: "",
-          reps: "10 total",
-          load: "1 DB",
-          gif: "/exercises/reverse-lunge.gif",
-        },
-        {
-          id: "19d",
-          name: "→ Bent-Over DB Rows",
-          sets: "",
-          reps: "12",
-          load: "Matched DBs",
-          gif: "/exercises/bent-over-row.gif",
-        },
-        {
-          id: "19e",
-          name: "→ Farmer Carry",
-          sets: "",
-          time: "45 sec",
-          load: "Matched DBs",
-          gif: "/exercises/farmer-carry.gif",
-        },
+        circuitHeader(
+          "19a",
+          5,
+          "Added a round. Push through but don't sacrifice form."
+        ),
+        circuitEx("19b", "kettlebellSwing", { reps: "15" }),
+        circuitEx("19c", "reverseLunge", { reps: "10 total" }),
+        circuitEx("19d", "bentOverRow", { reps: "12" }),
+        circuitEx("19e", "farmerCarry", { time: "45 sec" }),
       ],
     },
-    {
-      id: 20,
-      dayOfWeek: "Saturday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
-    {
-      id: 21,
-      dayOfWeek: "Sunday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(20, "Saturday", "Surf or Recover"),
+    restDay(21, "Sunday", "Surf or Recover"),
   ],
 };
+
+// =============================================================================
+// WEEK 4 - POWER & DENSITY
+// =============================================================================
 
 const week4: Week = {
   id: 4,
@@ -827,44 +714,28 @@ const week4: Week = {
       subtitle: "Peak Power",
       shoulderFinisher: SHOULDER_FINISHER_B,
       exercises: [
-        {
-          id: "22a",
-          name: "Chest-Supported DB Row",
+        ex("22a", "chestSupportedRow", {
           sets: "3",
           reps: "6",
           tempo: "Explosive up",
-          load: "Matched DBs",
           notes: "Reduced sets, explosive intent. Quality reps only.",
-          gif: "/exercises/chest-supported-row.gif",
-        },
-        {
-          id: "22b",
-          name: "1-Arm DB Row (split stance)",
+        }),
+        ex("22b", "singleArmRow", {
           sets: "2",
           reps: "8/side",
           tempo: "Explosive up",
-          load: "1 DB",
           notes: "Power focus. Pull fast, control down.",
-          gif: "/exercises/single-arm-row.gif",
-        },
-        {
-          id: "22c",
-          name: "DB Suitcase Carry",
+        }),
+        ex("22c", "suitcaseCarry", {
           sets: "3",
           time: "40 sec/side",
-          load: "1 DB",
           notes: "Slightly reduced. Stay fresh, stay strong.",
-          gif: "/exercises/suitcase-carry.gif",
-        },
-        {
-          id: "22d",
-          name: "Dead Bug (DBs held straight up)",
+        }),
+        ex("22d", "deadBug", {
           sets: "3",
           reps: "6/side",
-          load: "Matched DBs",
           notes: "Back to baseline. Perfect reps.",
-          gif: "/exercises/dead-bug.gif",
-        },
+        }),
       ],
     },
     {
@@ -873,25 +744,17 @@ const week4: Week = {
       title: "LOWER BODY",
       subtitle: "Explosive Power",
       exercises: [
-        {
-          id: "23a",
-          name: "Goblet Squat",
+        ex("23a", "gobletSquat", {
           sets: "6",
           reps: "3",
           tempo: "FAST",
-          load: "1 DB",
           notes: "Power clusters. 3 explosive reps, long rest between sets.",
-          gif: "/exercises/goblet-squat.gif",
-        },
-        {
-          id: "23b",
-          name: "DB Romanian Deadlift",
+        }),
+        ex("23b", "romanianDeadlift", {
           sets: "3",
           reps: "6",
-          load: "Matched DBs",
           notes: "Reduced volume. Maintain quality.",
-          gif: "/exercises/db-rdl.gif",
-        },
+        }),
         {
           id: "23c",
           name: "Kettlebell Swing EMOM",
@@ -901,25 +764,14 @@ const week4: Week = {
           notes: "Extended to 15 minutes. This is your peak conditioning test.",
           gif: "/exercises/kbs.gif",
         },
-        {
-          id: "23d",
-          name: "Pop-Up Sprawl → Stand",
+        ex("23d", "popUpSprawl", {
           sets: "4",
           reps: "3",
-          load: "BW",
           notes: "Fast and crisp. Like you're catching a wave.",
-          gif: "/exercises/pop-up-sprawl.gif",
-        },
+        }),
       ],
     },
-    {
-      id: 24,
-      dayOfWeek: "Wednesday",
-      title: "REST",
-      subtitle: "Recovery Day",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(24, "Wednesday"),
     {
       id: 25,
       dayOfWeek: "Thursday",
@@ -927,44 +779,28 @@ const week4: Week = {
       subtitle: "Peak Power",
       shoulderFinisher: SHOULDER_FINISHER_A,
       exercises: [
-        {
-          id: "25a",
-          name: "Half-Kneeling DB Press",
+        ex("25a", "halfKneelingPress", {
           sets: "3",
           reps: "5/side",
           tempo: "Explosive up",
-          load: "1 DB",
           notes: "Reduced sets. Explosive pressing power.",
-          gif: "/exercises/half-kneeling-press.gif",
-        },
-        {
-          id: "25b",
-          name: "DB Floor Press",
+        }),
+        ex("25b", "floorPress", {
           sets: "3",
           reps: "6",
           tempo: "Explosive up",
-          load: "Matched DBs",
           notes: "Power focus. Fast up, controlled down.",
-          gif: "/exercises/floor-press.gif",
-        },
-        {
-          id: "25c",
-          name: "DB Windmill",
+        }),
+        ex("25c", "windmill", {
           sets: "3",
           reps: "5/side",
-          load: "1 DB",
           notes: "Reduced volume. Maintain mobility.",
-          gif: "/exercises/windmill.gif",
-        },
-        {
-          id: "25d",
-          name: "Tall-Kneeling DB Halo",
+        }),
+        ex("25d", "halo", {
           sets: "3",
           reps: "8 each direction",
-          load: "1 DB",
           notes: "Back to baseline. Keep shoulders healthy.",
-          gif: "/exercises/halo.gif",
-        },
+        }),
       ],
     },
     {
@@ -980,57 +816,20 @@ const week4: Week = {
           load: "Mixed",
           notes: "This is your test. Time it. Feel SPRINGY, not smoked.",
         },
-        {
-          id: "26b",
-          name: "→ Kettlebell Swings",
-          sets: "",
-          reps: "15",
-          load: "Kettlebell",
-          gif: "/exercises/kbs.gif",
-        },
-        {
-          id: "26c",
-          name: "→ Push-Ups",
-          sets: "",
-          reps: "10",
-          load: "BW",
-        },
-        {
-          id: "26d",
-          name: "→ Bent-Over DB Rows",
-          sets: "",
-          reps: "10",
-          load: "Matched DBs",
-          gif: "/exercises/bent-over-row.gif",
-        },
-        {
-          id: "26e",
-          name: "→ Farmer Carry",
-          sets: "",
-          time: "45 sec",
-          load: "Matched DBs",
-          gif: "/exercises/farmer-carry.gif",
-        },
+        circuitEx("26b", "kettlebellSwing", { reps: "15" }),
+        circuitEx("26c", "pushUps", { reps: "10" }),
+        circuitEx("26d", "bentOverRow", { reps: "10" }),
+        circuitEx("26e", "farmerCarry", { time: "45 sec" }),
       ],
     },
-    {
-      id: 27,
-      dayOfWeek: "Saturday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
-    {
-      id: 28,
-      dayOfWeek: "Sunday",
-      title: "REST",
-      subtitle: "Surf or Recover",
-      isRest: true,
-      exercises: [],
-    },
+    restDay(27, "Saturday", "Surf or Recover"),
+    restDay(28, "Sunday", "Surf or Recover"),
   ],
 };
+
+// =============================================================================
+// EXPORTS
+// =============================================================================
 
 export const workoutPlan: Week[] = [week1, week2, week3, week4];
 
