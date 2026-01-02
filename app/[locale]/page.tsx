@@ -1,5 +1,7 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import CheckoutButton from "@/app/components/CheckoutButton";
+import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 
 // Feature card component
 function FeatureCard({
@@ -45,134 +47,8 @@ function FeatureCard({
   );
 }
 
-// Data arrays for cleaner JSX
-const trustBadges = [
-  { icon: "🏄", text: "Surf-specific movements" },
-  { icon: "🦴", text: "Shoulder-safe by design" },
-  { icon: "🎛️", text: "Customize to your equipment" },
-  { icon: "⏱", text: "40–50 min sessions" },
-];
-
-const problems = [
-  { icon: "🦵", text: "Heavy legs that feel dead in the water" },
-  { icon: "🤕", text: "Tight shoulders and cranky elbows" },
-  { icon: "🏋️", text: "Strength that doesn't translate to the board" },
-  { icon: "😫", text: "Programs that leave you sore instead of surf-ready" },
-];
-
-const surfDemands = [
-  { icon: "🌊", label: "Long Paddles" },
-  { icon: "⚡", label: "Explosive Pop-ups" },
-  { icon: "🔄", label: "Rotational Power" },
-  { icon: "🎯", label: "Unstable Positions" },
-  { icon: "💪", label: "High Shoulder Volume" },
-];
-
-const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
 const workoutDays = [0, 1, 3, 4];
-
-const sessionIncludes = [
-  "Strength that supports paddling and pop-ups",
-  "Built-in mobility and shoulder health",
-  "Clear progression without chasing heavier weights",
-];
-
-const features = [
-  {
-    icon: "🌊",
-    title: "Surf-Specific Strength",
-    items: [
-      "Horizontal pulling for paddling endurance",
-      "Unilateral work for balance and control",
-      "Power without bulk",
-    ],
-  },
-  {
-    icon: "🦴",
-    title: "Built-In Shoulder Health",
-    items: [
-      "Scapular control",
-      "Smart pressing angles",
-      "Carries and mobility baked in",
-    ],
-  },
-  {
-    icon: "🎛️",
-    title: "Adapts to Your Setup",
-    items: [
-      "Customize to your available gear",
-      "Works with dumbbells, kettlebells, bands, or bodyweight",
-      "Auto-substitutes exercises based on equipment",
-    ],
-  },
-  {
-    icon: "📈",
-    title: "Progress Without Bulk",
-    items: [
-      "Rep, tempo, and density progression",
-      "No maxing out",
-      "No hypertrophy chasing",
-    ],
-  },
-];
-
-const equipmentOptions = [
-  {
-    icon: "🏋️",
-    name: "Dumbbells",
-    desc: "Classic strength work",
-  },
-  {
-    icon: "🔔",
-    name: "Kettlebell",
-    desc: "Explosive power moves",
-  },
-  {
-    icon: "🎯",
-    name: "Pull-up Bar",
-    desc: "Vertical pulling strength",
-  },
-  {
-    icon: "🪢",
-    name: "Bands",
-    desc: "Portable resistance",
-  },
-  {
-    icon: "🤸",
-    name: "Bodyweight",
-    desc: "Always available",
-  },
-];
-
-const yesReasons = [
-  "Surf 2–6x per week",
-  "Want to feel lighter and faster in the water",
-  "Care about shoulder longevity",
-  "Train with whatever equipment you have",
-];
-
-const noReasons = [
-  "Your main goal is bodybuilding",
-  "You want to max out lifts",
-  "You enjoy high-volume pump workouts",
-];
-
-const results = [
-  { icon: "🚀", text: "Easier paddling on long sessions" },
-  { icon: "⚡", text: "Faster, cleaner pop-ups" },
-  { icon: "🎯", text: "Better balance when the board gets unstable" },
-  { icon: "🦴", text: "Less shoulder tightness" },
-  { icon: "💪", text: "Strength that feels useful, not heavy" },
-];
-
-const appFeatures = [
-  "Customize workouts to your equipment",
-  "Guided workouts with clear sets, reps, tempo",
-  "Exercise visuals and demonstrations",
-  "Mobility flows included",
-  "Repeatable 4-week cycles",
-  "Progress tracking",
-];
 
 const mockExercises = [
   { name: "DB Floor Press", sets: "3×8", done: true },
@@ -181,43 +57,177 @@ const mockExercises = [
   { name: "Farmer Carry", sets: "3×40m", done: false },
 ];
 
-const pricingIncludes = [
-  "Full 4-week surf-strength program",
-  "Customize to any equipment setup",
-  "Built-in mobility & shoulder health",
-  "Progression guidance",
-  "Exercise demonstrations",
-  "Repeatable cycles forever",
-];
+export default async function LandingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  
+  const t = await getTranslations();
 
-const faqs = [
-  {
-    q: "What equipment do I need?",
-    a: "The program adapts to your available gear. You can train with just bodyweight, add resistance bands, dumbbells, kettlebells, or a pull-up bar. Tell the app what you have, and it automatically adjusts every exercise to match your setup.",
-  },
-  {
-    q: "Will this make me bulky?",
-    a: "No. The program is specifically designed to improve strength without adding unnecessary mass. You'll get stronger and more functional, not bigger.",
-  },
-  {
-    q: "Can I repeat the program?",
-    a: "Yes — it's built to be cycled again and again, with small, sustainable progressions. Many surfers run this year-round.",
-  },
-  {
-    q: "What if I surf a lot one week?",
-    a: "The volume is flexible. You'll learn how to adjust sessions around swell. The app tracks your progress so you can pick up where you left off.",
-  },
-  {
-    q: "Do I need a gym?",
-    a: "No gym required. The program works with minimal equipment and adapts to what you have — perfect for home workouts, garage gyms, or training while traveling.",
-  },
-  {
-    q: "How long are the workouts?",
-    a: "Each session is 40-50 minutes including warm-up and mobility work. No wasted time, no fluff.",
-  },
-];
+  const trustBadges = [
+    { icon: "🏄", text: t("trustBadges.surfSpecific") },
+    { icon: "🦴", text: t("trustBadges.shoulderSafe") },
+    { icon: "🎛️", text: t("trustBadges.customizable") },
+    { icon: "⏱", text: t("trustBadges.sessionTime") },
+  ];
 
-export default function LandingPage() {
+  const problems = [
+    { icon: "🦵", text: t("problem.problems.legs") },
+    { icon: "🤕", text: t("problem.problems.shoulders") },
+    { icon: "🏋️", text: t("problem.problems.strength") },
+    { icon: "😫", text: t("problem.problems.programs") },
+  ];
+
+  const surfDemands = [
+    { icon: "🌊", label: t("solution.demands.longPaddles") },
+    { icon: "⚡", label: t("solution.demands.explosivePopups") },
+    { icon: "🔄", label: t("solution.demands.rotationalPower") },
+    { icon: "🎯", label: t("solution.demands.unstablePositions") },
+    { icon: "💪", label: t("solution.demands.highShoulderVolume") },
+  ];
+
+  const sessionIncludes = [
+    t("howItWorks.sessionIncludes.strength"),
+    t("howItWorks.sessionIncludes.mobility"),
+    t("howItWorks.sessionIncludes.progression"),
+  ];
+
+  const features = [
+    {
+      icon: "🌊",
+      title: t("features.surfSpecific.title"),
+      items: [
+        t("features.surfSpecific.items.horizontal"),
+        t("features.surfSpecific.items.unilateral"),
+        t("features.surfSpecific.items.power"),
+      ],
+    },
+    {
+      icon: "🦴",
+      title: t("features.shoulderHealth.title"),
+      items: [
+        t("features.shoulderHealth.items.scapular"),
+        t("features.shoulderHealth.items.pressing"),
+        t("features.shoulderHealth.items.carries"),
+      ],
+    },
+    {
+      icon: "🎛️",
+      title: t("features.adapts.title"),
+      items: [
+        t("features.adapts.items.customize"),
+        t("features.adapts.items.works"),
+        t("features.adapts.items.autoSubs"),
+      ],
+    },
+    {
+      icon: "📈",
+      title: t("features.progress.title"),
+      items: [
+        t("features.progress.items.rep"),
+        t("features.progress.items.noMax"),
+        t("features.progress.items.noHypertrophy"),
+      ],
+    },
+  ];
+
+  const equipmentOptions = [
+    {
+      icon: "🏋️",
+      name: t("equipment.options.dumbbells"),
+      desc: t("equipment.options.dumbellsDesc"),
+    },
+    {
+      icon: "🔔",
+      name: t("equipment.options.kettlebell"),
+      desc: t("equipment.options.kettlebellDesc"),
+    },
+    {
+      icon: "🎯",
+      name: t("equipment.options.pullupBar"),
+      desc: t("equipment.options.pullupBarDesc"),
+    },
+    {
+      icon: "🪢",
+      name: t("equipment.options.bands"),
+      desc: t("equipment.options.bandsDesc"),
+    },
+    {
+      icon: "🤸",
+      name: t("equipment.options.bodyweight"),
+      desc: t("equipment.options.bodyweightDesc"),
+    },
+  ];
+
+  const yesReasons = [
+    t("whoItsFor.yes.surf"),
+    t("whoItsFor.yes.feel"),
+    t("whoItsFor.yes.shoulder"),
+    t("whoItsFor.yes.train"),
+  ];
+
+  const noReasons = [
+    t("whoItsFor.no.bodybuilding"),
+    t("whoItsFor.no.maxLifts"),
+    t("whoItsFor.no.pump"),
+  ];
+
+  const results = [
+    { icon: "🚀", text: t("results.items.paddling") },
+    { icon: "⚡", text: t("results.items.popups") },
+    { icon: "🎯", text: t("results.items.balance") },
+    { icon: "🦴", text: t("results.items.tightness") },
+    { icon: "💪", text: t("results.items.strength") },
+  ];
+
+  const appFeatures = [
+    t("app.features.customize"),
+    t("app.features.guided"),
+    t("app.features.visuals"),
+    t("app.features.mobility"),
+    t("app.features.repeatable"),
+    t("app.features.tracking"),
+  ];
+
+  const pricingIncludes = [
+    t("pricing.includes.program"),
+    t("pricing.includes.customize"),
+    t("pricing.includes.mobility"),
+    t("pricing.includes.progression"),
+    t("pricing.includes.demos"),
+    t("pricing.includes.cycles"),
+  ];
+
+  const faqs = [
+    {
+      q: t("faq.questions.equipment.q"),
+      a: t("faq.questions.equipment.a"),
+    },
+    {
+      q: t("faq.questions.bulky.q"),
+      a: t("faq.questions.bulky.a"),
+    },
+    {
+      q: t("faq.questions.repeat.q"),
+      a: t("faq.questions.repeat.a"),
+    },
+    {
+      q: t("faq.questions.surfVolume.q"),
+      a: t("faq.questions.surfVolume.a"),
+    },
+    {
+      q: t("faq.questions.gym.q"),
+      a: t("faq.questions.gym.a"),
+    },
+    {
+      q: t("faq.questions.duration.q"),
+      a: t("faq.questions.duration.a"),
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-bg-primary overflow-x-hidden">
       {/* Skip to main content link for accessibility */}
@@ -225,7 +235,7 @@ export default function LandingPage() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-accent-primary focus:text-bg-primary focus:rounded-lg focus:font-semibold"
       >
-        Skip to main content
+        {t("common.skipToContent")}
       </a>
 
       {/* Simple Header for Landing */}
@@ -237,7 +247,7 @@ export default function LandingPage() {
               className="text-xl text-text-primary tracking-wider"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              SURF STRENGTH
+              {t("nav.brand")}
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -245,14 +255,15 @@ export default function LandingPage() {
               href="/blog"
               className="text-text-secondary hover:text-text-primary transition-colors text-sm"
             >
-              Blog
+              {t("nav.blog")}
             </Link>
             <Link
               href="/workouts"
               className="text-text-secondary hover:text-text-primary transition-colors text-sm"
             >
-              Login
+              {t("nav.login")}
             </Link>
+            <LanguageSwitcher />
           </div>
         </div>
       </nav>
@@ -297,7 +308,7 @@ export default function LandingPage() {
               aria-hidden="true"
             />
             <span className="text-text-secondary text-sm">
-              Designed for surfers who train smart
+              {t("hero.badge")}
             </span>
           </div>
 
@@ -309,30 +320,27 @@ export default function LandingPage() {
               animationFillMode: "forwards",
             }}
           >
-            <span className="sr-only">
-              Surf Workout Program: 4-Week Strength Training for Surfers -
-            </span>
-            TRAIN FOR <span className="text-gradient">SURFING</span>
+            <span className="sr-only">{t("hero.srTitle")}</span>
+            {t("hero.title1")} <span className="text-gradient">{t("hero.titleHighlight")}</span>
             <br />
-            NOT THE GYM
+            {t("hero.title2")}
           </h1>
 
           <p
             className="text-xl md:text-2xl text-text-secondary max-w-3xl mx-auto mb-10 opacity-0 animate-fade-in leading-relaxed"
             style={{ animationDelay: "0.5s", animationFillMode: "forwards" }}
           >
-            A surf-first strength, mobility, and shoulder-health program built
-            to make you{" "}
-            <span className="text-text-primary font-medium">paddle longer</span>
+            {t("hero.description")}{" "}
+            <span className="text-text-primary font-medium">{t("hero.paddleLonger")}</span>
             ,{" "}
-            <span className="text-text-primary font-medium">pop up faster</span>
+            <span className="text-text-primary font-medium">{t("hero.popUpFaster")}</span>
             , and{" "}
             <span className="text-text-primary font-medium">
-              stay injury-free
+              {t("hero.stayInjuryFree")}
             </span>{" "}
             —{" "}
             <span className="text-accent-primary font-semibold">
-              without getting bulky
+              {t("hero.withoutBulky")}
             </span>
             .
           </p>
@@ -344,9 +352,9 @@ export default function LandingPage() {
             <a
               href="#pricing"
               className="landing-btn-primary text-lg px-8 py-4"
-              aria-label="Start your 4-week surf workout cycle - view pricing"
+              aria-label={t("hero.ctaPrimary")}
             >
-              Start Your 4-Week Cycle
+              {t("hero.ctaPrimary")}
               <span className="ml-2" aria-hidden="true">
                 →
               </span>
@@ -354,9 +362,8 @@ export default function LandingPage() {
             <a
               href="#how-it-works"
               className="landing-btn-ghost text-lg px-8 py-4"
-              aria-label="Learn how the surf workout program works"
             >
-              See How It Works
+              {t("hero.ctaSecondary")}
             </a>
           </div>
 
@@ -381,14 +388,14 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Scroll indicator - hidden on mobile to prevent overlap with trust badges */}
+        {/* Scroll indicator - hidden on mobile */}
         <div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in hidden md:block"
           style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}
           aria-hidden="true"
         >
           <div className="flex flex-col items-center gap-2 text-text-muted">
-            <span className="text-xs uppercase tracking-widest">Scroll</span>
+            <span className="text-xs uppercase tracking-widest">{t("hero.scroll")}</span>
             <div className="w-6 h-10 rounded-full border-2 border-text-muted/30 flex justify-center pt-2">
               <div className="w-1.5 h-3 bg-text-muted/50 rounded-full animate-bounce" />
             </div>
@@ -402,9 +409,9 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto px-6">
             <p className="text-center text-xl text-text-secondary italic">
               &ldquo;Designed for surfers who want to stay{" "}
-              <span className="text-text-primary font-medium">light</span>,{" "}
-              <span className="text-text-primary font-medium">mobile</span>, and{" "}
-              <span className="text-text-primary font-medium">powerful</span> —
+              <span className="text-text-primary font-medium">{t("socialProof.light")}</span>,{" "}
+              <span className="text-text-primary font-medium">{t("socialProof.mobile")}</span>, and{" "}
+              <span className="text-text-primary font-medium">{t("socialProof.powerful")}</span> —
               in and out of the water.&rdquo;
             </p>
           </div>
@@ -419,23 +426,21 @@ export default function LandingPage() {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
                 <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                  The Problem
+                  {t("problem.label")}
                 </span>
                 <h2
                   id="problem-heading"
                   className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-6"
                   style={{ fontFamily: "var(--font-bebas)" }}
                 >
-                  MOST STRENGTH PROGRAMS
+                  {t("problem.title1")}
                   <br />
                   <span className="text-gradient">
-                    WORK AGAINST YOUR SURFING
+                    {t("problem.title2")}
                   </span>
                 </h2>
                 <p className="text-text-secondary text-lg mb-8 leading-relaxed">
-                  Traditional gym programs are built for size and symmetry — not
-                  paddling endurance, balance, or shoulder longevity. Surfers
-                  run into the same problems over and over.
+                  {t("problem.description")}
                 </p>
               </div>
               <div className="space-y-4">
@@ -459,10 +464,10 @@ export default function LandingPage() {
             </div>
             <div className="mt-16 text-center">
               <p className="text-2xl md:text-3xl text-text-primary font-medium">
-                You don&apos;t need more muscle.
+                {t("problem.conclusion")}
                 <br />
                 <span className="text-gradient font-bold">
-                  You need the right strength.
+                  {t("problem.solution")}
                 </span>
               </p>
             </div>
@@ -485,21 +490,19 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                The Solution
+                {t("solution.label")}
               </span>
               <h2
                 id="solution-heading"
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-6"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                BUILT AROUND HOW SURFERS
+                {t("solution.title1")}
                 <br />
-                <span className="text-gradient">ACTUALLY MOVE</span>
+                <span className="text-gradient">{t("solution.title2")}</span>
               </h2>
               <p className="text-text-secondary text-lg max-w-3xl mx-auto leading-relaxed">
-                This program was designed around the real demands of surfing —
-                every exercise earns its place based on carryover to the water,
-                not gym aesthetics.
+                {t("solution.description")}
               </p>
             </div>
 
@@ -533,16 +536,16 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                How It Works
+                {t("howItWorks.label")}
               </span>
               <h2
                 id="how-it-works-heading"
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-6"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                SIMPLE STRUCTURE
+                {t("howItWorks.title1")}
                 <br />
-                <span className="text-gradient">SMART PROGRESSION</span>
+                <span className="text-gradient">{t("howItWorks.title2")}</span>
               </h2>
             </div>
 
@@ -553,7 +556,7 @@ export default function LandingPage() {
                   <span className="text-3xl" aria-hidden="true">
                     📅
                   </span>
-                  4 Workouts Per Week
+                  {t("howItWorks.workoutsPerWeek")}
                 </h3>
                 <div className="grid grid-cols-7 gap-2">
                   {weekDays.map((day, i) => {
@@ -574,7 +577,7 @@ export default function LandingPage() {
                               : "text-text-muted"
                           }`}
                         >
-                          {day}
+                          {t(`howItWorks.days.${day}`)}
                         </span>
                         <div className="mt-2" aria-hidden="true">
                           {isWorkoutDay ? (
@@ -595,7 +598,7 @@ export default function LandingPage() {
                   <span className="text-3xl" aria-hidden="true">
                     ✨
                   </span>
-                  Each Session Includes
+                  {t("howItWorks.eachSession")}
                 </h3>
                 <ul className="space-y-4">
                   {sessionIncludes.map((item, i) => (
@@ -612,7 +615,7 @@ export default function LandingPage() {
                 </ul>
                 <div className="mt-6 pt-6 border-t border-border">
                   <p className="text-text-primary font-semibold">
-                    No guesswork. No junk volume.
+                    {t("howItWorks.noGuesswork")}
                   </p>
                 </div>
               </div>
@@ -638,21 +641,19 @@ export default function LandingPage() {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
                 <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                  Fully Customizable
+                  {t("equipment.label")}
                 </span>
                 <h2
                   id="equipment-heading"
                   className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4 mb-6"
                   style={{ fontFamily: "var(--font-bebas)" }}
                 >
-                  TRAIN WITH WHAT
+                  {t("equipment.title1")}
                   <br />
-                  <span className="text-gradient">YOU HAVE</span>
+                  <span className="text-gradient">{t("equipment.title2")}</span>
                 </h2>
                 <p className="text-text-secondary text-lg mb-6 leading-relaxed">
-                  Traveling? Limited equipment? No problem. Tell the app what
-                  gear you have access to, and it automatically adapts every
-                  workout with smart exercise substitutions.
+                  {t("equipment.description")}
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -664,9 +665,9 @@ export default function LandingPage() {
                     </span>
                     <span className="text-text-secondary">
                       <span className="text-text-primary font-medium">
-                        Smart substitutions
+                        {t("equipment.features.smartSubstitutions")}
                       </span>{" "}
-                      — exercises swap automatically based on your equipment
+                      — {t("equipment.features.smartSubstitutionsDesc")}
                     </span>
                   </div>
                   <div className="flex items-start gap-3">
@@ -678,9 +679,9 @@ export default function LandingPage() {
                     </span>
                     <span className="text-text-secondary">
                       <span className="text-text-primary font-medium">
-                        Same results
+                        {t("equipment.features.sameResults")}
                       </span>{" "}
-                      — surf-specific benefits preserved regardless of setup
+                      — {t("equipment.features.sameResultsDesc")}
                     </span>
                   </div>
                   <div className="flex items-start gap-3">
@@ -692,9 +693,9 @@ export default function LandingPage() {
                     </span>
                     <span className="text-text-secondary">
                       <span className="text-text-primary font-medium">
-                        Change anytime
+                        {t("equipment.features.changeAnytime")}
                       </span>{" "}
-                      — update your gear as your setup evolves
+                      — {t("equipment.features.changeAnytimeDesc")}
                     </span>
                   </div>
                 </div>
@@ -712,9 +713,9 @@ export default function LandingPage() {
                         className="text-xl font-bold text-text-primary"
                         style={{ fontFamily: "var(--font-bebas)" }}
                       >
-                        YOUR EQUIPMENT
+                        {t("equipment.yourEquipment")}
                       </h4>
-                      <span className="text-text-muted text-sm">Settings</span>
+                      <span className="text-text-muted text-sm">{t("equipment.settings")}</span>
                     </div>
                     <div className="space-y-3">
                       {equipmentOptions.map((eq, i) => (
@@ -762,7 +763,7 @@ export default function LandingPage() {
                     </div>
                     <div className="mt-6 pt-4 border-t border-border">
                       <p className="text-text-muted text-sm text-center">
-                        Workouts adapt instantly to your selections
+                        {t("equipment.adaptNote")}
                       </p>
                     </div>
                   </div>
@@ -781,16 +782,16 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                Features
+                {t("features.label")}
               </span>
               <h2
                 id="features-heading"
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                EVERYTHING YOU NEED
+                {t("features.title1")}
                 <br />
-                <span className="text-gradient">NOTHING YOU DON&apos;T</span>
+                <span className="text-gradient">{t("features.title2")}</span>
               </h2>
             </div>
 
@@ -824,16 +825,16 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto px-6 relative z-10">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                Is This For You?
+                {t("whoItsFor.label")}
               </span>
               <h2
                 id="who-its-for-heading"
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                IS THIS PROGRAM
+                {t("whoItsFor.title1")}
                 <br />
-                <span className="text-gradient">RIGHT FOR YOU?</span>
+                <span className="text-gradient">{t("whoItsFor.title2")}</span>
               </h2>
             </div>
 
@@ -848,7 +849,7 @@ export default function LandingPage() {
                     <span className="text-success text-xl">✓</span>
                   </span>
                   <h3 className="text-xl font-bold text-success">
-                    Yes, if you:
+                    {t("whoItsFor.yesTitle")}
                   </h3>
                 </div>
                 <ul className="space-y-3">
@@ -876,7 +877,7 @@ export default function LandingPage() {
                     <span className="text-red-400 text-xl">✕</span>
                   </span>
                   <h3 className="text-xl font-bold text-red-400">
-                    Not for you if:
+                    {t("whoItsFor.noTitle")}
                   </h3>
                 </div>
                 <ul className="space-y-3">
@@ -905,16 +906,16 @@ export default function LandingPage() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                Results
+                {t("results.label")}
               </span>
               <h2
                 id="results-heading"
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                WHAT YOU&apos;LL NOTICE
+                {t("results.title1")}
                 <br />
-                <span className="text-gradient">AFTER A FEW WEEKS</span>
+                <span className="text-gradient">{t("results.title2")}</span>
               </h2>
             </div>
 
@@ -948,16 +949,16 @@ export default function LandingPage() {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
                 <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                  The App
+                  {t("app.label")}
                 </span>
                 <h2
                   id="app-heading"
                   className="text-4xl md:text-5xl font-bold text-text-primary mt-4 mb-6"
                   style={{ fontFamily: "var(--font-bebas)" }}
                 >
-                  EVERYTHING YOU NEED
+                  {t("app.title1")}
                   <br />
-                  <span className="text-gradient">RIGHT IN THE APP</span>
+                  <span className="text-gradient">{t("app.title2")}</span>
                 </h2>
                 <ul className="space-y-4 mb-8">
                   {appFeatures.map((feature, i) => (
@@ -973,7 +974,7 @@ export default function LandingPage() {
                   ))}
                 </ul>
                 <p className="text-text-primary font-semibold text-lg">
-                  No spreadsheets. No thinking.
+                  {t("app.noSpreadsheets")}
                 </p>
               </div>
               <div className="relative">
@@ -989,14 +990,14 @@ export default function LandingPage() {
                         🏄
                       </span>
                       <span className="text-text-muted text-sm">
-                        Week 1 • Day 1
+                        {t("app.weekDay")}
                       </span>
                     </div>
                     <h4
                       className="text-xl font-bold text-text-primary mb-4"
                       style={{ fontFamily: "var(--font-bebas)" }}
                     >
-                      UPPER BODY STRENGTH
+                      {t("app.upperBody")}
                     </h4>
                     <div className="space-y-3">
                       {mockExercises.map((exercise, i) => (
@@ -1039,7 +1040,7 @@ export default function LandingPage() {
                     </div>
                     <div className="mt-6 pt-4 border-t border-border">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-text-muted">Progress</span>
+                        <span className="text-text-muted">{t("app.progress")}</span>
                         <span className="text-accent-primary font-medium">
                           50%
                         </span>
@@ -1067,16 +1068,16 @@ export default function LandingPage() {
           <div className="max-w-4xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                Get Started
+                {t("pricing.label")}
               </span>
               <h2
                 id="pricing-heading"
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mt-4"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                START YOUR FIRST
+                {t("pricing.title1")}
                 <br />
-                <span className="text-gradient">4-WEEK CYCLE</span>
+                <span className="text-gradient">{t("pricing.title2")}</span>
               </h2>
             </div>
 
@@ -1088,7 +1089,7 @@ export default function LandingPage() {
               <div className="relative bg-bg-card rounded-3xl border border-accent-primary/50 p-8 md:p-12">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                   <span className="px-4 py-1 rounded-full bg-accent-primary text-bg-primary text-sm font-bold whitespace-nowrap">
-                    ONE-TIME PURCHASE
+                    {t("pricing.badge")}
                   </span>
                 </div>
 
@@ -1098,11 +1099,11 @@ export default function LandingPage() {
                       className="text-6xl md:text-7xl font-bold text-text-primary"
                       style={{ fontFamily: "var(--font-bebas)" }}
                     >
-                      $79
+                      {t("pricing.price")}
                     </span>
                   </div>
                   <p className="text-text-muted">
-                    Lifetime access • No subscription
+                    {t("pricing.lifetime")}
                   </p>
                 </div>
 
@@ -1121,12 +1122,12 @@ export default function LandingPage() {
                 </ul>
 
                 <CheckoutButton className="landing-btn-primary w-full text-lg py-4 flex items-center justify-center gap-2">
-                  Start Training for Surfing
+                  {t("pricing.cta")}
                   <span aria-hidden="true">→</span>
                 </CheckoutButton>
 
                 <p className="text-center text-text-muted text-sm mt-4">
-                  Instant access • Works on all devices
+                  {t("pricing.instant")}
                 </p>
               </div>
             </div>
@@ -1141,14 +1142,14 @@ export default function LandingPage() {
           <div className="max-w-3xl mx-auto px-6">
             <div className="text-center mb-16">
               <span className="text-accent-primary text-sm font-semibold uppercase tracking-wider">
-                FAQ
+                {t("faq.label")}
               </span>
               <h2
                 id="faq-heading"
                 className="text-4xl md:text-5xl font-bold text-text-primary mt-4"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                COMMON QUESTIONS
+                {t("faq.title")}
               </h2>
             </div>
 
@@ -1199,15 +1200,15 @@ export default function LandingPage() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              TRAIN SO SURFING FEELS
+              {t("finalCta.title1")}
               <br />
-              <span className="text-gradient">BETTER — NOT HARDER</span>
+              <span className="text-gradient">{t("finalCta.title2")}</span>
             </h2>
             <p className="text-xl text-text-secondary mb-10 max-w-2xl mx-auto">
-              Stronger paddles. Faster pop-ups. Healthier shoulders.
+              {t("finalCta.description")}
             </p>
             <CheckoutButton className="landing-btn-primary text-xl px-10 py-5 inline-flex items-center gap-3">
-              Start Your 4-Week Surf Strength Cycle
+              {t("finalCta.cta")}
               <span aria-hidden="true">→</span>
             </CheckoutButton>
           </div>
@@ -1226,7 +1227,7 @@ export default function LandingPage() {
                 className="text-lg text-text-primary tracking-wider"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                SURF STRENGTH
+                {t("nav.brand")}
               </span>
             </div>
             <div className="flex items-center gap-6">
@@ -1234,10 +1235,10 @@ export default function LandingPage() {
                 href="/blog"
                 className="text-text-muted hover:text-text-primary transition-colors text-sm"
               >
-                Blog
+                {t("nav.blog")}
               </Link>
               <p className="text-text-muted text-sm">
-                Built for surfers, by surfers.
+                {t("footer.tagline")}
               </p>
             </div>
           </div>

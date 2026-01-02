@@ -1,0 +1,306 @@
+{
+  "metadata": {
+    "title": "Surf Strength | 4-Week Training Program",
+    "description": "Functional strength training designed for surfers. Build paddle power, pop-up explosiveness, and rotational strength."
+  },
+  "nav": {
+    "brand": "SURF STRENGTH",
+    "howItWorks": "How It Works",
+    "features": "Features",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "login": "Login",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "badge": "Designed for surfers who train smart",
+    "title1": "TRAIN FOR",
+    "titleHighlight": "SURFING",
+    "title2": "NOT THE GYM",
+    "srTitle": "Surf Workout Program: 4-Week Strength Training for Surfers -",
+    "description": "A surf-first strength, mobility, and shoulder-health program built to make you",
+    "paddleLonger": "paddle longer",
+    "popUpFaster": "pop up faster",
+    "stayInjuryFree": "stay injury-free",
+    "withoutBulky": "without getting bulky",
+    "ctaPrimary": "Start Your 4-Week Cycle",
+    "ctaSecondary": "See How It Works",
+    "scroll": "Scroll"
+  },
+  "trustBadges": {
+    "surfSpecific": "Surf-specific movements",
+    "shoulderSafe": "Shoulder-safe by design",
+    "customizable": "Customize to your equipment",
+    "sessionTime": "40–50 min sessions"
+  },
+  "socialProof": {
+    "quote": "Designed for surfers who want to stay {light}, {mobile}, and {powerful} — in and out of the water.",
+    "light": "light",
+    "mobile": "mobile",
+    "powerful": "powerful"
+  },
+  "problem": {
+    "label": "The Problem",
+    "title1": "MOST STRENGTH PROGRAMS",
+    "title2": "WORK AGAINST YOUR SURFING",
+    "description": "Traditional gym programs are built for size and symmetry — not paddling endurance, balance, or shoulder longevity. Surfers run into the same problems over and over.",
+    "problems": {
+      "legs": "Heavy legs that feel dead in the water",
+      "shoulders": "Tight shoulders and cranky elbows",
+      "strength": "Strength that doesn't translate to the board",
+      "programs": "Programs that leave you sore instead of surf-ready"
+    },
+    "conclusion": "You don't need more muscle.",
+    "solution": "You need the right strength."
+  },
+  "solution": {
+    "label": "The Solution",
+    "title1": "BUILT AROUND HOW SURFERS",
+    "title2": "ACTUALLY MOVE",
+    "description": "This program was designed around the real demands of surfing — every exercise earns its place based on carryover to the water, not gym aesthetics.",
+    "demands": {
+      "longPaddles": "Long Paddles",
+      "explosivePopups": "Explosive Pop-ups",
+      "rotationalPower": "Rotational Power",
+      "unstablePositions": "Unstable Positions",
+      "highShoulderVolume": "High Shoulder Volume"
+    }
+  },
+  "howItWorks": {
+    "label": "How It Works",
+    "title1": "SIMPLE STRUCTURE",
+    "title2": "SMART PROGRESSION",
+    "workoutsPerWeek": "4 Workouts Per Week",
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "eachSession": "Each Session Includes",
+    "sessionIncludes": {
+      "strength": "Strength that supports paddling and pop-ups",
+      "mobility": "Built-in mobility and shoulder health",
+      "progression": "Clear progression without chasing heavier weights"
+    },
+    "noGuesswork": "No guesswork. No junk volume."
+  },
+  "equipment": {
+    "label": "Fully Customizable",
+    "title1": "TRAIN WITH WHAT",
+    "title2": "YOU HAVE",
+    "description": "Traveling? Limited equipment? No problem. Tell the app what gear you have access to, and it automatically adapts every workout with smart exercise substitutions.",
+    "features": {
+      "smartSubstitutions": "Smart substitutions",
+      "smartSubstitutionsDesc": "exercises swap automatically based on your equipment",
+      "sameResults": "Same results",
+      "sameResultsDesc": "surf-specific benefits preserved regardless of setup",
+      "changeAnytime": "Change anytime",
+      "changeAnytimeDesc": "update your gear as your setup evolves"
+    },
+    "yourEquipment": "YOUR EQUIPMENT",
+    "settings": "Settings",
+    "options": {
+      "dumbbells": "Dumbbells",
+      "dumbellsDesc": "Classic strength work",
+      "kettlebell": "Kettlebell",
+      "kettlebellDesc": "Explosive power moves",
+      "pullupBar": "Pull-up Bar",
+      "pullupBarDesc": "Vertical pulling strength",
+      "bands": "Bands",
+      "bandsDesc": "Portable resistance",
+      "bodyweight": "Bodyweight",
+      "bodyweightDesc": "Always available"
+    },
+    "adaptNote": "Workouts adapt instantly to your selections"
+  },
+  "features": {
+    "label": "Features",
+    "title1": "EVERYTHING YOU NEED",
+    "title2": "NOTHING YOU DON'T",
+    "surfSpecific": {
+      "title": "Surf-Specific Strength",
+      "items": {
+        "horizontal": "Horizontal pulling for paddling endurance",
+        "unilateral": "Unilateral work for balance and control",
+        "power": "Power without bulk"
+      }
+    },
+    "shoulderHealth": {
+      "title": "Built-In Shoulder Health",
+      "items": {
+        "scapular": "Scapular control",
+        "pressing": "Smart pressing angles",
+        "carries": "Carries and mobility baked in"
+      }
+    },
+    "adapts": {
+      "title": "Adapts to Your Setup",
+      "items": {
+        "customize": "Customize to your available gear",
+        "works": "Works with dumbbells, kettlebells, bands, or bodyweight",
+        "autoSubs": "Auto-substitutes exercises based on equipment"
+      }
+    },
+    "progress": {
+      "title": "Progress Without Bulk",
+      "items": {
+        "rep": "Rep, tempo, and density progression",
+        "noMax": "No maxing out",
+        "noHypertrophy": "No hypertrophy chasing"
+      }
+    }
+  },
+  "whoItsFor": {
+    "label": "Is This For You?",
+    "title1": "IS THIS PROGRAM",
+    "title2": "RIGHT FOR YOU?",
+    "yesTitle": "Yes, if you:",
+    "yes": {
+      "surf": "Surf 2–6x per week",
+      "feel": "Want to feel lighter and faster in the water",
+      "shoulder": "Care about shoulder longevity",
+      "train": "Train with whatever equipment you have"
+    },
+    "noTitle": "Not for you if:",
+    "no": {
+      "bodybuilding": "Your main goal is bodybuilding",
+      "maxLifts": "You want to max out lifts",
+      "pump": "You enjoy high-volume pump workouts"
+    }
+  },
+  "results": {
+    "label": "Results",
+    "title1": "WHAT YOU'LL NOTICE",
+    "title2": "AFTER A FEW WEEKS",
+    "items": {
+      "paddling": "Easier paddling on long sessions",
+      "popups": "Faster, cleaner pop-ups",
+      "balance": "Better balance when the board gets unstable",
+      "tightness": "Less shoulder tightness",
+      "strength": "Strength that feels useful, not heavy"
+    }
+  },
+  "app": {
+    "label": "The App",
+    "title1": "EVERYTHING YOU NEED",
+    "title2": "RIGHT IN THE APP",
+    "features": {
+      "customize": "Customize workouts to your equipment",
+      "guided": "Guided workouts with clear sets, reps, tempo",
+      "visuals": "Exercise visuals and demonstrations",
+      "mobility": "Mobility flows included",
+      "repeatable": "Repeatable 4-week cycles",
+      "tracking": "Progress tracking"
+    },
+    "noSpreadsheets": "No spreadsheets. No thinking.",
+    "weekDay": "Week 1 • Day 1",
+    "upperBody": "UPPER BODY STRENGTH",
+    "progress": "Progress"
+  },
+  "pricing": {
+    "label": "Get Started",
+    "title1": "START YOUR FIRST",
+    "title2": "4-WEEK CYCLE",
+    "badge": "ONE-TIME PURCHASE",
+    "price": "$79",
+    "lifetime": "Lifetime access • No subscription",
+    "includes": {
+      "program": "Full 4-week surf-strength program",
+      "customize": "Customize to any equipment setup",
+      "mobility": "Built-in mobility & shoulder health",
+      "progression": "Progression guidance",
+      "demos": "Exercise demonstrations",
+      "cycles": "Repeatable cycles forever"
+    },
+    "cta": "Start Training for Surfing",
+    "instant": "Instant access • Works on all devices"
+  },
+  "faq": {
+    "label": "FAQ",
+    "title": "COMMON QUESTIONS",
+    "questions": {
+      "equipment": {
+        "q": "What equipment do I need?",
+        "a": "The program adapts to your available gear. You can train with just bodyweight, add resistance bands, dumbbells, kettlebells, or a pull-up bar. Tell the app what you have, and it automatically adjusts every exercise to match your setup."
+      },
+      "bulky": {
+        "q": "Will this make me bulky?",
+        "a": "No. The program is specifically designed to improve strength without adding unnecessary mass. You'll get stronger and more functional, not bigger."
+      },
+      "repeat": {
+        "q": "Can I repeat the program?",
+        "a": "Yes — it's built to be cycled again and again, with small, sustainable progressions. Many surfers run this year-round."
+      },
+      "surfVolume": {
+        "q": "What if I surf a lot one week?",
+        "a": "The volume is flexible. You'll learn how to adjust sessions around swell. The app tracks your progress so you can pick up where you left off."
+      },
+      "gym": {
+        "q": "Do I need a gym?",
+        "a": "No gym required. The program works with minimal equipment and adapts to what you have — perfect for home workouts, garage gyms, or training while traveling."
+      },
+      "duration": {
+        "q": "How long are the workouts?",
+        "a": "Each session is 40-50 minutes including warm-up and mobility work. No wasted time, no fluff."
+      }
+    }
+  },
+  "finalCta": {
+    "title1": "TRAIN SO SURFING FEELS",
+    "title2": "BETTER — NOT HARDER",
+    "description": "Stronger paddles. Faster pop-ups. Healthier shoulders.",
+    "cta": "Start Your 4-Week Surf Strength Cycle"
+  },
+  "footer": {
+    "tagline": "Built for surfers, by surfers."
+  },
+  "blog": {
+    "title": "SURF TRAINING",
+    "titleHighlight": "BLOG",
+    "description": "Expert insights on building surf-specific strength, preventing injuries, and improving your performance in the water.",
+    "metaTitle": "Surf Training Blog | Surf Strength",
+    "metaDescription": "Expert articles on surf fitness, strength training for surfers, injury prevention, and how to improve your performance in the water.",
+    "noPosts": "No posts yet. Check back soon!",
+    "ctaTitle": "READY TO START TRAINING?",
+    "ctaDescription": "Put these concepts into practice with our complete 4-week surf strength program.",
+    "ctaButton": "View the Program"
+  },
+  "workouts": {
+    "title": "SURF-SPECIFIC STRENGTH",
+    "description": "4 weeks of functional training designed to improve your paddling power, pop-up speed, and rotational strength. No bulk, just performance.",
+    "rules": {
+      "noFailure": "No sets to failure",
+      "rir": "Always 2 RIR",
+      "explosive": "Explosive intent",
+      "feelBetter": "Feel better than you started"
+    },
+    "overallProgress": "Overall Progress",
+    "daysCompleted": "{completed} of 28 days completed",
+    "resetProgress": "Reset Progress",
+    "yourEquipment": "Your Equipment",
+    "change": "Change",
+    "equipmentNote": "Exercises are automatically adjusted based on your available equipment. The workout intensity and surf-specific benefits remain the same.",
+    "rest": "REST",
+    "recoveryDay": "Recovery Day",
+    "surfOrRecover": "Surf or Recover"
+  },
+  "rir": {
+    "title": "RIR (Reps In Reserve)",
+    "description": "RIR tells you how hard to push each set. It's how many more reps you could have done with good form.",
+    "examples": {
+      "0": "Failure - no more reps possible",
+      "1": "Could have done 1 more rep",
+      "2": "Could have done 2 more reps",
+      "3": "Could have done 3 more reps"
+    },
+    "recommendation": "RIR 2-3 is the sweet spot for most exercises - challenging but sustainable."
+  },
+  "common": {
+    "skipToContent": "Skip to main content"
+  }
+}
+
