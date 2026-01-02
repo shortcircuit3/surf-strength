@@ -4,13 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run db:migrate && next build",
+    "build": "npx dbmate up && next build",
     "start": "next start",
-    "lint": "eslint",
-    "db:migrate": "npx --yes dbmate --no-dump-schema migrate",
-    "db:new": "npx --yes dbmate new",
-    "db:rollback": "npx --yes dbmate rollback",
-    "db:status": "npx --yes dbmate status"
+    "lint": "eslint"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
