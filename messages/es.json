@@ -1,0 +1,306 @@
+{
+  "metadata": {
+    "title": "Surf Strength | Programa de Entrenamiento de 4 Semanas",
+    "description": "Entrenamiento funcional de fuerza diseñado para surfistas. Desarrolla potencia de remada, explosividad en el pop-up y fuerza rotacional."
+  },
+  "nav": {
+    "brand": "SURF STRENGTH",
+    "howItWorks": "Cómo Funciona",
+    "features": "Características",
+    "pricing": "Precios",
+    "blog": "Blog",
+    "login": "Iniciar Sesión",
+    "getStarted": "Comenzar"
+  },
+  "hero": {
+    "badge": "Diseñado para surfistas que entrenan inteligentemente",
+    "title1": "ENTRENA PARA",
+    "titleHighlight": "SURFEAR",
+    "title2": "NO PARA EL GYM",
+    "srTitle": "Programa de Entrenamiento de Surf: 4 Semanas de Fuerza para Surfistas -",
+    "description": "Un programa de fuerza, movilidad y salud del hombro enfocado en el surf para que puedas",
+    "paddleLonger": "remar más tiempo",
+    "popUpFaster": "levantarte más rápido",
+    "stayInjuryFree": "evitar lesiones",
+    "withoutBulky": "sin ganar volumen",
+    "ctaPrimary": "Comienza Tu Ciclo de 4 Semanas",
+    "ctaSecondary": "Ver Cómo Funciona",
+    "scroll": "Desliza"
+  },
+  "trustBadges": {
+    "surfSpecific": "Movimientos específicos para surf",
+    "shoulderSafe": "Seguro para los hombros",
+    "customizable": "Personaliza según tu equipo",
+    "sessionTime": "Sesiones de 40–50 min"
+  },
+  "socialProof": {
+    "quote": "Diseñado para surfistas que quieren mantenerse {light}, {mobile} y {powerful} — dentro y fuera del agua.",
+    "light": "ligeros",
+    "mobile": "móviles",
+    "powerful": "potentes"
+  },
+  "problem": {
+    "label": "El Problema",
+    "title1": "LA MAYORÍA DE PROGRAMAS DE FUERZA",
+    "title2": "TRABAJAN EN CONTRA DE TU SURF",
+    "description": "Los programas de gimnasio tradicionales están diseñados para tamaño y simetría — no para resistencia en la remada, equilibrio o longevidad del hombro. Los surfistas encuentran los mismos problemas una y otra vez.",
+    "problems": {
+      "legs": "Piernas pesadas que se sienten muertas en el agua",
+      "shoulders": "Hombros tensos y codos doloridos",
+      "strength": "Fuerza que no se traduce a la tabla",
+      "programs": "Programas que te dejan adolorido en vez de listo para surfear"
+    },
+    "conclusion": "No necesitas más músculo.",
+    "solution": "Necesitas la fuerza correcta."
+  },
+  "solution": {
+    "label": "La Solución",
+    "title1": "CONSTRUIDO ALREDEDOR DE CÓMO LOS SURFISTAS",
+    "title2": "REALMENTE SE MUEVEN",
+    "description": "Este programa fue diseñado alrededor de las demandas reales del surf — cada ejercicio gana su lugar basado en la transferencia al agua, no en la estética del gimnasio.",
+    "demands": {
+      "longPaddles": "Remadas Largas",
+      "explosivePopups": "Pop-ups Explosivos",
+      "rotationalPower": "Potencia Rotacional",
+      "unstablePositions": "Posiciones Inestables",
+      "highShoulderVolume": "Alto Volumen de Hombro"
+    }
+  },
+  "howItWorks": {
+    "label": "Cómo Funciona",
+    "title1": "ESTRUCTURA SIMPLE",
+    "title2": "PROGRESIÓN INTELIGENTE",
+    "workoutsPerWeek": "4 Entrenamientos Por Semana",
+    "days": {
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mié",
+      "thu": "Jue",
+      "fri": "Vie",
+      "sat": "Sáb",
+      "sun": "Dom"
+    },
+    "eachSession": "Cada Sesión Incluye",
+    "sessionIncludes": {
+      "strength": "Fuerza que apoya la remada y los pop-ups",
+      "mobility": "Movilidad y salud del hombro integradas",
+      "progression": "Progresión clara sin perseguir pesos más pesados"
+    },
+    "noGuesswork": "Sin adivinanzas. Sin volumen innecesario."
+  },
+  "equipment": {
+    "label": "Totalmente Personalizable",
+    "title1": "ENTRENA CON LO QUE",
+    "title2": "TENGAS",
+    "description": "¿Viajando? ¿Equipo limitado? No hay problema. Dile a la app qué equipo tienes disponible, y automáticamente adapta cada entrenamiento con sustituciones inteligentes de ejercicios.",
+    "features": {
+      "smartSubstitutions": "Sustituciones inteligentes",
+      "smartSubstitutionsDesc": "los ejercicios cambian automáticamente según tu equipo",
+      "sameResults": "Mismos resultados",
+      "sameResultsDesc": "beneficios específicos del surf preservados sin importar la configuración",
+      "changeAnytime": "Cambia cuando quieras",
+      "changeAnytimeDesc": "actualiza tu equipo a medida que evoluciona tu setup"
+    },
+    "yourEquipment": "TU EQUIPO",
+    "settings": "Configuración",
+    "options": {
+      "dumbbells": "Mancuernas",
+      "dumbellsDesc": "Trabajo clásico de fuerza",
+      "kettlebell": "Kettlebell",
+      "kettlebellDesc": "Movimientos explosivos de potencia",
+      "pullupBar": "Barra de Dominadas",
+      "pullupBarDesc": "Fuerza de tracción vertical",
+      "bands": "Bandas",
+      "bandsDesc": "Resistencia portátil",
+      "bodyweight": "Peso Corporal",
+      "bodyweightDesc": "Siempre disponible"
+    },
+    "adaptNote": "Los entrenamientos se adaptan instantáneamente a tus selecciones"
+  },
+  "features": {
+    "label": "Características",
+    "title1": "TODO LO QUE NECESITAS",
+    "title2": "NADA QUE NO",
+    "surfSpecific": {
+      "title": "Fuerza Específica para Surf",
+      "items": {
+        "horizontal": "Tracción horizontal para resistencia en la remada",
+        "unilateral": "Trabajo unilateral para equilibrio y control",
+        "power": "Potencia sin volumen"
+      }
+    },
+    "shoulderHealth": {
+      "title": "Salud del Hombro Integrada",
+      "items": {
+        "scapular": "Control escapular",
+        "pressing": "Ángulos de empuje inteligentes",
+        "carries": "Cargadas y movilidad incorporadas"
+      }
+    },
+    "adapts": {
+      "title": "Se Adapta a Tu Setup",
+      "items": {
+        "customize": "Personaliza según tu equipo disponible",
+        "works": "Funciona con mancuernas, kettlebells, bandas o peso corporal",
+        "autoSubs": "Sustituye ejercicios automáticamente según el equipo"
+      }
+    },
+    "progress": {
+      "title": "Progresa Sin Ganar Volumen",
+      "items": {
+        "rep": "Progresión de repeticiones, tempo y densidad",
+        "noMax": "Sin máximos",
+        "noHypertrophy": "Sin perseguir hipertrofia"
+      }
+    }
+  },
+  "whoItsFor": {
+    "label": "¿Es Para Ti?",
+    "title1": "¿ES ESTE PROGRAMA",
+    "title2": "PARA TI?",
+    "yesTitle": "Sí, si:",
+    "yes": {
+      "surf": "Surfeas 2–6 veces por semana",
+      "feel": "Quieres sentirte más ligero y rápido en el agua",
+      "shoulder": "Te importa la longevidad de tus hombros",
+      "train": "Entrenas con cualquier equipo que tengas"
+    },
+    "noTitle": "No es para ti si:",
+    "no": {
+      "bodybuilding": "Tu objetivo principal es el culturismo",
+      "maxLifts": "Quieres maximizar tus levantamientos",
+      "pump": "Disfrutas entrenamientos de alto volumen para congestión"
+    }
+  },
+  "results": {
+    "label": "Resultados",
+    "title1": "LO QUE NOTARÁS",
+    "title2": "DESPUÉS DE UNAS SEMANAS",
+    "items": {
+      "paddling": "Remada más fácil en sesiones largas",
+      "popups": "Pop-ups más rápidos y limpios",
+      "balance": "Mejor equilibrio cuando la tabla se vuelve inestable",
+      "tightness": "Menos tensión en los hombros",
+      "strength": "Fuerza que se siente útil, no pesada"
+    }
+  },
+  "app": {
+    "label": "La App",
+    "title1": "TODO LO QUE NECESITAS",
+    "title2": "DIRECTO EN LA APP",
+    "features": {
+      "customize": "Personaliza entrenamientos según tu equipo",
+      "guided": "Entrenamientos guiados con series, repeticiones y tempo claros",
+      "visuals": "Visuales y demostraciones de ejercicios",
+      "mobility": "Flujos de movilidad incluidos",
+      "repeatable": "Ciclos de 4 semanas repetibles",
+      "tracking": "Seguimiento de progreso"
+    },
+    "noSpreadsheets": "Sin hojas de cálculo. Sin pensar.",
+    "weekDay": "Semana 1 • Día 1",
+    "upperBody": "FUERZA TREN SUPERIOR",
+    "progress": "Progreso"
+  },
+  "pricing": {
+    "label": "Comenzar",
+    "title1": "COMIENZA TU PRIMER",
+    "title2": "CICLO DE 4 SEMANAS",
+    "badge": "COMPRA ÚNICA",
+    "price": "$79",
+    "lifetime": "Acceso de por vida • Sin suscripción",
+    "includes": {
+      "program": "Programa completo de fuerza para surf de 4 semanas",
+      "customize": "Personaliza para cualquier configuración de equipo",
+      "mobility": "Movilidad y salud del hombro integradas",
+      "progression": "Guía de progresión",
+      "demos": "Demostraciones de ejercicios",
+      "cycles": "Ciclos repetibles para siempre"
+    },
+    "cta": "Comienza a Entrenar para Surfear",
+    "instant": "Acceso instantáneo • Funciona en todos los dispositivos"
+  },
+  "faq": {
+    "label": "FAQ",
+    "title": "PREGUNTAS FRECUENTES",
+    "questions": {
+      "equipment": {
+        "q": "¿Qué equipo necesito?",
+        "a": "El programa se adapta a tu equipo disponible. Puedes entrenar solo con peso corporal, agregar bandas de resistencia, mancuernas, kettlebells o una barra de dominadas. Dile a la app lo que tienes, y automáticamente ajusta cada ejercicio para que coincida con tu configuración."
+      },
+      "bulky": {
+        "q": "¿Me hará ganar volumen?",
+        "a": "No. El programa está específicamente diseñado para mejorar la fuerza sin agregar masa innecesaria. Te volverás más fuerte y funcional, no más grande."
+      },
+      "repeat": {
+        "q": "¿Puedo repetir el programa?",
+        "a": "Sí — está construido para ser repetido una y otra vez, con progresiones pequeñas y sostenibles. Muchos surfistas lo hacen todo el año."
+      },
+      "surfVolume": {
+        "q": "¿Qué pasa si surfeo mucho una semana?",
+        "a": "El volumen es flexible. Aprenderás cómo ajustar las sesiones según el swell. La app rastrea tu progreso para que puedas continuar donde lo dejaste."
+      },
+      "gym": {
+        "q": "¿Necesito un gimnasio?",
+        "a": "No se requiere gimnasio. El programa funciona con equipo mínimo y se adapta a lo que tengas — perfecto para entrenamientos en casa, garajes o mientras viajas."
+      },
+      "duration": {
+        "q": "¿Cuánto duran los entrenamientos?",
+        "a": "Cada sesión es de 40-50 minutos incluyendo calentamiento y trabajo de movilidad. Sin tiempo perdido, sin relleno."
+      }
+    }
+  },
+  "finalCta": {
+    "title1": "ENTRENA PARA QUE SURFEAR SE SIENTA",
+    "title2": "MEJOR — NO MÁS DIFÍCIL",
+    "description": "Remadas más fuertes. Pop-ups más rápidos. Hombros más saludables.",
+    "cta": "Comienza Tu Ciclo de 4 Semanas de Fuerza para Surf"
+  },
+  "footer": {
+    "tagline": "Hecho por surfistas, para surfistas."
+  },
+  "blog": {
+    "title": "BLOG DE",
+    "titleHighlight": "ENTRENAMIENTO SURF",
+    "description": "Información experta sobre cómo construir fuerza específica para surf, prevenir lesiones y mejorar tu rendimiento en el agua.",
+    "metaTitle": "Blog de Entrenamiento de Surf | Surf Strength",
+    "metaDescription": "Artículos expertos sobre fitness para surf, entrenamiento de fuerza para surfistas, prevención de lesiones y cómo mejorar tu rendimiento en el agua.",
+    "noPosts": "Aún no hay publicaciones. ¡Vuelve pronto!",
+    "ctaTitle": "¿LISTO PARA EMPEZAR A ENTRENAR?",
+    "ctaDescription": "Pon estos conceptos en práctica con nuestro programa completo de fuerza para surf de 4 semanas.",
+    "ctaButton": "Ver el Programa"
+  },
+  "workouts": {
+    "title": "FUERZA ESPECÍFICA PARA SURF",
+    "description": "4 semanas de entrenamiento funcional diseñado para mejorar tu potencia de remada, velocidad de pop-up y fuerza rotacional. Sin volumen, solo rendimiento.",
+    "rules": {
+      "noFailure": "Sin series al fallo",
+      "rir": "Siempre 2 RIR",
+      "explosive": "Intención explosiva",
+      "feelBetter": "Termina mejor de como empezaste"
+    },
+    "overallProgress": "Progreso General",
+    "daysCompleted": "{completed} de 28 días completados",
+    "resetProgress": "Reiniciar Progreso",
+    "yourEquipment": "Tu Equipo",
+    "change": "Cambiar",
+    "equipmentNote": "Los ejercicios se ajustan automáticamente según tu equipo disponible. La intensidad del entrenamiento y los beneficios específicos para surf se mantienen igual.",
+    "rest": "DESCANSO",
+    "recoveryDay": "Día de Recuperación",
+    "surfOrRecover": "Surfea o Recupera"
+  },
+  "rir": {
+    "title": "RIR (Repeticiones en Reserva)",
+    "description": "RIR te dice qué tan fuerte empujar cada serie. Es cuántas repeticiones más podrías haber hecho con buena forma.",
+    "examples": {
+      "0": "Fallo - no más repeticiones posibles",
+      "1": "Podría haber hecho 1 repetición más",
+      "2": "Podría haber hecho 2 repeticiones más",
+      "3": "Podría haber hecho 3 repeticiones más"
+    },
+    "recommendation": "RIR 2-3 es el punto ideal para la mayoría de ejercicios - desafiante pero sostenible."
+  },
+  "common": {
+    "skipToContent": "Saltar al contenido principal"
+  }
+}
+
