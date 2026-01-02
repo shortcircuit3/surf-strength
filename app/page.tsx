@@ -362,7 +362,7 @@ export default function LandingPage() {
 
           {/* Trust badges */}
           <div
-            className="mt-16 flex flex-wrap justify-center gap-6 opacity-0 animate-fade-in"
+            className="mt-12 md:mt-16 pb-8 md:pb-0 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 opacity-0 animate-fade-in"
             style={{ animationDelay: "0.9s", animationFillMode: "forwards" }}
           >
             {trustBadges.map((badge) => (
@@ -373,7 +373,7 @@ export default function LandingPage() {
                 <span className="text-xl" aria-hidden="true">
                   {badge.icon}
                 </span>
-                <span className="text-text-secondary text-sm">
+                <span className="text-text-secondary text-sm whitespace-nowrap">
                   {badge.text}
                 </span>
               </div>
@@ -381,9 +381,9 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - hidden on mobile to prevent overlap with trust badges */}
         <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in hidden md:block"
           style={{ animationDelay: "1.2s", animationFillMode: "forwards" }}
           aria-hidden="true"
         >
@@ -1087,7 +1087,7 @@ export default function LandingPage() {
               />
               <div className="relative bg-bg-card rounded-3xl border border-accent-primary/50 p-8 md:p-12">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1 rounded-full bg-accent-primary text-bg-primary text-sm font-bold">
+                  <span className="px-4 py-1 rounded-full bg-accent-primary text-bg-primary text-sm font-bold whitespace-nowrap">
                     ONE-TIME PURCHASE
                   </span>
                 </div>
