@@ -236,7 +236,7 @@ export default function MobileCalendar() {
             return (
               <Link
                 key={day.id}
-                href={`/day/${day.id}`}
+                href={`/workouts/day/${day.id}`}
                 className={`
                   flex items-center px-4 py-3 border-b border-border last:border-b-0
                   ${

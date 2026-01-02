@@ -10,11 +10,11 @@ import {
   DAILY_MOBILITY,
   transformWorkoutDayForEquipment,
   RIR_EXPLANATION,
-} from "../../data/workouts";
-import { useProgress } from "../../context/ProgressContext";
-import { useSettings } from "../../context/SettingsContext";
-import Header from "../../components/Header";
-import YouTubeModal, { YouTubePreview } from "../../components/YouTubeModal";
+} from "../../../data/workouts";
+import { useProgress } from "../../../context/ProgressContext";
+import { useSettings } from "../../../context/SettingsContext";
+import Header from "../../../components/Header";
+import YouTubeModal, { YouTubePreview } from "../../../components/YouTubeModal";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -45,7 +45,7 @@ export default function WorkoutDayPage({ params }: PageProps) {
           <h1 className="text-2xl font-bold text-text-primary mb-4">
             Workout not found
           </h1>
-          <Link href="/" className="text-accent-primary hover:underline">
+          <Link href="/workouts" className="text-accent-primary hover:underline">
             Return to calendar
           </Link>
         </div>

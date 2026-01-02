@@ -8,9 +8,9 @@ export default function Navigation({ currentPage }: NavigationProps) {
   const isLanding = currentPage === "landing";
 
   // Use anchor links on landing page, full URLs elsewhere
-  const howItWorksHref = isLanding ? "#how-it-works" : "/landing#how-it-works";
-  const featuresHref = isLanding ? "#features" : "/landing#features";
-  const pricingHref = isLanding ? "#pricing" : "/landing#pricing";
+  const howItWorksHref = isLanding ? "#how-it-works" : "/#how-it-works";
+  const featuresHref = isLanding ? "#features" : "/#features";
+  const pricingHref = isLanding ? "#pricing" : "/#pricing";
 
   return (
     <nav
@@ -20,7 +20,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
       <div className="max-w-6xl mx-auto">
         <div className="landing-nav flex items-center justify-between px-6 py-3">
           <Link
-            href="/landing"
+            href="/"
             className="flex items-center gap-2"
             aria-label="Surf Strength - Home"
           >
@@ -75,4 +75,3 @@ export default function Navigation({ currentPage }: NavigationProps) {
     </nav>
   );
 }
-

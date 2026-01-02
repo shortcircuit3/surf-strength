@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useSettings, EquipmentType } from "../context/SettingsContext";
-import Header from "../components/Header";
+import { useSettings, EquipmentType } from "../../context/SettingsContext";
+import Header from "../../components/Header";
 
 interface EquipmentOption {
   id: EquipmentType;
