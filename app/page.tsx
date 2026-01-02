@@ -1169,7 +1169,7 @@ export default function LandingPage() {
                       +
                     </span>
                   </summary>
-                  <div className="px-6 pb-6 pt-0">
+                  <div className="px-6 py-6">
                     <p className="text-text-secondary leading-relaxed">
                       {faq.a}
                     </p>
