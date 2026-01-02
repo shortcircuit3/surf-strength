@@ -132,10 +132,7 @@ export default async function BlogPostPage({ params }: Props) {
                 built-in mobility work.
               </p>
             </div>
-            <Link
-              href="/landing"
-              className="landing-btn-primary whitespace-nowrap"
-            >
+            <Link href="/" className="landing-btn-primary whitespace-nowrap">
               View Program →
             </Link>
           </div>
@@ -166,7 +163,7 @@ export default async function BlogPostPage({ params }: Props) {
       <footer className="py-8 bg-bg-primary border-t border-border">
         <div className="max-w-3xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <Link href="/landing" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
               <span className="text-xl">🏄</span>
               <span
                 className="text-lg text-text-primary tracking-wider"
@@ -184,4 +181,3 @@ export default async function BlogPostPage({ params }: Props) {
     </div>
   );
 }
-
