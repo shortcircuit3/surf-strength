@@ -2,4 +2,4 @@
 buildCommand = "npm run build"
 
 [deploy]
-startCommand = "npm run start"
+startCommand = "npx --yes dbmate --no-dump-schema up && npm run start"
