@@ -609,8 +609,6 @@ details[open] summary {
 
 .prose h2 {
   font-size: 2rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .prose h3 {
