@@ -180,7 +180,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-animated">
-      <Header />
+      <Header isSettingsPage />
 
       <main className="max-w-2xl mx-auto px-6 py-8">
         {/* Back Navigation */}

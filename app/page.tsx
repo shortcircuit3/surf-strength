@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Header from "./components/Header";
 import WeekCard from "./components/WeekCard";
 import MobileCalendar from "./components/MobileCalendar";
-import { workoutPlan } from "./data/workouts";
+import YouTubeModal, { YouTubePreview } from "./components/YouTubeModal";
+import { workoutPlan, RIR_EXPLANATION } from "./data/workouts";
 import { useProgress } from "./context/ProgressContext";
 import { useSettings, EquipmentType } from "./context/SettingsContext";
 
@@ -20,6 +22,8 @@ export default function Home() {
   const { getTotalProgress, progress, resetProgress } = useProgress();
   const { settings } = useSettings();
   const totalProgress = getTotalProgress();
+  const [showRirModal, setShowRirModal] = useState(false);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   return (
     <>
@@ -57,19 +61,44 @@ export default function Home() {
                 "Always 2 RIR",
                 "Explosive intent",
                 "Feel better than you started",
-              ].map((rule, i) => (
-                <span
-                  key={rule}
-                  className="stat-pill text-sm opacity-0 animate-fade-in"
-                  style={{
-                    animationDelay: `${0.3 + i * 0.05}s`,
-                    animationFillMode: "forwards",
-                  }}
-                >
-                  <span className="text-accent-primary mr-2">✓</span>
-                  {rule}
-                </span>
-              ))}
+              ].map((rule, i) => {
+                const isRirRule = rule === "Always 2 RIR";
+                return (
+                  <button
+                    key={rule}
+                    onClick={
+                      isRirRule ? () => setShowRirModal(true) : undefined
+                    }
+                    className={`stat-pill text-sm opacity-0 animate-fade-in inline-flex items-center ${
+                      isRirRule
+                        ? "cursor-pointer hover:border-accent-primary transition-colors"
+                        : "cursor-default"
+                    }`}
+                    style={{
+                      animationDelay: `${0.3 + i * 0.05}s`,
+                      animationFillMode: "forwards",
+                    }}
+                  >
+                    <span className="text-accent-primary mr-2">✓</span>
+                    {rule}
+                    {isRirRule && (
+                      <svg
+                        className="w-4 h-4 ml-1.5 text-text-muted"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -164,6 +193,82 @@ export default function Home() {
           </div>
         </main>
       </div>
+
+      {/* RIR Explanation Modal */}
+      {showRirModal && (
+        <div
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowRirModal(false)}
+        >
+          <div
+            className="bg-bg-card border border-border rounded-2xl p-6 max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3
+                className="text-xl font-bold text-text-primary"
+                style={{ fontFamily: "var(--font-bebas)" }}
+              >
+                {RIR_EXPLANATION.title}
+              </h3>
+              <button
+                onClick={() => setShowRirModal(false)}
+                className="text-text-muted hover:text-text-primary transition-colors"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <p className="text-text-secondary mb-4">
+              {RIR_EXPLANATION.description}
+            </p>
+            <div className="space-y-2 mb-4">
+              {RIR_EXPLANATION.examples.map((ex) => (
+                <div key={ex.rir} className="flex items-center gap-3">
+                  <span className="font-mono text-accent-primary font-semibold w-16">
+                    {ex.rir}
+                  </span>
+                  <span className="text-text-muted">{ex.meaning}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm text-accent-secondary italic">
+              {RIR_EXPLANATION.recommendation}
+            </p>
+
+            {RIR_EXPLANATION.youtube && (
+              <div className="mt-4">
+                <YouTubePreview
+                  url={RIR_EXPLANATION.youtube}
+                  alt="RIR Explanation Video"
+                  onClick={() => {
+                    setShowRirModal(false);
+                    setActiveVideo(RIR_EXPLANATION.youtube!);
+                  }}
+                  className="w-full aspect-video rounded-xl"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* YouTube Video Modal */}
+      <YouTubeModal
+        videoUrl={activeVideo}
+        onClose={() => setActiveVideo(null)}
+      />
     </>
   );
 }
