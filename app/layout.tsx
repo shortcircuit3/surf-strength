@@ -35,6 +35,18 @@ export default function RootLayout({
           <ProgressProvider>{children}</ProgressProvider>
         </SettingsProvider>
         <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-VWHSXJX3PT"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-VWHSXJX3PT');
+          `}
+        </Script>
+        <Script
           id="helpscout-beacon"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
