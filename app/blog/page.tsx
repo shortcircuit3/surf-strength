@@ -106,7 +106,9 @@ export default function BlogPage() {
 
         {posts.length === 0 && (
           <div className="text-center py-16">
-            <p className="text-text-secondary text-lg">No posts yet. Check back soon!</p>
+            <p className="text-text-secondary text-lg">
+              No posts yet. Check back soon!
+            </p>
           </div>
         )}
       </main>
@@ -125,7 +127,7 @@ export default function BlogPage() {
             strength program.
           </p>
           <Link
-            href="/landing"
+            href="/"
             className="landing-btn-primary inline-flex items-center gap-2"
           >
             View the Program
@@ -138,7 +140,7 @@ export default function BlogPage() {
       <footer className="py-8 bg-bg-primary border-t border-border">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <Link href="/landing" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
               <span className="text-xl">🏄</span>
               <span
                 className="text-lg text-text-primary tracking-wider"
@@ -156,4 +158,3 @@ export default function BlogPage() {
     </div>
   );
 }
-

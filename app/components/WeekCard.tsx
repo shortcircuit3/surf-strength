@@ -38,7 +38,7 @@ export default function WeekCard({ week, weekIndex }: WeekCardProps) {
           return (
             <Link
               key={day.id}
-              href={`/day/${day.id}`}
+              href={`/workouts/day/${day.id}`}
               className={`
                 workout-card p-4 min-h-[140px] flex flex-col
                 ${isComplete ? "completed" : ""}

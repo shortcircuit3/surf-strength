@@ -19,7 +19,7 @@ export default function Header({ isSettingsPage = false }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/workouts" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center">
               <svg
                 className="w-6 h-6 text-bg-primary"
@@ -138,7 +138,7 @@ export default function Header({ isSettingsPage = false }: HeaderProps) {
               </button>
             ) : (
               <Link
-                href="/settings"
+                href="/workouts/settings"
                 className="w-10 h-10 rounded-xl bg-bg-card border border-border hover:border-border-highlight hover:bg-bg-card-hover flex items-center justify-center transition-all"
                 title="Equipment Settings"
               >
