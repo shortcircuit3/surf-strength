@@ -45,7 +45,10 @@ export default function WorkoutDayPage({ params }: PageProps) {
           <h1 className="text-2xl font-bold text-text-primary mb-4">
             Workout not found
           </h1>
-          <Link href="/workouts" className="text-accent-primary hover:underline">
+          <Link
+            href="/workouts"
+            className="text-accent-primary hover:underline"
+          >
             Return to calendar
           </Link>
         </div>

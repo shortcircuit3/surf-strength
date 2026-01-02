@@ -125,4 +125,3 @@ export default function AccessGate({ children }: AccessGateProps) {
   // User has access, render children
   return <>{children}</>;
 }
-

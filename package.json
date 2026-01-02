@@ -4,9 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run db:migrate && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "./dbmate --no-dump-schema migrate || dbmate --no-dump-schema migrate",
+    "db:new": "dbmate new",
+    "db:rollback": "dbmate rollback",
+    "db:status": "dbmate status"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

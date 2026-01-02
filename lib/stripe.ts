@@ -20,4 +20,5 @@ export function getStripe(): Stripe {
 export const SURF_WORKOUT_PRICE_ID = process.env.STRIPE_PRICE_ID || "";
 
 // App URL for redirects
-export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+export const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

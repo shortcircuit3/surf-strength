@@ -51,7 +51,7 @@ function SuccessContent() {
         };
         localStorage.setItem("surf-workout-access", JSON.stringify(stored));
         setIsSuccess(true);
-        
+
         // Redirect to workouts after a brief delay
         setTimeout(() => {
           router.push("/workouts");
@@ -101,7 +101,8 @@ function SuccessContent() {
               PAYMENT SUCCESSFUL!
             </h1>
             <p className="text-text-secondary">
-              Thank you for your purchase! Enter the email you used at checkout to access your workouts.
+              Thank you for your purchase! Enter the email you used at checkout
+              to access your workouts.
             </p>
           </div>
 
@@ -152,7 +153,8 @@ function SuccessContent() {
 
           <div className="mt-6 text-center">
             <p className="text-text-muted text-sm mb-4">
-              Payment processing can take 1-2 minutes. If you don&apos;t see your access immediately, please wait and try again.
+              Payment processing can take 1-2 minutes. If you don&apos;t see
+              your access immediately, please wait and try again.
             </p>
             <Link
               href="/"
