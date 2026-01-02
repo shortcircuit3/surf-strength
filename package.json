@@ -7,10 +7,10 @@
     "build": "npm run db:migrate && next build",
     "start": "next start",
     "lint": "eslint",
-    "db:migrate": "./dbmate --no-dump-schema migrate || dbmate --no-dump-schema migrate",
-    "db:new": "dbmate new",
-    "db:rollback": "dbmate rollback",
-    "db:status": "dbmate status"
+    "db:migrate": "npx --yes dbmate --no-dump-schema migrate",
+    "db:new": "npx --yes dbmate new",
+    "db:rollback": "npx --yes dbmate rollback",
+    "db:status": "npx --yes dbmate status"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

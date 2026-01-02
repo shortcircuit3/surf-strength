@@ -1,5 +1,5 @@
 [build]
-buildCommand = "curl -fsSL -o ./dbmate https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64 && chmod +x ./dbmate && npm ci && npm run build"
+buildCommand = "npm ci && npm run build"
 
 [deploy]
 startCommand = "npm run start"
