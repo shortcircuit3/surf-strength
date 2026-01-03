@@ -17,7 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const messages = (await import(`@/messages/${locale}.json`)).default;
-  
+
   return {
     title: messages.metadata.title,
     description: messages.metadata.description,
@@ -32,9 +32,9 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  
+
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as typeof routing.locales[number])) {
+  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
 
@@ -52,4 +52,3 @@ export default async function LocaleLayout({
     </NextIntlClientProvider>
   );
 }
-
