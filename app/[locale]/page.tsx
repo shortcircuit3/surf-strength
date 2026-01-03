@@ -64,7 +64,7 @@ export default async function LandingPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  
+
   const t = await getTranslations();
 
   const trustBadges = [
@@ -321,7 +321,8 @@ export default async function LandingPage({
             }}
           >
             <span className="sr-only">{t("hero.srTitle")}</span>
-            {t("hero.title1")} <span className="text-gradient">{t("hero.titleHighlight")}</span>
+            {t("hero.title1")}{" "}
+            <span className="text-gradient">{t("hero.titleHighlight")}</span>
             <br />
             {t("hero.title2")}
           </h1>
@@ -331,9 +332,13 @@ export default async function LandingPage({
             style={{ animationDelay: "0.5s", animationFillMode: "forwards" }}
           >
             {t("hero.description")}{" "}
-            <span className="text-text-primary font-medium">{t("hero.paddleLonger")}</span>
+            <span className="text-text-primary font-medium">
+              {t("hero.paddleLonger")}
+            </span>
             ,{" "}
-            <span className="text-text-primary font-medium">{t("hero.popUpFaster")}</span>
+            <span className="text-text-primary font-medium">
+              {t("hero.popUpFaster")}
+            </span>
             , and{" "}
             <span className="text-text-primary font-medium">
               {t("hero.stayInjuryFree")}
@@ -395,7 +400,9 @@ export default async function LandingPage({
           aria-hidden="true"
         >
           <div className="flex flex-col items-center gap-2 text-text-muted">
-            <span className="text-xs uppercase tracking-widest">{t("hero.scroll")}</span>
+            <span className="text-xs uppercase tracking-widest">
+              {t("hero.scroll")}
+            </span>
             <div className="w-6 h-10 rounded-full border-2 border-text-muted/30 flex justify-center pt-2">
               <div className="w-1.5 h-3 bg-text-muted/50 rounded-full animate-bounce" />
             </div>
@@ -409,10 +416,18 @@ export default async function LandingPage({
           <div className="max-w-6xl mx-auto px-6">
             <p className="text-center text-xl text-text-secondary italic">
               &ldquo;Designed for surfers who want to stay{" "}
-              <span className="text-text-primary font-medium">{t("socialProof.light")}</span>,{" "}
-              <span className="text-text-primary font-medium">{t("socialProof.mobile")}</span>, and{" "}
-              <span className="text-text-primary font-medium">{t("socialProof.powerful")}</span> —
-              in and out of the water.&rdquo;
+              <span className="text-text-primary font-medium">
+                {t("socialProof.light")}
+              </span>
+              ,{" "}
+              <span className="text-text-primary font-medium">
+                {t("socialProof.mobile")}
+              </span>
+              , and{" "}
+              <span className="text-text-primary font-medium">
+                {t("socialProof.powerful")}
+              </span>{" "}
+              — in and out of the water.&rdquo;
             </p>
           </div>
         </div>
@@ -435,9 +450,7 @@ export default async function LandingPage({
                 >
                   {t("problem.title1")}
                   <br />
-                  <span className="text-gradient">
-                    {t("problem.title2")}
-                  </span>
+                  <span className="text-gradient">{t("problem.title2")}</span>
                 </h2>
                 <p className="text-text-secondary text-lg mb-8 leading-relaxed">
                   {t("problem.description")}
@@ -504,6 +517,15 @@ export default async function LandingPage({
               <p className="text-text-secondary text-lg max-w-3xl mx-auto leading-relaxed">
                 {t("solution.description")}
               </p>
+              <div className="mt-6">
+                <Link
+                  href="/blog/surf-workout-routine"
+                  className="inline-flex items-center gap-2 text-accent-primary hover:text-ocean-light transition-colors text-sm font-medium"
+                >
+                  <span>Read: The Complete Surf Workout Guide</span>
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
@@ -715,7 +737,9 @@ export default async function LandingPage({
                       >
                         {t("equipment.yourEquipment")}
                       </h4>
-                      <span className="text-text-muted text-sm">{t("equipment.settings")}</span>
+                      <span className="text-text-muted text-sm">
+                        {t("equipment.settings")}
+                      </span>
                     </div>
                     <div className="space-y-3">
                       {equipmentOptions.map((eq, i) => (
@@ -1040,7 +1064,9 @@ export default async function LandingPage({
                     </div>
                     <div className="mt-6 pt-4 border-t border-border">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-text-muted">{t("app.progress")}</span>
+                        <span className="text-text-muted">
+                          {t("app.progress")}
+                        </span>
                         <span className="text-accent-primary font-medium">
                           50%
                         </span>
@@ -1102,9 +1128,7 @@ export default async function LandingPage({
                       {t("pricing.price")}
                     </span>
                   </div>
-                  <p className="text-text-muted">
-                    {t("pricing.lifetime")}
-                  </p>
+                  <p className="text-text-muted">{t("pricing.lifetime")}</p>
                 </div>
 
                 <ul className="space-y-4 mb-8">
@@ -1237,9 +1261,7 @@ export default async function LandingPage({
               >
                 {t("nav.blog")}
               </Link>
-              <p className="text-text-muted text-sm">
-                {t("footer.tagline")}
-              </p>
+              <p className="text-text-muted text-sm">{t("footer.tagline")}</p>
             </div>
           </div>
         </div>
