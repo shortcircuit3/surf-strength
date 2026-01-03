@@ -13,21 +13,17 @@ interface AccessState {
   email: string | null;
   isLoading: boolean;
   isVerifying: boolean;
+  magicLinkSent: boolean;
+  error: string | null;
 }
 
 interface AccessContextType extends AccessState {
-  verifyEmail: (email: string) => Promise<boolean>;
-  logout: () => void;
+  sendMagicLink: (email: string) => Promise<boolean>;
+  logout: () => Promise<void>;
+  clearError: () => void;
 }
 
 const AccessContext = createContext<AccessContextType | undefined>(undefined);
-
-const ACCESS_STORAGE_KEY = "surf-workout-access";
-
-interface StoredAccess {
-  email: string;
-  verifiedAt: string;
-}
 
 export function AccessProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AccessState>({
@@ -35,75 +31,85 @@ export function AccessProvider({ children }: { children: ReactNode }) {
     email: null,
     isLoading: true,
     isVerifying: false,
+    magicLinkSent: false,
+    error: null,
   });
 
-  // Check for stored access on mount
+  // Check session on mount
   useEffect(() => {
-    const checkStoredAccess = async () => {
-      const stored = localStorage.getItem(ACCESS_STORAGE_KEY);
-
-      if (!stored) {
-        setState((prev) => ({ ...prev, isLoading: false }));
-        return;
-      }
-
+    const checkSession = async () => {
       try {
-        const { email: storedEmail } = JSON.parse(stored) as StoredAccess;
-
-        const response = await fetch("/api/verify-access", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: storedEmail }),
-        });
-
+        const response = await fetch("/api/auth/session");
         const data = await response.json();
 
-        if (data.hasAccess) {
+        if (data.authenticated && data.hasAccess) {
           setState({
             hasAccess: true,
             email: data.email,
             isLoading: false,
             isVerifying: false,
+            magicLinkSent: false,
+            error: null,
           });
         } else {
-          localStorage.removeItem(ACCESS_STORAGE_KEY);
-          setState({
+          setState((prev) => ({
+            ...prev,
             hasAccess: false,
             email: null,
             isLoading: false,
-            isVerifying: false,
-          });
+          }));
         }
       } catch {
-        // On parse error, clear storage; on network error, keep offline access
-        const stored2 = localStorage.getItem(ACCESS_STORAGE_KEY);
-        if (stored2) {
-          try {
-            const { email: offlineEmail } = JSON.parse(stored2) as StoredAccess;
-            setState((prev) => ({
-              ...prev,
-              hasAccess: true,
-              email: offlineEmail,
-              isLoading: false,
-            }));
-          } catch {
-            localStorage.removeItem(ACCESS_STORAGE_KEY);
-            setState((prev) => ({ ...prev, isLoading: false }));
-          }
-        } else {
-          setState((prev) => ({ ...prev, isLoading: false }));
-        }
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+        }));
       }
     };
 
-    checkStoredAccess();
+    checkSession();
   }, []);
 
-  const verifyEmail = async (email: string): Promise<boolean> => {
-    setState((prev) => ({ ...prev, isVerifying: true }));
+  // Check for error params in URL (from magic link redirect)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const errorParam = params.get("error");
+
+    if (errorParam) {
+      const errorMessages: Record<string, string> = {
+        invalid_link: "Invalid sign-in link. Please request a new one.",
+        expired_link:
+          "This sign-in link has expired. Please request a new one.",
+        session_failed: "Failed to create session. Please try again.",
+        verification_failed: "Verification failed. Please try again.",
+      };
+
+      // Use a microtask to avoid synchronous setState in effect
+      queueMicrotask(() => {
+        setState((prev) => ({
+          ...prev,
+          error:
+            errorMessages[errorParam] || "An error occurred. Please try again.",
+        }));
+      });
+
+      // Clean up URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("error");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, []);
+
+  const sendMagicLink = async (email: string): Promise<boolean> => {
+    setState((prev) => ({
+      ...prev,
+      isVerifying: true,
+      magicLinkSent: false,
+      error: null,
+    }));
 
     try {
-      const response = await fetch("/api/verify-access", {
+      const response = await fetch("/api/auth/send-magic-link", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -111,49 +117,56 @@ export function AccessProvider({ children }: { children: ReactNode }) {
 
       const data = await response.json();
 
-      if (data.hasAccess) {
-        // Store access in localStorage
-        const stored: StoredAccess = {
-          email: data.email,
-          verifiedAt: new Date().toISOString(),
-        };
-        localStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify(stored));
-
-        setState({
-          hasAccess: true,
-          email: data.email,
-          isLoading: false,
+      if (!response.ok) {
+        setState((prev) => ({
+          ...prev,
           isVerifying: false,
-        });
-        return true;
+          error: data.error || "Failed to send sign-in link",
+        }));
+        return false;
       }
 
       setState((prev) => ({
         ...prev,
         isVerifying: false,
+        magicLinkSent: true,
       }));
-      return false;
+      return true;
     } catch {
       setState((prev) => ({
         ...prev,
         isVerifying: false,
+        error: "Failed to send sign-in link. Please try again.",
       }));
       return false;
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem(ACCESS_STORAGE_KEY);
+  const logout = async (): Promise<void> => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch {
+      console.error("Logout failed");
+    }
+
     setState({
       hasAccess: false,
       email: null,
       isLoading: false,
       isVerifying: false,
+      magicLinkSent: false,
+      error: null,
     });
   };
 
+  const clearError = () => {
+    setState((prev) => ({ ...prev, error: null }));
+  };
+
   return (
-    <AccessContext.Provider value={{ ...state, verifyEmail, logout }}>
+    <AccessContext.Provider
+      value={{ ...state, sendMagicLink, logout, clearError }}
+    >
       {children}
     </AccessContext.Provider>
   );

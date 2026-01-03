@@ -9,26 +9,36 @@ interface AccessGateProps {
 }
 
 export default function AccessGate({ children }: AccessGateProps) {
-  const { hasAccess, isLoading, isVerifying, verifyEmail } = useAccess();
+  const {
+    hasAccess,
+    isLoading,
+    isVerifying,
+    magicLinkSent,
+    error: contextError,
+    sendMagicLink,
+    clearError,
+  } = useAccess();
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [localError, setLocalError] = useState("");
+
+  const error = contextError || localError;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError("");
+    setLocalError("");
+    clearError();
 
     if (!email.trim()) {
-      setError("Please enter your email");
+      setLocalError("Please enter your email");
       return;
     }
 
-    const success = await verifyEmail(email.trim());
+    await sendMagicLink(email.trim());
+  };
 
-    if (!success) {
-      setError(
-        "No purchase found for this email. Please use the email you used at checkout."
-      );
-    }
+  const handleResend = () => {
+    clearError();
+    sendMagicLink(email.trim());
   };
 
   // Show loading state
@@ -57,53 +67,100 @@ export default function AccessGate({ children }: AccessGateProps) {
               SURF STRENGTH
             </h1>
             <p className="text-text-secondary">
-              Enter the email you used to purchase to access your workouts
+              {magicLinkSent
+                ? "Check your email for the sign-in link"
+                : "Enter the email you used to purchase to access your workouts"}
             </p>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="bg-bg-card rounded-2xl border border-border p-6 shadow-xl"
-          >
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-text-secondary text-sm mb-2"
-              >
-                Purchase Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary transition-colors"
-                disabled={isVerifying}
-              />
-            </div>
-
-            {error && (
-              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
-                {error}
+          {magicLinkSent ? (
+            // Success state - magic link sent
+            <div className="bg-bg-card rounded-2xl border border-border p-6 shadow-xl text-center">
+              <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+                <svg
+                  className="w-8 h-8 text-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
               </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isVerifying}
-              className="w-full py-3 px-4 rounded-xl bg-accent-primary hover:bg-accent-hover text-bg-primary font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              <h2 className="text-xl font-semibold text-text-primary mb-2">
+                Check your inbox!
+              </h2>
+              <p className="text-text-secondary mb-6">
+                We sent a sign-in link to{" "}
+                <span className="text-text-primary font-medium">{email}</span>.
+                Click the link to access your workouts.
+              </p>
+              <p className="text-text-muted text-sm mb-4">
+                The link expires in 15 minutes.
+              </p>
+              <button
+                onClick={handleResend}
+                disabled={isVerifying}
+                className="text-accent-primary hover:text-accent-hover transition-colors text-sm font-medium disabled:opacity-50"
+              >
+                {isVerifying ? "Sending..." : "Didn't receive it? Send again"}
+              </button>
+            </div>
+          ) : (
+            // Email input form
+            <form
+              onSubmit={handleSubmit}
+              className="bg-bg-card rounded-2xl border border-border p-6 shadow-xl"
             >
-              {isVerifying ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-bg-primary border-t-transparent rounded-full animate-spin" />
-                  Verifying...
-                </>
-              ) : (
-                "Access Workouts"
+              <div className="mb-4">
+                <label
+                  htmlFor="email"
+                  className="block text-text-secondary text-sm mb-2"
+                >
+                  Purchase Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-primary transition-colors"
+                  disabled={isVerifying}
+                />
+              </div>
+
+              {error && (
+                <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                  {error}
+                </div>
               )}
-            </button>
-          </form>
+
+              <button
+                type="submit"
+                disabled={isVerifying}
+                className="w-full py-3 px-4 rounded-xl bg-accent-primary hover:bg-accent-hover text-bg-primary font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isVerifying ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-bg-primary border-t-transparent rounded-full animate-spin" />
+                    Sending Link...
+                  </>
+                ) : (
+                  "Send Sign-In Link"
+                )}
+              </button>
+
+              <p className="text-text-muted text-xs text-center mt-4">
+                We&apos;ll email you a secure link to sign in. No password
+                needed.
+              </p>
+            </form>
+          )}
 
           <div className="mt-6 text-center space-y-4">
             <p className="text-text-muted text-sm">
