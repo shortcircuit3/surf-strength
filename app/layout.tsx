@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Bebas_Neue } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import { ProgressProvider } from "./context/ProgressContext";
-import { SettingsProvider } from "./context/SettingsContext";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -33,11 +31,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable} ${bebasNeue.variable} antialiased`}>
-        <SettingsProvider>
-          <ProgressProvider>{children}</ProgressProvider>
-        </SettingsProvider>
+        {children}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-VWHSXJX3PT"
           strategy="afterInteractive"
