@@ -1,6 +1,8 @@
 "use client";
 
 import { AccessProvider } from "../context/AccessContext";
+import { ProgressProvider } from "../context/ProgressContext";
+import { SettingsProvider } from "../context/SettingsContext";
 import AccessGate from "../components/AccessGate";
 
 export default function WorkoutsLayout({
@@ -10,7 +12,11 @@ export default function WorkoutsLayout({
 }) {
   return (
     <AccessProvider>
-      <AccessGate>{children}</AccessGate>
+      <ProgressProvider>
+        <SettingsProvider>
+          <AccessGate>{children}</AccessGate>
+        </SettingsProvider>
+      </ProgressProvider>
     </AccessProvider>
   );
 }
