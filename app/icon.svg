@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0a830"/>
+      <stop offset="100%" stop-color="#e8913a"/>
+    </linearGradient>
+    <linearGradient id="ocean-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a8fb7"/>
+      <stop offset="100%" stop-color="#1a4f67"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="#0a0f14" stroke="url(#wave-gradient)" stroke-width="1"/>
+  <!-- Wave curl - main -->
+  <path d="M6 18c2-4 5-7 10-7s6 3 10 5" stroke="url(#wave-gradient)" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Wave curl - secondary -->
+  <path d="M8 22c3-3 5-4 8-4s5 1 8 3" stroke="url(#ocean-gradient)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Spray dots -->
+  <circle cx="9" cy="13" r="1.2" fill="#f0a830" opacity="0.9"/>
+  <circle cx="12" cy="10" r="1" fill="#e8913a" opacity="0.7"/>
+  <circle cx="15" cy="9" r="0.8" fill="#f0a830" opacity="0.6"/>
+</svg>
+
