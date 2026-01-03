@@ -1,13 +1,11 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 import { validateSession } from "@/lib/auth";
 
 const SESSION_COOKIE_NAME = "surf-session";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+    const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value;
 
     if (!sessionToken) {
       return NextResponse.json({
@@ -20,11 +18,12 @@ export async function GET() {
 
     if (!session) {
       // Clear invalid session cookie
-      cookieStore.delete(SESSION_COOKIE_NAME);
-      return NextResponse.json({
+      const response = NextResponse.json({
         authenticated: false,
         hasAccess: false,
       });
+      response.cookies.delete(SESSION_COOKIE_NAME);
+      return response;
     }
 
     return NextResponse.json({

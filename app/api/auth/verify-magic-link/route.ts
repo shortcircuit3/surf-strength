@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyMagicLink, createSession } from "@/lib/auth";
-import { cookies } from "next/headers";
 
 const SESSION_COOKIE_NAME = "surf-session";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -40,15 +39,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Set session cookie
+    // Create redirect response with session cookie
     const response = NextResponse.redirect(new URL("/workouts", APP_URL));
-    const cookieStore = await cookies();
 
-    cookieStore.set(SESSION_COOKIE_NAME, sessionToken, {
+    // Set cookie directly on the response
+    const isProduction = process.env.NODE_ENV === "production";
+    const maxAge = 30 * 24 * 60 * 60; // 30 days
+
+    response.cookies.set(SESSION_COOKIE_NAME, sessionToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
       sameSite: "lax",
-      maxAge: 30 * 24 * 60 * 60, // 30 days
+      maxAge,
       path: "/",
     });
 
