@@ -64,13 +64,13 @@ export default function WorkoutDayPage({ params }: PageProps) {
 
   const handleNext = () => {
     if (dayId < 28) {
-      router.push(`/day/${dayId + 1}`);
+      router.push(`/workouts/day/${dayId + 1}`);
     }
   };
 
   const handlePrev = () => {
     if (dayId > 1) {
-      router.push(`/day/${dayId - 1}`);
+      router.push(`/workouts/day/${dayId - 1}`);
     }
   };
 
