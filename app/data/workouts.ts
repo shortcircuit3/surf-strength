@@ -404,6 +404,14 @@ const PULLUPBAR_EXERCISES: Record<string, BaseExercise> = {
 
 // Bodyweight exercises (alternatives)
 const BODYWEIGHT_EXERCISES: Record<string, BaseExercise> = {
+  hollowBodyHold: {
+    name: "Hollow Body Hold",
+    load: "BW",
+    equipment: "bodyweight",
+    defaultNotes:
+      "Lie on back, lift shoulders and legs, keep lower back pressed down. Arms overhead for max difficulty. Maintain tight abs and steady breath.",
+    youtube: "https://www.youtube.com/watch?v=BQCdzRPE9Ao",
+  },
   proneRow: {
     name: "Prone Y-T-W Raises",
     load: "BW",
@@ -937,13 +945,6 @@ export const DAILY_MOBILITY: MobilityBlock[] = [
       },
       {
         id: nextMobilityId(),
-        name: "Scapula Push-Ups",
-        reps: "8-10",
-        notes: "Push floor away at top, let shoulder blades pinch at bottom.",
-        youtube: "https://www.youtube.com/watch?v=NKekqeudgWs",
-      },
-      {
-        id: nextMobilityId(),
         name: "Neck CARs",
         reps: "2 circles each way",
         notes: "Slow, controlled circles. Don't force range.",
@@ -1035,13 +1036,12 @@ const week1: Week = {
       dayOfWeek: "Monday",
       title: "UPPER PULL",
       subtitle: "Paddling Engine",
-      shoulderFinisher: SHOULDER_FINISHER_A,
       exercises:
         (resetIdCounter(),
         [
           // 1. PRIMARY HORIZONTAL PULL (Strength)
           ex("chestSupportedRow", {
-            sets: "3",
+            sets: "4",
             reps: "6-8",
             tempo: "3s down",
             rest: "90 sec",
@@ -1049,7 +1049,7 @@ const week1: Week = {
           }),
           // 2. VERTICAL PULL (Paddle Specific)
           ex("pullUps", {
-            sets: "3",
+            sets: "4",
             reps: "5-8",
             rest: "90 sec",
             notes: "Full ROM. Scale with band if needed.",
@@ -1068,12 +1068,13 @@ const week1: Week = {
             rest: "30-45 sec",
             notes: "Walk tall, don't lean. Build board balance stability.",
           }),
-          // 5. GRIP FINISHER
-          ex("deadHang", {
+          // 5. CORE STABILITY (Surf Transfer)
+          ex("hollowBodyHold", {
             sets: "3",
-            time: "30-60 sec",
-            rest: "60 sec",
-            notes: "Finisher. Shoulders decompress. Build grip endurance.",
+            time: "25-30 sec",
+            rest: "45 sec",
+            notes:
+              "Bent knees. Posterior pelvic tilt. Low back flat to floor. Ribs down. Slow nasal breathing. Learn shape and trunk stiffness.",
           }),
         ]),
     },
@@ -1252,12 +1253,13 @@ const week2: Week = {
             rest: "30-45 sec",
             notes: "Extended time. Stay tall, breathe steadily.",
           }),
-          // 6. GRIP FINISHER
-          ex("deadHang", {
+          // 6. CORE STABILITY (Surf Transfer)
+          ex("hollowBodyHold", {
             sets: "3",
-            time: "40-75 sec",
-            rest: "60 sec",
-            notes: "Finisher. Extended time from Week 1. Grip endurance.",
+            time: "30-35 sec",
+            rest: "45 sec",
+            notes:
+              "One leg extended. Maintain pelvic tilt. No rib flare. Breathing stays calm. Increase leverage without losing control.",
           }),
         ]),
     },
@@ -1436,12 +1438,13 @@ const week3: Week = {
             notes:
               "Max 45 sec. Stay perfectly vertical. Limit grip fatigue stacking.",
           }),
-          // 6. GRIP FINISHER (capped)
-          ex("deadHang", {
+          // 6. CORE STABILITY (Surf Transfer)
+          ex("hollowBodyHold", {
             sets: "3",
-            time: "30-60 sec",
+            time: "35-40 sec",
             rest: "45 sec",
-            notes: "Cap at 60 sec. End early if shoulders start shrugging.",
+            notes:
+              "Full hollow body. Posterior tilt first, then extend legs. Arms overhead if control allows. No shaking through lumbar spine. Maximize trunk stiffness under tension.",
           }),
         ]),
     },
@@ -1629,12 +1632,13 @@ const week4: Week = {
             rest: "30 sec",
             notes: "Low-cost trunk activation. Stay fresh.",
           }),
-          // 6. GRIP FINISHER (submax)
-          ex("deadHang", {
-            sets: "2",
-            time: "Submax (70-80% of best)",
-            rest: "90 sec",
-            notes: "Decompression only. No max holds. Stop before shrugging.",
+          // 6. CORE STABILITY (Surf Transfer)
+          ex("hollowBodyHold", {
+            sets: "3",
+            time: "25-30 sec",
+            rest: "45 sec",
+            notes:
+              "Full hollow body. Slow nasal breathing only. Long exhales. Perfect shape over duration. Deload volume, improve breathing and control.",
           }),
         ]),
     },
