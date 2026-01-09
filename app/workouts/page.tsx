@@ -16,6 +16,7 @@ const EQUIPMENT_LABELS: Record<EquipmentType, string> = {
   dumbbells: "Dumbbells",
   kettlebell: "Kettlebell",
   pullupbar: "Pull-Up Bar",
+  "assault bike": "Assault Bike",
 };
 
 export default function WorkoutsHome() {

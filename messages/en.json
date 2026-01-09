@@ -113,7 +113,9 @@
       "bands": "Bands",
       "bandsDesc": "Portable resistance",
       "bodyweight": "Bodyweight",
-      "bodyweightDesc": "Always available"
+      "bodyweightDesc": "Always available",
+      "assaultBike": "Assault Bike",
+      "assaultBikeDesc": "Cardio intervals"
     },
     "adaptNote": "Workouts adapt instantly to your selections"
   },

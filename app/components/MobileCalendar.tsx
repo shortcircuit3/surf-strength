@@ -13,6 +13,7 @@ const EQUIPMENT_LABELS: Record<EquipmentType, string> = {
   dumbbells: "Dumbbells",
   kettlebell: "Kettlebell",
   pullupbar: "Pull-up bar",
+  "assault bike": "Assault Bike",
 };
 
 export default function MobileCalendar() {

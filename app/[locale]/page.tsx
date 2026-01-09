@@ -160,6 +160,11 @@ export default async function LandingPage({
       name: t("equipment.options.bodyweight"),
       desc: t("equipment.options.bodyweightDesc"),
     },
+    {
+      icon: "🚴",
+      name: t("equipment.options.assaultBike"),
+      desc: t("equipment.options.assaultBikeDesc"),
+    },
   ];
 
   const yesReasons = [

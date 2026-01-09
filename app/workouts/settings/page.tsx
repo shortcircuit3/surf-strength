@@ -171,6 +171,38 @@ const EQUIPMENT_OPTIONS: EquipmentOption[] = [
       </svg>
     ),
   },
+  {
+    id: "assault bike",
+    name: "Assault Bike",
+    description: "Air bike for cardio intervals",
+    icon: (
+      <svg
+        className="w-8 h-8"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+      >
+        {/* Wheels */}
+        <circle cx="5" cy="17" r="3" strokeWidth={1.5} />
+        <circle cx="19" cy="17" r="3" strokeWidth={1.5} />
+        {/* Frame */}
+        <path
+          d="M5 17L9 9L12 12L15 9L19 17"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Seat */}
+        <line x1="9" y1="9" x2="9" y2="6" strokeWidth={1.5} strokeLinecap="round" />
+        <line x1="7" y1="6" x2="11" y2="6" strokeWidth={2} strokeLinecap="round" />
+        {/* Handlebars */}
+        <line x1="15" y1="9" x2="15" y2="5" strokeWidth={1.5} strokeLinecap="round" />
+        <line x1="13" y1="5" x2="17" y2="5" strokeWidth={2} strokeLinecap="round" />
+        {/* Fan/resistance */}
+        <circle cx="12" cy="14" r="2" strokeWidth={1.5} />
+      </svg>
+    ),
+  },
 ];
 
 export default function SettingsPage() {

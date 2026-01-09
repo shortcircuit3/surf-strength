@@ -12,7 +12,8 @@ export type EquipmentType =
   | "bands"
   | "dumbbells"
   | "kettlebell"
-  | "pullupbar";
+  | "pullupbar"
+  | "assault bike";
 
 interface Settings {
   equipment: EquipmentType[];
@@ -33,7 +34,7 @@ const STORAGE_KEY = "surf-workout-settings";
 
 // Default settings - bodyweight is always available
 const DEFAULT_SETTINGS: Settings = {
-  equipment: ["bodyweight", "dumbbells", "kettlebell", "pullupbar"], // Default to full equipment
+  equipment: ["bodyweight", "dumbbells", "kettlebell", "pullupbar", "assault bike"], // Default to full equipment
 };
 
 // Store for settings with subscriber pattern

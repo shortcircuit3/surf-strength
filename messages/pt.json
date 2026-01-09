@@ -113,7 +113,9 @@
       "bands": "Bandas",
       "bandsDesc": "Resistência portátil",
       "bodyweight": "Peso Corporal",
-      "bodyweightDesc": "Sempre disponível"
+      "bodyweightDesc": "Sempre disponível",
+      "assaultBike": "Air Bike",
+      "assaultBikeDesc": "Intervalos cardio"
     },
     "adaptNote": "Os treinos se adaptam instantaneamente às suas seleções"
   },

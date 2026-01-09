@@ -3,7 +3,8 @@ export type EquipmentType =
   | "bands"
   | "dumbbells"
   | "kettlebell"
-  | "pullupbar";
+  | "pullupbar"
+  | "assault bike";
 
 // =============================================================================
 // RIR (REPS IN RESERVE) EXPLANATION
@@ -597,6 +598,18 @@ const BODYWEIGHT_EXERCISES: Record<string, BaseExercise> = {
   },
 };
 
+// Cardio equipment exercises
+const CARDIO_EXERCISES: Record<string, BaseExercise> = {
+  assaultBike: {
+    name: "Assault Bike",
+    load: "BW",
+    equipment: "assault bike",
+    defaultNotes:
+      "Recovery pace. Push/pull rhythm mimics paddle stroke pattern. Nasal breathing. Active recovery for surf conditioning.",
+    youtube: "https://www.youtube.com/watch?v=vU8rQwOCeCU",
+  },
+};
+
 // Combine all exercises for BASE_EXERCISES reference
 const BASE_EXERCISES = {
   ...DUMBBELL_EXERCISES,
@@ -604,6 +617,7 @@ const BASE_EXERCISES = {
   ...PULLUPBAR_EXERCISES,
   ...BAND_EXERCISES,
   ...BODYWEIGHT_EXERCISES,
+  ...CARDIO_EXERCISES,
 } as const;
 
 type BaseExerciseKey = keyof typeof BASE_EXERCISES;
@@ -678,6 +692,9 @@ const EXERCISE_ALTERNATIVES: Record<
   // Kettlebell alternatives
   kettlebellSwing: { bands: "bandPullThrough", bodyweight: "hipThrust" },
 
+  // Cardio equipment alternatives
+  assaultBike: { bodyweight: "easyJog" },
+
   // Push exercises
   halfKneelingPress: { bands: "bandPress", bodyweight: "pikePushUp" },
   floorPress: { bands: "bandChestPress", bodyweight: "pushUps" },
@@ -702,6 +719,7 @@ export function getExerciseKeyForEquipment(
   const hasKettlebell = availableEquipment.includes("kettlebell");
   const hasBands = availableEquipment.includes("bands");
   const hasPullupBar = availableEquipment.includes("pullupbar");
+  const hasAssaultBike = availableEquipment.includes("assault bike");
 
   // Helper to find best alternative
   const findAlternative = (key: string): string => {
@@ -717,6 +735,12 @@ export function getExerciseKeyForEquipment(
     }
     return alternatives.bodyweight;
   };
+
+  // If the base exercise is a cardio equipment exercise (assault bike)
+  if (baseKey in CARDIO_EXERCISES) {
+    if (hasAssaultBike) return baseKey;
+    return findAlternative(baseKey);
+  }
 
   // If the base exercise is a kettlebell exercise
   if (baseKey in KETTLEBELL_EXERCISES) {
@@ -1187,10 +1211,10 @@ const week1: Week = {
             time: "40 sec",
             notes: "Forward/backward. Trunk stability, controlled breathing.",
           }),
-          circuitEx("easyJog", {
+          circuitEx("assaultBike", {
             time: "75 sec",
             notes:
-              "Recovery pace. Nasal breathing. RPE 4-5. Let heart rate drop.",
+              "Recovery pace. Push/pull mimics paddle stroke. Nasal breathing. RPE 4-5. Let heart rate drop.",
           }),
         ]),
     },
@@ -1369,9 +1393,10 @@ const week2: Week = {
             notes:
               "Band at chest, walk sideways. Anti-rotation trunk stability.",
           }),
-          circuitEx("easyJog", {
+          circuitEx("assaultBike", {
             time: "75 sec",
-            notes: "Recovery pace. Nasal breathing. RPE 4-5. Active recovery.",
+            notes:
+              "Recovery pace. Push/pull mimics paddle stroke. Nasal breathing. RPE 4-5. Active recovery.",
           }),
         ]),
     },
@@ -1564,10 +1589,10 @@ const week3: Week = {
             time: "40 sec",
             notes: "Forward/backward. Trunk endurance under fatigue.",
           }),
-          circuitEx("easyJog", {
+          circuitEx("assaultBike", {
             time: "90 sec",
             notes:
-              "Recovery. Nasal breathing. RPE 4-5. Recover for next burst.",
+              "Recovery. Push/pull mimics paddle stroke. Nasal breathing. RPE 4-5. Recover for next burst.",
           }),
         ]),
     },
@@ -1749,10 +1774,10 @@ const week4: Week = {
             notes:
               "Short burst. Maintain speed quality, don't max out. Stay fresh.",
           }),
-          circuitEx("easyJog", {
+          circuitEx("assaultBike", {
             time: "90 sec",
             notes:
-              "Easy recovery pace. Nasal breathing. Finish warm, not tired.",
+              "Easy recovery pace. Push/pull mimics paddle stroke. Nasal breathing. Finish warm, not tired.",
           }),
         ]),
     },
@@ -1801,6 +1826,7 @@ const EXERCISE_NAME_TO_KEY: Record<string, string> = {
   "Bear Crawl": "bearCrawl",
   "Lateral Shuffle": "lateralShuffle",
   "Easy Jog": "easyJog",
+  "Assault Bike": "assaultBike",
   "Overhead Waiter Carry": "overheadWaiterCarry",
   "Close-Grip Push-Ups": "closeGripPushUps",
   "Half-Kneeling Band Overhead Press": "bandPress",
