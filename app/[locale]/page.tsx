@@ -747,48 +747,52 @@ export default async function LandingPage({
                       </span>
                     </div>
                     <div className="space-y-3">
-                      {equipmentOptions.map((eq, i) => (
-                        <div
-                          key={i}
-                          className={`flex items-center justify-between p-4 rounded-xl transition-all ${
-                            i < 3
-                              ? "bg-success/10 border border-success/30"
-                              : "bg-bg-primary/50 border border-border hover:border-border-highlight"
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="text-2xl" aria-hidden="true">
-                              {eq.icon}
-                            </span>
-                            <div>
-                              <span
-                                className={`font-medium ${
-                                  i < 3
-                                    ? "text-text-primary"
-                                    : "text-text-secondary"
-                                }`}
-                              >
-                                {eq.name}
+                      {equipmentOptions.map((eq, i) => {
+                        const isBodyweight = i === 4;
+                        const isActive = i < 3 || isBodyweight;
+                        return (
+                          <div
+                            key={i}
+                            className={`flex items-center justify-between p-4 rounded-xl transition-all ${
+                              isActive
+                                ? "bg-success/10 border border-success/30"
+                                : "bg-bg-primary/50 border border-border hover:border-border-highlight"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl" aria-hidden="true">
+                                {eq.icon}
                               </span>
-                              <p className="text-text-muted text-xs">
-                                {eq.desc}
-                              </p>
+                              <div>
+                                <span
+                                  className={`font-medium ${
+                                    isActive
+                                      ? "text-text-primary"
+                                      : "text-text-secondary"
+                                  }`}
+                                >
+                                  {eq.name}
+                                </span>
+                                <p className="text-text-muted text-xs">
+                                  {eq.desc}
+                                </p>
+                              </div>
+                            </div>
+                            <div
+                              className={`w-10 h-6 rounded-full relative transition-colors ${
+                                isActive ? "bg-success" : "bg-border"
+                              }`}
+                              aria-hidden="true"
+                            >
+                              <div
+                                className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+                                  isActive ? "right-1" : "left-1"
+                                }`}
+                              />
                             </div>
                           </div>
-                          <div
-                            className={`w-10 h-6 rounded-full relative transition-colors ${
-                              i < 3 ? "bg-success" : "bg-border"
-                            }`}
-                            aria-hidden="true"
-                          >
-                            <div
-                              className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
-                                i < 3 ? "right-1" : "left-1"
-                              }`}
-                            />
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                     <div className="mt-6 pt-4 border-t border-border">
                       <p className="text-text-muted text-sm text-center">
