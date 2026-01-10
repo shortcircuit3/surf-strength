@@ -54,8 +54,49 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  // Construct the article URL
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://surfstrength.app";
+  const articleUrl = `${baseUrl}/blog/${slug}`;
+  const imageUrl = post.image
+    ? `${baseUrl}${post.image}`
+    : `${baseUrl}/apple-icon.svg`;
+
+  // JSON-LD structured data for the article
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.description,
+    image: imageUrl,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Surf Strength",
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/apple-icon.svg`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
+    keywords: post.tags.join(", "),
+  };
+
   return (
     <div className="min-h-screen bg-bg-primary">
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <Navigation currentPage="blog" />
 
       {/* Header */}
