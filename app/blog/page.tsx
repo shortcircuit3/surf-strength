@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: "Surf Training Blog | Surf Strength",
   description:
     "Expert articles on surf fitness, strength training for surfers, injury prevention, and how to improve your performance in the water.",
+  alternates: {
+    languages: {
+      en: "/blog",
+    },
+  },
   openGraph: {
     title: "Surf Training Blog | Surf Strength",
     description:
